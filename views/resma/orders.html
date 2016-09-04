@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-phone"></span> <span class="list-heading"> Online Orders</span>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+
+            <div class="clearfix">
+                <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="menuItemController">
+                    <h3>{{{messages}}}</h3>
+                    <table class="table">
+                        <thead>
+                        <th>ID</th>
+                        <th>Ordered Date</th>
+                        <th>Ordered Time</th>
+                        <th>Delivered Time</th>
+                        <th>Table No</th>
+                        <th>Total</th>
+                        <th></th>
+                        </thead>
+
+                        <tbody>
+                        {{#each orders}}
+                        <tr>
+                            <td>{{order_id}}</td>
+                            <td>{{order_date}}</td>
+                            <td>{{order_time}}</td>
+                            <td>{{delivered_time}}</td>
+                            <td>{{table_no}}</td>
+                            <td>
+                                <a href="/orders/more-info/{{_id}}" class="btn btn-primary">More Info</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

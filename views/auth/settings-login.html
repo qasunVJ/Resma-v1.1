@@ -1,0 +1,16 @@
+<div id="index-wrap">
+    <div id="auth-heading">
+        <h2>Login to change settings</h2>
+    </div>
+
+    <div class="panel-userauth">
+        {{#if error}}
+            <span class="glyphicon glyphicon-exclamation-sign"></span> {{error}}
+        {{/if}}
+        <form id="form-login" method="post" action="/managers/settings-login" novalidate>
+            <input type="email" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Login" class="user-submit">
+        </form>
+    </div>
+</div>

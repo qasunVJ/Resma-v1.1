@@ -1,0 +1,61 @@
+<div id="index-wrap">
+    <div id="auth-heading" class="signup-head">
+        <h2>Sign in here!</h2>
+        <img src="/images/icons/user.svg" alt="user" id="login-icon-user">
+    </div>
+
+    <div id="help_token_msg">
+        {{#if userType}}
+        <p>You must have a valid TOKEN with 6 characters with you to sign up as a {{userType}} at Resma. You may obtain it from relevant authorities at you workplace.</p>
+        {{/if}}
+        <div class="clearfix">
+            <a href="" id="help_token_close">Close</a>
+        </div>
+    </div>
+
+    <div id="signup-body" class="panel-userauth">
+        <form id="form-signin" method="post" action="/auth/{{userType}}/signup" novalidate>
+            <!--{{#if errors}}-->
+            <!--<ul class="error-list">-->
+                <!--{{#each errors}}-->
+                <!--<li><span class="glyphicon glyphicon-exclamation-sign"></span> {{this.msg}}</li>-->
+                <!--{{/each}}-->
+            <!--</ul>-->
+            <!--{{/if}}-->
+            {{#if errors.errors.first_name.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.first_name.message}}</span> {{/if}}
+            <input type="text" name="first_name" placeholder="First Name" value="{{input.first_name}}">
+            {{#if errors.errors.last_name.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.last_name.message}}</span> {{/if}}
+            <input type="text" name="last_name" placeholder="Last Name" value="{{input.last_name}}">
+            <!--<select type="text" name="user_type" value="{{input.user_type}}">-->
+                <!--<option value="" disabled selected>Your role at the restaurant</option>-->
+                <!--<option value="waiter">Waiter</option>-->
+                <!--<option value="manager">Manager</option>-->
+            <!--</select>-->
+            {{#ifCond userType 'customer'}}
+            {{#if errors.errors.user_token.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.user_token.message}}</span> {{/if}}
+            <input type="text" name="user_token" placeholder="{{userType}} token" value="{{input.user_token}}">
+            <span class="man-id-msg">*Enter the <i><u>{{userType}} token</u></i> here that you may have with you. <b><a href="" id="help_token">?</a></b></span>
+            {{/ifCond}}
+
+            {{#if errors.errors.email.message}}
+            <div>
+                <span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span>{{errors.errors.email.message}}</span>
+            </div>
+            {{/if}}
+            <input type="text" name="email" placeholder="Email" value="{{input.email}}">
+            {{#if errors.errors.phone.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.phone.message}}</span> {{/if}}
+            <input type="text" name="phone" placeholder="Telephone" value="{{input.phone}}">
+            {{#ifCond userType 'customer'}}
+            {{#if errors.errors.address.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.address.message}}</span> {{/if}}
+            <input type="text" name="address1" placeholder="Address" value="{{input.address1}}">
+            <input type="text" name="address2" value="{{input.address2}}">
+            {{/ifCond}}
+            {{#if errors.errors.username.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.username.message}}</span> {{/if}}
+            <input type="text" name="username" placeholder="Username" value="{{input.username}}">
+            {{#if errors.errors.password.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.password.message}}</span> {{/if}}
+            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password2" placeholder="Confirm Password">
+            <input type="submit" value="Signup" class="user-submit">
+        </form>
+    </div>
+</div>

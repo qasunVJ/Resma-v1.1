@@ -1,0 +1,23 @@
+<footer>
+    <div class="clearfix">
+        <div id="bottom-banner" class="col-lg-12 col-xs-12">
+            {{#unless signup}}
+            <div class="clearfix">
+                <div class="col-md-5 col-sm-5"></div>
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    <div class="text-center">
+                        {{#if manager_auth}}
+                        <a href="/auth/manager/signup"><button class="vimp-btn">Get Started!</button></a>
+                        {{else if cust_auth}}
+                        <a href="/auth/customer/signup"><button class="vimp-btn">Get Started!</button></a>
+                        {{else if waiter_auth}}
+                        <a href="/auth/waiter/signup"><button class="vimp-btn">Get Started!</button></a>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-5"></div>
+            </div>
+            {{/unless}}
+        </div>
+    </div>
+</footer>

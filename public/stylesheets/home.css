@@ -1,0 +1,146 @@
+.container{
+    padding-top: 20px;
+}
+
+.margin-10{
+    margin: 10px 0;
+}
+
+.list-heading{
+    font-size: 18px;
+}
+
+.panel #online-orders{
+    background: #96AF76;
+}
+
+.panel #onsite-orders{
+    background: #6D91A9;
+}
+
+.panel{
+    border: solid 1px #4a4a4a;
+    border-radius: 5px;
+}
+
+.panel .panel-heading{
+    background-color: #333333;
+    border-bottom: none;
+    color: #999;
+}
+
+.panel .panel-heading .glyphicon{
+    font-size: 15px;
+    margin-right: 5px;
+    color: #cccccc;
+}
+
+.panel .panel-body{
+    background: #444;
+    padding: 15px 10px;
+}
+
+.panel-body .list-group-item{
+    background-color: #555;
+    border: solid 1px #4a4a4a;
+    font-size: 12px;
+    padding: 10px 5px 10px 5px;
+    color: #ccc;
+}
+
+.panel-body .list-group-item:hover{
+    background-color: #5d5d5d;
+    color: #F79970;
+}
+
+.notif-info-big {
+    width: auto;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    padding: 10px;
+    padding-bottom: 0px;
+    border-radius: 10px;
+    color: #616161;
+    background-color: #464646;
+    font-size: 55px;
+}
+.menu-item{
+    border-radius: 3px;
+    background: #555;
+    padding: 5px;
+}
+.item-takeaway .panel-heading{
+    background: transparent;
+    margin-top: 20px;
+    border-bottom: solid 1px #555;
+    margin-bottom: 15px;
+}
+.item-takeaway .panel-heading h4{
+    margin:0px;
+    color: #cccccc;
+}
+.home-aside .panel-body{
+    background: #555;
+}
+
+.order-alert{
+    color: #f05a28;
+    text-shadow: 0px 0px 10px #f05a28;
+}
+
+#orderModal{
+    z-index: 9999;
+}
+
+.order-item{
+    background: #696969;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#order-submit{
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.item-num-display{
+    pointer-events: none;
+    display: inline-block;
+    width: 50px;
+    background: transparent;
+    border:none;
+    font-size: 20px;
+    color: #999;
+}
+.users-chat-group a span.users-list-pic{
+    width: 40px;
+    height: 40px;
+    margin-top: 0px;
+    padding-left: 10px;
+    display: inline-block;
+    background: #666;
+    border-radius: 50%;
+}
+.online-dot{
+    display: inline-block;
+    margin-right: 10px;
+    height: 10px;
+    width: 10px;
+    background: limegreen;
+    border-radius: 50%;
+}
+.users-chat-group{
+    vertical-align: middle;
+}
+.users-chat-group a span.glyphicon{
+    font-size: 18px;
+}
+.users-chat-group a span{
+    margin-top: 7px;
+}
+.new-order-indicator{
+    color: #ff7040;
+    text-shadow: 0px 0px 10px #ff794c;
+}

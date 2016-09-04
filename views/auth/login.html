@@ -1,0 +1,27 @@
+<div id="index-wrap">
+    <div id="auth-heading">
+        <h2>Log in here!</h2>
+        <img src="/images/icons/user.svg" alt="user" id="login-icon-user">
+    </div>
+
+    <div class="panel-userauth">
+        <!--{{#if error}}-->
+            <!--<span class="glyphicon glyphicon-exclamation-sign"></span> {{error}}-->
+        <!--{{/if}}-->
+
+        <form id="form-login" method="post" action="/auth/login" novalidate>
+            <!--<label for="user_type" style="margin-bottom: 0;color: #cccccc;">User type</label>-->
+            <!--<select name="user_type" id="user_type" style="margin-top: 5px;">-->
+                <!--<option value="manager">Manager</option>-->
+                <!--<option value="customer">Customer</option>-->
+                <!--<option value="waiter">Waiter</option>-->
+            <!--</select>-->
+            <!--<hr style="border-color: #bbbbbb;">-->
+            {{#if error}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{error}}</span> {{/if}}
+            <input type="email" name="username" placeholder="username">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Login" class="user-submit">
+        </form>
+    </div>
+    </br><p class="text-center">New to Resma? Go ahead and <a href="/auth/signup" class="inline-link">Get Started!</a></p>
+</div>

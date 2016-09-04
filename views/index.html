@@ -1,0 +1,30 @@
+<div id="index-wrap">
+    <div class="body-info-wrap clearfix">
+        <div class="col-lg-3"></div>
+
+        <div id="body-index" class="col-md-12 col-sm-12 col-xs-12">
+            </br><span>Best <i>business partner</i> you could ever have!</span>
+            </br><label>Resma will help you manager your,</label>
+        </div>
+
+        <div id="tray-bunch" class="col-md-12 col-xs-12">
+            <ul>
+                {{#each info}}
+                <li>
+                    <div id="op-tray-wrap" class="tray-wrap">
+                        <div id="op-cover" class="lid">
+                            <img src="/images/icons/{{category}}.svg" alt="">
+                        </div>
+                        <p id="intro">{{infoLess}}</br>
+                            <a href="/info/{{_id}}" class="inline-link">-Learn more-</a>
+                        </p>
+                        <div class="tray">
+                            <img src="/images/icons/tray.svg" alt="">
+                        </div>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>

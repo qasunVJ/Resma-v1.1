@@ -1,0 +1,138 @@
+<div class="clearfix ">
+
+    <section class="table-section col-md-6 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-xs-12">
+            <div class="tables-wrapper clearfix" id="tables-wrapper-public">
+                <ul id="sortable" data-id="sortable"></ul>
+                <div id="clear"></div>
+            </div>
+            <!--&lt;!&ndash;TABLE POPUP======================================================================================&ndash;&gt;-->
+            <!--<div class="popup-wrap">-->
+            <!--<ul>-->
+            <!--<li><h2>Table #</h2></li>-->
+            <!--<li>Status <span class="state red">ACTIVATED</span><span class="state-time">8.00am</span></li>-->
+            <!--<li>-->
+            <!--Current Order </br>-->
+            <!--<div class="pop-current-wrap">-->
+            <!--<span class="pop-current">Order #13</span><span class="pop-curr-time">7.00am - 7.15am</span>-->
+            <!--</div>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--Waiter </br>-->
+            <!--<div class="waiter-wrap">-->
+            <!--<img class="img-circle" class="waiter-pic" src="" alt=""> <span class="wiater-fname">Fname</span>-->
+            <!--</div>-->
+            <!--</li>-->
+            <!--<li class="no-border">-->
+            <!--Orders so far..-->
+            <!--<div class="pop-current-wrap">-->
+            <!--<span class="pop-current">Order #13</span><span class="pop-curr-time">7.00am - 7.15am</span>-->
+            <!--<span class="pop-current">Order #13</span><span class="pop-curr-time">7.00am - 7.15am</span>-->
+            <!--<span class="pop-current">Order #13</span><span class="pop-curr-time">7.00am - 7.15am</span>-->
+            <!--</div>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;TABLE POPUP END======================================================================================&ndash;&gt;-->
+
+        </div>
+    </section>
+
+    <section class="order-section col-md-6 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-12 col-xs-4">
+            <div class="notif-info-big">
+                <span class="glyphicon glyphicon-cutlery"></span> <span class="big-notif-num">34</span>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-4">
+            <div class="notif-info-big">
+                <span class="glyphicon glyphicon-phone"></span> <span class="big-notif-num">34</span>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-4">
+            <div class="notif-info-big">
+                <span class="glyphicon glyphicon-check"></span> <span class="big-notif-num">34</span>
+            </div>
+        </div>
+        <div class="home-aside col-md-6 col-sm-12 col-xs-12 clearfix">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-cutlery"></span><span class="list-heading"> - Orders</span>
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn imp-btn">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        {{#each orders}}
+                        <a href="#" class="list-group-item">
+                            <span class="glyphicon glyphicon-check"></span> {{order_date}}
+                            <span class="pull-right text-muted small"><em>{{order_time}}</em>
+                            </span>
+                        </a>
+                        {{/each}}
+                    </div>
+
+                    <!--<a href="#" class="imp-btn btn">MORE</a>-->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+
+        <div class="home-aside col-md-6 col-sm-12 col-xs-12 clearfix">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-user"></span><span class="list-heading">  Staff</span>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body users-chat-group">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <span class="online-dot"></span><span class="users-list-pic"><span class="glyphicon glyphicon-user"></span></span> <span>Fname</span>
+                            <span class="pull-right text-muted small"><em>{{order_time}}</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="online-dot"></span><span class="users-list-pic"><span class="glyphicon glyphicon-user"></span></span> <span>Fname</span>
+                            <span class="pull-right text-muted small"><em>{{order_time}}</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="online-dot"></span><span class="users-list-pic"><span class="glyphicon glyphicon-user"></span></span> <span>Fname</span>
+                            <span class="pull-right text-muted small"><em>{{order_time}}</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="online-dot"></span><span class="users-list-pic"><span class="glyphicon glyphicon-user"></span></span> <span>Fname</span>
+                            <span class="pull-right text-muted small"><em>{{order_time}}</em>
+                            </span>
+                        </a>
+
+                    </div>
+
+                    <!--<a href="#" class="imp-btn btn">MORE</a>-->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+
+    </section>
+
+</div>
+<div class="order-btn-group clearfix">
+    <a href="/resma/orders/new-order-init" class="new-order btn" data-toggle="modal" data-target="#orderModal">+</a>
+</div>
+
+<div id="orderModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!--New order content is loaded with ajax-->
+        <div class="modal-content"></div>
+
+    </div>
+</div>

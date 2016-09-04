@@ -1,0 +1,85 @@
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-list-alt"></span> <span class="list-heading"> Breakfast Menus</span>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+
+            <div class="item-all clearfix">
+
+                {{#if items}}
+                {{#each items}}
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                    <div class="menu-item">
+                        <div class="item-image">
+                            <img src="/images/uploads/{{item_image}}" alt="{{item_name}}" class="img-responsive">
+                        </div>
+                        <div class="item-info">
+                            <div class="item-name">
+                                <h3>{{item_name}}</h3>
+                            </div>
+                            <div class="item-short-dis">
+                                <p>{{item_disc}}</p>
+                            </div>
+                            <div class="item-price">
+                                <span>Rs. {{item_price}}/-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                {{/if}}
+
+            </div>
+
+            <div class="item-takeaway clearfix">
+                <div class="panel-heading">
+                    <h4>Takeaway</h4>
+                </div>
+
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                    <div class="menu-item">
+                        <div class="item-image">
+                            <img src="/images/menu-items/item.jpg" alt="item" class="img-responsive">
+                        </div>
+                        <div class="item-info">
+                            <div class="item-name">
+                                <h3>Item Name</h3>
+                            </div>
+                            <div class="item-short-dis">
+                                <p>A short description about the item</p>
+                            </div>
+                            <div class="item-price">
+                                <span>Rs. 00.00/-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                    <div class="menu-item">
+                        <div class="item-image">
+                            <img src="/images/menu-items/item.jpg" alt="item" class="img-responsive">
+                        </div>
+                        <div class="item-info">
+                            <div class="item-name">
+                                <h3>Item Name</h3>
+                            </div>
+                            <div class="item-short-dis">
+                                <p>A short description about the item</p>
+                            </div>
+                            <div class="item-price">
+                                <span>Rs. 00.00/-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

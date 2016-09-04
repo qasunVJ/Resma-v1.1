@@ -1,0 +1,21 @@
+<div class="add-item-form">
+    <h2>{{editableItem.item_name}}</h2>
+    {{#if errors}}
+    <ul class="error-list">
+        {{#each errors}}
+        <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{this.msg}}</li>
+        {{/each}}
+    </ul>
+    {{/if}}
+    <form action="/managers/items/edit/{{editableItem._id}}" name="edit-item" class="form-group" method="post">
+        <input type="text" name="item_name" value="{{editableItem.item_name}}">
+        <p ng-show="edit-item.item_name.$invalid && !edit-item.item_name.$pristine">Item name is required.</p>
+        <input type="text" name="item_id" value="{{editableItem.item_id}}">
+        <input type="text" name="item_disc" value="{{editableItem.item_disc}}">
+        <input type="text" name="item_price" value="{{editableItem.item_price}}">
+        <div class="clearfix set-btn-group text-right">
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="/managers/settings" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,67 @@
+<script type="text/javascript" src="/javascripts/Orders.js"></script>
+<div class="new-order-form" ng-app="Resma">
+    <h2>Make a new order</h2>
+    {{#if errors}}
+    <ul class="error-list">
+        {{#each errors}}
+        <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{this.msg}}</li>
+        {{/each}}
+    </ul>
+    {{/if}}
+    <form action="/resma/orders/new-order" name="new-order" class="form-group" method="post">
+        <div>
+            <span>Order Type: </span> <span>{{order_type}}</span>
+        </div>
+        <div>
+            <span>Order Date : </span> <span>{{date}}</span>
+        </div>
+        <div>
+            <span>Order Time : </span> <span>{{time}}</span>
+        </div>
+        <div>
+            <span>Order State : </span> <span>{{state}}</span>
+        </div>
+
+        <input type="text" name="table_no" placeholder="Table Number">
+        <input type="text" name="customer_name" placeholder="Customer Name">
+        <input type="text" name="waiter_id" placeholder="Waiter ID">
+
+        <div class="divider"></div>
+
+        <div data-id="order-items-wrap">
+            <!--<div class="clearfix order-item">-->
+                <!--<div class="col-md-4 col-sm-4 col-xs-12">-->
+                    <!--<lable>Item Name</lable>-->
+                    <!--<input type="text" name="order_item_1">-->
+                <!--</div>-->
+                <!--<div class="col-md-4 col-sm-4 col-xs-12">-->
+                    <!--<lable>Quantity</lable>-->
+                    <!--<input type="number" name="order_item_qty">-->
+                <!--</div>-->
+                <!--<div class="col-md-4 col-sm-4 col-xs-12">-->
+                    <!--<lable>......</lable>-->
+                    <!--<div class="margin-10">-->
+                        <!--<span class="price">Price</span>-->
+                        <!--<span class="btn btn-danger right">Remove</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+
+        <div class="clearfix">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <span>Items: </span>
+                <input name="item_count" class="item-num-display" value="0">
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <span class="add-order-item btn new-order">+</span>
+            </div>
+        </div>
+
+        <div class="clearfix set-btn-group text-right">
+            <button id="order-submit" type="submit" class="order-submit btn btn-success"><span class="glyphicon glyphicon-send"></span> GO!</button>
+            <a href="/resma/home" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+</div>
