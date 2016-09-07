@@ -105,9 +105,7 @@ router.post('/:id/signup', function (req, res, next) {
             console.log('User Created');
 
             req.flash('success', 'User Created');
-            res.redirect('/auth/login',{
-                user: user
-            });
+            res.redirect('/auth/login');
         });
 
     }else{

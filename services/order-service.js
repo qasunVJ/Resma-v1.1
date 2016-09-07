@@ -5,6 +5,7 @@ var BreakfastItems = require('../models/breakfastitem');
 var LunchItems = require('../models/lunchitem');
 var DinnerItems = require('../models/dinneritem');
 var Waiters = require('../models/waiter');
+var User = require('../models/user');
 var UserService = require('../services/user-service');
 
 //Get Orders
@@ -115,5 +116,28 @@ module.exports.createNewOrder = function (req, callback) {
         items: order_items
     });
 
-    order.save(callback);
+    var orderToPush = {
+        order_type: 'on-site',
+        order_date: dayInfo.date,
+        order_time: dayInfo.time,
+        delivered_time: dayInfo.time,
+        order_state: 'created',
+        table_no: req.body.table_no,
+        waiter_id: req.params.id,
+        customer_name: req.body.customer_name,
+        items: order_items
+    };
+
+    var userId = req.params.id;
+    var id_query = {_id : userId};
+
+    User.findOneAndUpdate(id_query, {$push: {'orders': orderToPush}}, function (err) {
+        if (err) {
+            console.log(err);
+        }else{
+            order.save(callback);
+        }
+    });
+
+
 };

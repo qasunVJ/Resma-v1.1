@@ -16,7 +16,20 @@ var userSchema = mongoose.Schema({
         address2: {type: String}
     }],
     username: {type: String, required: 'Please enter a Username'},
-    password: {type: String, required: 'Please enter a password'}
+    password: {type: String, required: 'Please enter a password'},
+    orders:[{
+        order_type: {type: String},
+        order_date: {type: String},
+        order_time: {type: String},
+        delivered_time: {type: String},
+        order_state: {type: String},
+        table_no: {type: Number},
+        customer_name: {type: String},
+        items: [{
+            item_name: {type:String},
+            item_qty: {type: Number}
+        }]
+    }]
 
 });
 
@@ -30,7 +43,7 @@ userSchema.path('username').validate(function (value, next) {
     });
 }, 'Username is already in use');
 
-userSchema.path('user_token').validate(function (req, value, next) {
+userSchema.path('user_token').validate(function (value, next) {
     UserService.getUserToken({token: value}, function (err, token) {
         if (err){
             console.log(err);
