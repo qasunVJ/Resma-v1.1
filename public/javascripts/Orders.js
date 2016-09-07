@@ -6,13 +6,11 @@ var Order = {
     },
 
     addOrderItem : function () {
-        $('[data-id="order-items-wrap"]').append('<div class="clearfix order-item">' +
-            '<div class="col-md-4 col-sm-4 col-xs-12">' +
-            '<lable>Item Name</lable><input type="text" name="order_item"></div><div class="col-md-4 col-sm-4 col-xs-12">' +
-            '<lable>Quantity</lable><input type="number" name="order_item_qty">' +
-            '</div><div class="col-md-4 col-sm-4 col-xs-12"> <lable>......</lable><div class="margin-10 clearfix">' +
-            '<span class="price">Price</span>' +
-            '<span class="remove-order-item btn btn-danger right">Remove</span></div></div></div>');
+        var newItemBlock = document.getElementById('order-item-hidden').innerHTML.toString();
+        console.log(newItemBlock);
+
+        $('[data-id="order-items-wrap"]').append(newItemBlock);
+        $('.order-item-hidden').remove();
 
         this.itemNum = this.itemNum + 1;
         console.log(this.itemNum);

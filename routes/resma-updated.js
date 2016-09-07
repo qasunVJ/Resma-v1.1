@@ -18,6 +18,7 @@ router.get('/home', function(req, res, next) {
 
     OrdersService.getOrders(function (err,orders) {
         currOrders = orders;
+        console.log(currOrders);
 
         res.render('resma/home', {
             orders: currOrders,
@@ -57,6 +58,7 @@ router.get('/menus', restrict, function(req, res, next) {
                                 breakfast_items: breakfast_items,
                                 dinner_items: dinner_items
                             };
+                            console.log(itemsAll);
 
                             res.render('menus/menus', {
                                 title: 'Resma | Menus',
@@ -120,18 +122,16 @@ router.post('/orders/:id/new-order', function (req, res, next) {
             res.send(err);
         }else{
             OrdersService.getOrderStat(function (err, stat) {
-                if (err){
-                    console.log(err);
-                    res.send(err);
-                }else{
-                    OrdersService.setOrderStat(stat, function(err){
-                        if (err) {
-                            console.log(err);
-                        }else{
-                            res.redirect('/resma/home');
-                        }
-                    });
-                }
+                if (err) throw err;
+                console.log(stat);
+
+                OrdersService.setOrderStat(stat, function(err){
+                    if (err) {
+                        console.log(err);
+                    }else{
+                        res.render('resma/home',{});
+                    }
+                });
             });
         }
     });

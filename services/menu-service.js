@@ -1,10 +1,17 @@
 var BreakfastItem = require('../models/breakfastitem');
+var LunchItem = require('../models/lunchitem');
+var DinnerItem = require('../models/dinneritem');
+var multer = require('multer');
+var upload = multer({ dest: 'public/images/uploads/'});
 
 ////GET ITEMS/////
 //Get Item
-module.exports.getItem = function (callback) {
-    BreakfastItem.find(callback);
-};
+//module.exports.getItemAll = function (callback) {
+//
+//    BreakfastItem.find(callback);
+//    itemsAll.push();
+//    itemsAll.push(LunchItem.find(callback));
+//};
 
 //Get Item by ID
 module.exports.getItemById = function (id, callback) {
@@ -13,15 +20,36 @@ module.exports.getItemById = function (id, callback) {
 };
 
 //Get Breakfast Items
-module.exports.getBrakfastItems = function (callback) {
-    BreakfastItem.find(callback);
+module.exports.getItems = function (whatToGet, callback) {
+    whatToGet.find(callback);
 };
 
 ///POST ITEMS///
 //Add menu item
-module.exports.addMenuItem = function (newItem, newCategoryItem, callback) {
-    console.log('New item been added');
-    async.parallel([newItem.save, newCategoryItem.save], callback);
+module.exports.addMenuItem = function (req, Menu, callback) {
+    var item_id = req.body.item_id && req.body.item_id.trim();
+    var item_name = req.body.item_name && req.body.item_name.trim();
+    var item_disc = req.body.item_disc && req.body.item_disc.trim();
+    var item_price = req.body.item_price && req.body.item_price.trim();
+    var item_image_name;
+
+    if (req.files[0]){
+        item_image_name = req.files[0].filename;
+        console.log(req.files[0].filename);
+    }else{
+        item_image_name = "noimage.jpg";
+    }
+
+    var newItem = new Menu({
+        item_id : item_id,
+        item_name: item_name,
+        item_disc: item_disc,
+        item_price: item_price,
+        item_type: 'breakfast',
+        item_image: item_image_name
+    });
+
+    newItem.save(callback);
 };
 
 //Add breakfast item

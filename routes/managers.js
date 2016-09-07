@@ -6,6 +6,8 @@ var multer = require('multer');
 var upload = multer({ dest: 'public/images/uploads/'});
 
 var BreakfastItem = require('../models/breakfastitem');
+var LunchItem = require('../models/lunchitem');
+var DinnerItem = require('../models/dinneritem');
 var MenuItem = require('../models/item');
 
 var User = require('../models/user');
@@ -143,14 +145,30 @@ router.post('/signup', function (req, res, next) {
 //Site Settings
 router.get('/settings', function (req, res, next) {
 
-    MenuService.getBrakfastItems(function (err, items) {
+    MenuService.getItems(BreakfastItem, function (err, breakfast_items) {
         if (err) {
             console.log(err);
             res.send(err);
         }else{
-            res.render('resma/resma-settings', {
-                title: 'Resma | Settings',
-                items: items
+            MenuService.getItems(LunchItem, function (err, lunch_items) {
+                if (err) {
+                    console.log(err);
+                    res.send(err);
+                }else{
+                    MenuService.getItems(DinnerItem, function (err, dinner_items) {
+                        if (err) {
+                            console.log(err);
+                            res.send(err);
+                        }else{
+                            res.render('resma/resma-settings', {
+                                title: 'Resma | Settings',
+                                breakfast_items: breakfast_items,
+                                lunch_items: lunch_items,
+                                dinner_items: dinner_items
+                            });
+                        }
+                    });
+                }
             });
         }
     });
@@ -200,37 +218,37 @@ router.post('/new-token', function (req, res, next) {
 //Add menu item POST
 router.post('/add-breakfast-item', upload.any(), function (req, res, next) {
 
-    var item_id = req.body.item_id && req.body.item_id.trim();
-    var item_name = req.body.item_name && req.body.item_name.trim();
-    var item_disc = req.body.item_disc && req.body.item_disc.trim();
-    var item_price = req.body.item_price && req.body.item_price.trim();
-    var item_image_name;
-
-    if (req.files[0]){
-        item_image_name = req.files[0].filename;
-        console.log(req.files[0].filename);
-    }else{
-        item_image_name = "noimage.jpg";
-    }
-
-    var newBreakfastItem = new BreakfastItem({
-        item_id : item_id,
-        item_name: item_name,
-        item_disc: item_disc,
-        item_price: item_price,
-        item_type: 'breakfast',
-        item_image: item_image_name
+    MenuService.addMenuItem(req, BreakfastItem, function (err, item) {
+        if (err) {
+            console.log(err);
+        }else{
+            console.log('Item Added');
+        }
     });
 
-    var newItem = new MenuItem({
-        item_name: item_name,
-        item_disc: item_disc,
-        item_price: item_price,
-        item_type: 'breakfast',
-        item_image: item_image_name
+    req.flash('success', 'New Item Added');
+    res.redirect('/managers/settings');
+});
+
+//Add menu item POST
+router.post('/add-lunch-item', upload.any(), function (req, res, next) {
+
+    MenuService.addMenuItem(req, LunchItem, function (err, item) {
+        if (err) {
+            console.log(err);
+        }else{
+            console.log('Item Added');
+        }
     });
 
-    MenuService.addMenuItem(newItem, newBreakfastItem, function (err, item) {
+    req.flash('success', 'New Item Added');
+    res.redirect('/managers/settings');
+});
+
+//Add menu item POST
+router.post('/add-dinner-item', upload.any(), function (req, res, next) {
+
+    MenuService.addMenuItem(req, DinnerItem, function (err, item) {
         if (err) {
             console.log(err);
         }else{

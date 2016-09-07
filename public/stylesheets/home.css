@@ -144,3 +144,8 @@
     color: #ff7040;
     text-shadow: 0px 0px 10px #ff794c;
 }
+#order-item-hidden{
+    display: none;
+    color: #ccc;
+    background: #cccccc;
+}

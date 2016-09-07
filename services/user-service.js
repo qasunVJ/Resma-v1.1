@@ -21,6 +21,11 @@ module.exports.getUserById = function (id, callback) {
     User.findOne(query, callback);
 };
 
+module.exports.getWaiterById = function (id, callback) {
+    var query = {_id: id};
+    Waiter.findOne(query, callback);
+};
+
 module.exports.getTypeById = function (id, callback) {
     User.find({ user_type: true }).where('created_at').gt(monthAgo).exec(function(err, users) {
         if (err) throw err;

@@ -59,7 +59,7 @@
                         </thead>
 
                         <tbody>
-                        {{#each items}}
+                        {{#each breakfast_items}}
                         <tr>
                             <td>{{item_id}}</td>
                             <td>{{item_name}}</td>
@@ -86,9 +86,133 @@
                     </div>
 
                     <div class="clearfix set-btn-group">
-                        <new-item ng-show="addItemForm"></new-item>
+                        <breakfast-item ng-show="addBreakfastItemForm"></breakfast-item>
                         <div class="text-right">
-                            <a href="" id="add_breakfast_item" class="btn btn-primary" ng-click="addItemForm = true" ng-show="!addItemForm">Add Item</a>
+                            <a href="" id="add_breakfast_item" class="btn btn-primary" ng-click="addBreakfastItemForm = true" ng-show="!addBreakfastItemForm">Add Item</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-cog"></span> <span class="list-heading"> Lunch Menu Settings</span>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+
+            <div class="clearfix">
+                <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="menuItemController">
+                    {{#if messages}}
+                    <h3>{{{messages}}}</h3>
+                    {{/if}}
+
+                    <table class="table">
+                        <thead>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Discription</th>
+                        <th>Price</th>
+                        <th></th>
+                        </thead>
+
+                        <tbody>
+                        {{#each lunch_items}}
+                        <tr>
+                            <td>{{item_id}}</td>
+                            <td>{{item_name}}</td>
+                            <td><img src="/images/uploads/{{item_image}}" alt="" class="img-circle"></td>
+                            <td>{{item_disc}}</td>
+                            <td>Rs. {{item_price}}.00/-</td>
+                            <td>
+                                <a href="/managers/items/edit/{{_id}}" class="btn btn-primary" ng-click="isEditable = true" data-toggle="modal" data-target="#myModal">Edit</a>
+                                <a href="" data-id="{{_id}}" class="btn btn-danger remove">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!--Form with editable content is loaded with ajax-->
+                            <div class="modal-content"></div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="clearfix set-btn-group">
+                        <lunch-item ng-show="addLunchItemForm"></lunch-item>
+                        <div class="text-right">
+                            <a href="" id="add_breakfast_item" class="btn btn-primary" ng-click="addLunchItemForm = true" ng-show="!addLunchItemForm">Add Item</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-cog"></span> <span class="list-heading"> Dinner Menu Settings</span>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+
+            <div class="clearfix">
+                <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="menuItemController">
+                    {{#if messages}}
+                    <h3>{{{messages}}}</h3>
+                    {{/if}}
+
+                    <table class="table">
+                        <thead>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Discription</th>
+                        <th>Price</th>
+                        <th></th>
+                        </thead>
+
+                        <tbody>
+                        {{#each dinner_items}}
+                        <tr>
+                            <td>{{item_id}}</td>
+                            <td>{{item_name}}</td>
+                            <td><img src="/images/uploads/{{item_image}}" alt="" class="img-circle"></td>
+                            <td>{{item_disc}}</td>
+                            <td>Rs. {{item_price}}.00/-</td>
+                            <td>
+                                <a href="/managers/items/edit/{{_id}}" class="btn btn-primary" ng-click="isEditable = true" data-toggle="modal" data-target="#myModal">Edit</a>
+                                <a href="" data-id="{{_id}}" class="btn btn-danger remove">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!--Form with editable content is loaded with ajax-->
+                            <div class="modal-content"></div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="clearfix set-btn-group">
+                        <dinner-item ng-show="addDinnerItemForm"></dinner-item>
+                        <div class="text-right">
+                            <a href="" id="add_breakfast_item" class="btn btn-primary" ng-click="addDinnerItemForm = true" ng-show="!addDinnerItemForm">Add Item</a>
                         </div>
                     </div>
 

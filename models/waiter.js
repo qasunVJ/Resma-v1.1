@@ -14,7 +14,20 @@ var waiterSchema = mongoose.Schema({
         address2: {type: String}
     }],
     username: {type: String, required: 'Please enter a username'},
-    password: {type: String, required: 'Please enter a password'}
+    password: {type: String, required: 'Please enter a password'},
+    orders:{
+        order_type: {type: String},
+        order_date: {type: String},
+        order_time: {type: String},
+        delivered_time: {type: String},
+        order_state: {type: String},
+        table_no: {type: Number},
+        customer_name: {type: String},
+        items: [{
+            item_name: {type:String},
+            item_qty: {type: Number}
+        }]
+    }
 
 });
 

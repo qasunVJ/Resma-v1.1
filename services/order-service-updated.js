@@ -38,6 +38,7 @@ module.exports.getItems = function (whatToGet, callback ) {
 };
 
 module.exports.getOrderStat = function (callback){
+    var new_order_stat={};
 
     var d = new Date();
     var date = d.getDate().toString();
@@ -45,7 +46,6 @@ module.exports.getOrderStat = function (callback){
     var year = d.getFullYear().toString();
 
     var fullDate = date + month + year;
-    console.log(fullDate);
 
     var query = {date: fullDate};
 
@@ -76,7 +76,7 @@ module.exports.getItemsForOrder = function (callback) {
 
 module.exports.setOrderStat = function (stat, callback) {
     var orderCount = stat.order_count;
-    orderCount = orderCount + 1;
+    orderCount += orderCount;
 
     console.log('Order Count' + orderCount);
     var query = {date: stat.date};
@@ -85,6 +85,7 @@ module.exports.setOrderStat = function (stat, callback) {
 };
 
 module.exports.createNewOrder = function (req, callback) {
+    console.log('Order body:' + req.body);
     var dayInfo = this.getDayInfo();
 
     var itemCount = req.body.item_count;
@@ -93,7 +94,7 @@ module.exports.createNewOrder = function (req, callback) {
     var order_items=[];
 
     //Iterating through all the items in the order
-    for (var i=1; i<=itemCount; i++){
+    for (var i=0; i<=itemCount; i++){
         console.log(i);
         var item = {
             item_name : orderItem[i],
@@ -102,6 +103,8 @@ module.exports.createNewOrder = function (req, callback) {
 
         order_items.push(item);
     }
+
+    console.log('Order Items' + order_items);
 
     var order = new Order({
         order_type: 'on-site',
