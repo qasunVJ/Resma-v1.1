@@ -149,3 +149,28 @@
     color: #ccc;
     background: #cccccc;
 }
+.created{
+    /*display: inline-block;*/
+    /*height: 10px;*/
+    /*width: 10px;*/
+    /*border-radius: 50%;*/
+    /*background: red;*/
+    color: #f0ad4e;
+    font-size: 16px;
+}
+.on-progress{
+    font-size: 16px;
+    color: cornflowerblue;
+}
+.delivered{
+    font-size: 16px;
+    color: limegreen;
+}
+.finished{
+    font-size: 16px;
+    color: #cccccc;
+}
+.list-group-item .text-muted{
+    color: #ababab;
+    font-size: 12px;
+}

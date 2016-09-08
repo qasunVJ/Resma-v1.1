@@ -8,11 +8,14 @@ var orderSchema = new mongoose.Schema({
     order_state: {type: String},
     table_no: {type: Number},
     waiter_id: {type: String},
+    waiter_name: {type: String},
     customer_name: {type: String},
     items: [{
         item_name: {type:String},
-        item_qty: {type: Number}
-    }]
+        item_qty: {type: Number},
+        item_price: {type: Number}
+    }],
+    order_total: {type:Number}
 });
 
 var Order = module.exports = mongoose.model('Order', orderSchema);

@@ -13,6 +13,16 @@ module.exports.getOrders = function (callback) {
     Order.find(callback);
 };
 
+//Get User Orders
+module.exports.getUserOrders = function (user, callback) {
+    Order.find({waiter_id: user}, callback);
+};
+
+//Get Order Details
+module.exports.getOrderDetails = function (id, callback) {
+    Order.findOne({_id:id}, callback);
+};
+
 //Get current order id
 module.exports.getCurrentOrderId = function (callback) {
     NewOrder.find(callback);
@@ -91,18 +101,24 @@ module.exports.createNewOrder = function (req, callback) {
     var itemCount = req.body.item_count;
     var orderItem = req.body.order_item;
     var orderItemQty = req.body.order_item_qty;
+    var orderItemPrice = req.body.order_item_price;
     var order_items=[];
+    var total=0;
 
     //Iterating through all the items in the order
     for (var i=1; i<=itemCount; i++){
         console.log(i);
         var item = {
             item_name : orderItem[i],
-            item_qty : orderItemQty[i]
+            item_qty : orderItemQty[i],
+            item_price: orderItemPrice[i]
         };
+
+        total += orderItemPrice[i]*orderItemQty[i];
 
         order_items.push(item);
     }
+    console.log('Total' + total);
 
     var order = new Order({
         order_type: 'on-site',
@@ -112,8 +128,10 @@ module.exports.createNewOrder = function (req, callback) {
         order_state: 'created',
         table_no: req.body.table_no,
         waiter_id: req.params.id,
+        waiter_name: req.user.first_name+ " " +req.user.last_name,
         customer_name: req.body.customer_name,
-        items: order_items
+        items: order_items,
+        order_total: total
     });
 
     var orderToPush = {
@@ -123,9 +141,9 @@ module.exports.createNewOrder = function (req, callback) {
         delivered_time: dayInfo.time,
         order_state: 'created',
         table_no: req.body.table_no,
-        waiter_id: req.params.id,
         customer_name: req.body.customer_name,
-        items: order_items
+        items: order_items,
+        order_total: total
     };
 
     var userId = req.params.id;
@@ -138,6 +156,5 @@ module.exports.createNewOrder = function (req, callback) {
             order.save(callback);
         }
     });
-
 
 };

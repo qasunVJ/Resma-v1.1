@@ -28,7 +28,8 @@ var userSchema = mongoose.Schema({
         items: [{
             item_name: {type:String},
             item_qty: {type: Number}
-        }]
+        }],
+        order_total: {type:Number}
     }]
 
 });

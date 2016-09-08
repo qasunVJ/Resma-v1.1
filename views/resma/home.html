@@ -70,8 +70,22 @@
                 <div class="panel-body">
                     <div class="list-group">
                         {{#each orders}}
-                        <a href="#" class="list-group-item">
-                            <span class="glyphicon glyphicon-check"></span> {{order_date}}
+                        <a href="/resma/orders/details/{{_id}}" class="list-group-item" data-toggle="modal" data-target="#orderModal">
+                            {{#ifCond order_state 'created'}}
+                            <span class="glyphicon glyphicon-plus-sign {{order_state}}"></span>
+                            {{/ifCond}}
+                            {{#ifCond order_state 'on-progress'}}
+                            <span class="glyphicon glyphicon-cutlery {{order_state}}"></span>
+                            {{/ifCond}}
+                            {{#ifCond order_state 'delivered'}}
+                            <span class="glyphicon glyphicon-ok-circle {{order_state}}"></span>
+                            {{/ifCond}}
+                            {{#ifCond order_state 'finished'}}
+                            <span class="glyphicon glyphicon-ok-circle {{order_state}}"></span>
+                            {{/ifCond}}
+
+                            {{customer_name}}
+                            <span>{{waiter_name}}</span>
                             <span class="pull-right text-muted small"><em>{{order_time}}</em>
                             </span>
                         </a>
@@ -79,6 +93,16 @@
                     </div>
 
                     <!--<a href="#" class="imp-btn btn">MORE</a>-->
+                </div>
+
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!--Form with editable content is loaded with ajax-->
+                        <div class="modal-content"></div>
+
+
+                    </div>
                 </div>
                 <!-- /.panel-body -->
             </div>

@@ -1,0 +1,51 @@
+<div>
+    <table>
+        <tr>
+            <td><span>Order Type :</span></td>
+            <td>{{order_details.order_type}}</td>
+        </tr>
+        <tr>
+            <td><span>Waiter :</span></td>
+            <td>{{order_details.waiter_name}}</td>
+        </tr>
+        <tr>
+            <td><span>Order Time :</span></td>
+            <td>{{order_details.order_time}}</td>
+        </tr>
+        <tr>
+            <td><span>State :</span></td>
+            <td><span class="pill {{order_details.order_state}}">{{order_details.order_state}}</span></td>
+        </tr>
+        <tr>
+            <td><span>Table No :</span></td>
+            <td>{{order_details.table_no}}</td>
+        </tr>
+        <tr>
+            <td><span>Order Date:</span></td>
+            <td>{{order_details.order_date}}</td>
+        </tr>
+        <tr>
+            <td><span>Customer Name:</span></td>
+            <td>{{order_details.customer_name}}</td>
+        </tr>
+        <tr><h1>Items</h1></tr>
+        {{#each order_details.items}}
+        <tr>
+            <td><span>Item:</span></td>
+            <td>{{item_name}}</td>
+        </tr>
+        <tr>
+            <td><span>Quantity:</span></td>
+            <td>{{item_qty}}</td>
+        </tr>
+        <tr>
+            <td><span>Price:</span></td>
+            <td>{{item_price}}</td>
+        </tr>
+        {{/each}}
+    </table>
+
+    {{#ifCond user.user_type 'manager'}}
+    <button class="btn vimp-btn"></button>
+    {{/ifCond}}
+</div>

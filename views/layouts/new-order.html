@@ -32,7 +32,7 @@
 
             <div id="order-item-hidden">
                 <div class="clearfix order-item">
-                    <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-md-5 col-sm-5 col-xs-12">
                         <lable>Item Name</lable>
                         <select name="order_item" id="">
                             {{#if orderItems}}
@@ -42,12 +42,15 @@
                             {{/if}}
                         </select>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-md-2 col-sm-2 col-xs-12">
                         <lable>Quantity</lable>
                         <input type="number" name="order_item_qty">
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-md-2 col-sm-2 col-xs-12">
                         <lable>Price</lable>
+                        <input type="number" name="order_item_price">
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
                         <div class="margin-10 clearfix">
                             <span class="remove-order-item btn btn-danger right">Remove</span>
                         </div>

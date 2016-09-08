@@ -15,15 +15,42 @@ var OrdersService = require('../services/order-service');
 //HOME
 router.get('/home', function(req, res, next) {
     var currOrders = [];
+    var user = req.user._id;
 
-    OrdersService.getOrders(function (err,orders) {
-        currOrders = orders;
-
-        res.render('resma/home', {
-            orders: currOrders,
-            firstName: req.user ? req.user.firstName : null
+    if (req.user.user_type == 'manager'){
+        OrdersService.getOrders(function(err, orders) {
+            res.render('resma/home', {
+                orders: orders,
+                firstName: req.user ? req.user.firstName : null,
+                helpers: {
+                    ifCond : function(v1, v2, options) {
+                        if(v1 == v2) {
+                            return options.fn(this);
+                        }
+                        return options.inverse(this);
+                    }
+                }
+            });
         });
-    });
+    }else if (req.user.user_type == 'waiter'){
+        OrdersService.getUserOrders(user, function(err, thisUser) {
+            var currUserOrders = thisUser;
+            console.log('Curr ORders' + currUserOrders);
+
+            res.render('resma/home', {
+                orders: currUserOrders,
+                firstName: req.user ? req.user.firstName : null,
+                helpers: {
+                    ifCond : function(v1, v2, options) {
+                        if(v1 == v2) {
+                            return options.fn(this);
+                        }
+                        return options.inverse(this);
+                    }
+                }
+            });
+        });
+    }
 });
 
 //MENUS
@@ -70,6 +97,8 @@ router.get('/menus', restrict, function(req, res, next) {
     });
 });
 
+
+//All Orders
 router.get('/orders', function (req, res, next) {
     OrdersService.getOrders(function (err,orders) {
         if (err){
@@ -131,6 +160,27 @@ router.post('/orders/:id/new-order', function (req, res, next) {
                             res.redirect('/resma/home');
                         }
                     });
+                }
+            });
+        }
+    });
+});
+
+router.get('/orders/details/:id', function (req, res, next) {
+    OrdersService.getOrderDetails(req.params.id, function(err, orderDetails) {
+        if (err){
+            console.log(err);
+        }else{
+            res.render('resma/resma-settings', {
+                order_details : orderDetails,
+                layout: 'order-details-layout.html',
+                helpers: {
+                    ifCond : function(v1, v2, options) {
+                        if(v1 == v2) {
+                            return options.fn(this);
+                        }
+                        return options.inverse(this);
+                    }
                 }
             });
         }
