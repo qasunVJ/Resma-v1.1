@@ -8,9 +8,48 @@ var Waiters = require('../models/waiter');
 var User = require('../models/user');
 var UserService = require('../services/user-service');
 
+
+//Set Date
+module.exports.setDate = function (callback) {
+    var today = new Date();
+
+    var date = today.getDate().toString();
+    var month = today.getMonth().toString();
+    var year = today.getFullYear().toString();
+
+    var todayString = date + '.' + month + '.' + year;
+
+    DateOnsiteOrder.findOne({date: todayString}, function (err, date) {
+        if(err){
+            console.log(err);
+        }else{
+            console.log(date);
+            if (date == null){
+
+                var Today = new DateOnsiteOrder({
+                    date: todayString,
+                    order_count:0
+                });
+
+                console.log(Today);
+                Today.save(callback);
+            }else{
+                console.log('Else happening');
+                callback();
+            }
+        }
+    });
+};
+
+
 //Get Orders
 module.exports.getOrders = function (callback) {
     Order.find(callback);
+};
+
+//Get Orders
+module.exports.getOrdersForKitchen = function (callback) {
+    Order.find({order_state:'process'}, callback);
 };
 
 //Get User Orders
@@ -24,8 +63,15 @@ module.exports.getOrderDetails = function (id, callback) {
 };
 
 //Get current order id
-module.exports.getCurrentOrderId = function (callback) {
-    NewOrder.find(callback);
+module.exports.getCurrentCount = function (callback) {
+    this.getOrderStat(function (err, orderCountStat) {
+        if(err){
+            console.log(err);
+        }else{
+            var orderStat = orderCountStat.order_count;
+            callback(orderStat);
+        }
+    });
 };
 
 //Get current time
@@ -50,23 +96,18 @@ module.exports.getItems = function (whatToGet, callback ) {
 
 module.exports.getOrderStat = function (callback){
 
-    var d = new Date();
-    var date = d.getDate().toString();
-    var month = d.getMonth().toString();
-    var year = d.getFullYear().toString();
+    var today = new Date();
 
-    var fullDate = date + month + year;
-    console.log(fullDate);
+    var date = today.getDate().toString();
+    var month = today.getMonth().toString();
+    var year = today.getFullYear().toString();
 
-    var query = {date: fullDate};
+    var todayString = date + '.' + month + '.' + year;
+    console.log(todayString);
+
+    var query = {date: todayString};
 
     DateOnsiteOrder.findOne(query, callback);
-
-    //DateOnsiteOrder.findOne( query, function (order_stat) {
-    //
-    //    console.log(JSON.stringify(order_stat));
-    //    /
-    //});
 };
 
 module.exports.getItemsForOrder = function (callback) {
@@ -77,13 +118,24 @@ module.exports.getItemsForOrder = function (callback) {
     if(time < 12) {
         return this.getItems(BreakfastItems, callback);
     }
-    if(time > 12 && time < 16) {
+    if(time >= 12 && time <= 16) {
         return this.getItems(LunchItems, callback);
     }
     if(time > 16) {
         return this.getItems(DinnerItems, callback);
     }
 };
+
+//module.exports.setDateStat = function (callback) {
+//    var date = new Date().toString();
+//
+//    var newDate = new DateOnsiteOrder({
+//        date: date,
+//        order_count: 0
+//    });
+//
+//    newDate.save(callback);
+//};
 
 module.exports.setOrderStat = function (stat, callback) {
     var orderCount = stat.order_count;
@@ -95,13 +147,25 @@ module.exports.setOrderStat = function (stat, callback) {
     DateOnsiteOrder.findOneAndUpdate(query, {order_count:orderCount}, callback);
 };
 
+module.exports.setOrderStatus = function (id, status, callback) {
+    var query = {_id:id};
+    Order.findOneAndUpdate(query, {order_state: status}, callback);
+};
+
 module.exports.createNewOrder = function (req, callback) {
     var dayInfo = this.getDayInfo();
+    var orderNumber = this.getCurrentCount(function (orderCount) {
+        return orderCount;
+    });
+
+    console.log('OrderNumber' + orderNumber);
 
     var itemCount = req.body.item_count;
     var orderItem = req.body.order_item;
     var orderItemQty = req.body.order_item_qty;
     var orderItemPrice = req.body.order_item_price;
+    console.log('Total' + JSON.stringify(orderItemPrice));
+
     var order_items=[];
     var total=0;
 
@@ -111,16 +175,17 @@ module.exports.createNewOrder = function (req, callback) {
         var item = {
             item_name : orderItem[i],
             item_qty : orderItemQty[i],
-            item_price: orderItemPrice[i]
+            unit_price: orderItemPrice[i]
         };
 
-        total += orderItemPrice[i]*orderItemQty[i];
+        total += parseInt(orderItemPrice[i]);
 
         order_items.push(item);
     }
     console.log('Total' + total);
 
     var order = new Order({
+        order_number: orderNumber,
         order_type: 'on-site',
         order_date: dayInfo.date,
         order_time: dayInfo.time,
@@ -135,6 +200,7 @@ module.exports.createNewOrder = function (req, callback) {
     });
 
     var orderToPush = {
+        order_number: orderNumber,
         order_type: 'on-site',
         order_date: dayInfo.date,
         order_time: dayInfo.time,

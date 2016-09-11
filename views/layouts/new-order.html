@@ -1,6 +1,9 @@
 <script type="text/javascript" src="/javascripts/Orders.js"></script>
+
 <div class="new-order-form" ng-app="Resma">
-    <h2>Make a new order</h2>
+    <h2 style="    margin-top: 0;
+    color: #ccc;
+    margin-bottom: 30px;">Order #{{currOrderId}}</h2>
     {{#if errors}}
     <ul class="error-list">
         {{#each errors}}
@@ -9,49 +12,64 @@
     </ul>
     {{/if}}
     <form action="/resma/orders/{{user._id}}/new-order" name="new-order" class="form-group" method="post">
-        <div>
-            <span>Order Type: </span> <span>{{order_type}}</span>
+        <div class="col-md-6" style="margin-bottom: 10px">
+            <span style="color: #cccccc;">Order Type: </span> <span><b>{{order_type}}</b></span>
         </div>
-        <div>
-            <span>Order Date : </span> <span>{{date}}</span>
+        <div class="col-md-6" style="margin-bottom: 10px">
+            <span style="color: #cccccc;">Order Date : </span> <span><b>{{date}}</b></span>
         </div>
-        <div>
-            <span>Order Time : </span> <span>{{time}}</span>
+        <div class="col-md-6" style="margin-bottom: 10px">
+            <span style="color: #cccccc;">Order Time : </span> <span><b>{{time}}</b></span>
         </div>
-        <div>
-            <span>Order State : </span> <span>{{state}}</span>
+        <div class="col-md-6" style="margin-bottom: 10px">
+            <span style="color: #cccccc;">Order State : </span> <span><b>{{state}}</b></span>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+            <span style="color: #cccccc;">Created By : </span> <span><b>{{user.first_name}} {{user.last_name}}</b></span>
         </div>
 
-        <input type="text" name="table_no" placeholder="Table Number">
+        <input type="text" name="table_no" placeholder="Table Number" required>
         <input type="text" name="customer_name" placeholder="Customer Name">
-        <input type="text" name="waiter_id" placeholder="Waiter ID">
+        <!--<input type="text" name="waiter_id" placeholder="Waiter ID">-->
+        <div class="col-md-12 col-sm-12">
+            <h1 style="font-size: 25px;
+                font-weight: 500;
+                color: #ccc;
+                display: block;
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+                border-bottom: solid #999;">Items
+            </h1>
+        </div>
 
-        <div class="divider"></div>
+        <div class="divider clearfix"></div>
 
         <div data-id="order-items-wrap">
 
             <div id="order-item-hidden">
                 <div class="clearfix order-item">
-                    <div class="col-md-5 col-sm-5 col-xs-12">
+                    <div class="col-md-5 col-sm-5 col-xs-12 item_name_wrapper">
                         <lable>Item Name</lable>
-                        <select name="order_item" id="">
+                        <select name="order_item" class="itemName">
                             {{#if orderItems}}
                             {{#each orderItems}}
-                            <option value="{{item_name}}">{{item_name}}</option>
+                            <option value="{{item_name}}" data-id="{{item_price}}">{{item_name}}</option>
                             {{/each}}
                             {{/if}}
                         </select>
                     </div>
-                    <div class="col-md-2 col-sm-2 col-xs-12">
+
+                    <div class="col-md-2 col-sm-2 col-xs-12 qty_wrapper">
                         <lable>Quantity</lable>
-                        <input type="number" name="order_item_qty">
+                        <input type="number" name="order_item_qty" class="itemQty" />
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 price_wrapper">
+                        <div>Price</div>
+                        <input type="number" name="order_item_price" value="0" class="unitPrice"><span>/-</span>
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-12">
-                        <lable>Price</lable>
-                        <input type="number" name="order_item_price">
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                        <div class="margin-10 clearfix">
+                        <div class="clearfix" style="margin-top: 27px">
                             <span class="remove-order-item btn btn-danger right">Remove</span>
                         </div>
                     </div>
@@ -78,11 +96,14 @@
         </div>
 
         <div class="clearfix">
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <span>Items: </span>
                 <input name="item_count" class="item-num-display" value="0">
             </div>
-
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <!--<span>TOTAL: </span>-->
+                <!--<input name="item_total" class="total-display" value="0">-->
+            </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <span class="add-order-item btn new-order">+</span>
             </div>

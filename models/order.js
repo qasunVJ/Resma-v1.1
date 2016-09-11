@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var orderSchema = new mongoose.Schema({
+    order_number: {type: Number},
     order_type: {type: String},
     order_date: {type: String},
     order_time: {type: String},
@@ -13,7 +14,7 @@ var orderSchema = new mongoose.Schema({
     items: [{
         item_name: {type:String},
         item_qty: {type: Number},
-        item_price: {type: Number}
+        unit_price: {type: Number}
     }],
     order_total: {type:Number}
 });

@@ -555,6 +555,21 @@ input[name="manager_id"]{
 	box-shadow: 0px 3px 8px #333;
 	text-align: center;
 }
+.add-order-item{
+	width: 50px;
+	height: 50px;
+	display: block;
+	float: right;
+	margin: 20px;
+	border-radius: 100%;
+	padding: 0px;
+	background: #F05A28;
+	color: #ffffff;
+	font-size: 34px;
+	font-weight: 100;
+	box-shadow: 0px 3px 8px #333;
+	text-align: center;
+}
 .order-section{
 	padding: 0px;
 }
@@ -563,7 +578,7 @@ input[name="manager_id"]{
 	background: #464646;
 }
 .order-btn-group{
-	z-index:9999;
+	z-index:1000;
 	border-top: solid 3px #777777;
 	position: fixed;
 	bottom: 0;

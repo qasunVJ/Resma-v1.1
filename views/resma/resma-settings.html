@@ -227,20 +227,22 @@
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
-            <form action="/managers/new-token" method="post">
-                <label for="token_type">Token Type</label>
-                <select name="token_type" id="token_type">
-                    <option value="manager">Manager</option>
-                    <option value="waiter">Waiter</option>
-                </select>
-                <input type="text" name="token" placeholder="Token">
-                <div class="clearfix set-btn-group">
-                    <new-item ng-show="addItemForm"></new-item>
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-primary">Add Token</button>
+            <div class="clearfix" style="width: 300px;margin: 0 auto;">
+                <form action="/managers/new-token" method="post">
+                    <label for="token_type">Token Type</label>
+                    <select name="token_type" id="token_type">
+                        <option value="manager">Manager</option>
+                        <option value="waiter">Waiter</option>
+                    </select>
+                    <input type="text" name="token" placeholder="Token">
+                    <div class="clearfix set-btn-group">
+                        <new-item ng-show="addItemForm"></new-item>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary">Add Token</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     

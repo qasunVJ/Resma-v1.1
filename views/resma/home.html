@@ -39,17 +39,17 @@
     </section>
 
     <section class="order-section col-md-6 col-sm-12 col-xs-12">
-        <div class="col-md-4 col-sm-12 col-xs-4">
+        <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
                 <span class="glyphicon glyphicon-cutlery"></span> <span class="big-notif-num">34</span>
             </div>
         </div>
-        <div class="col-md-4 col-sm-12 col-xs-4">
+        <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
                 <span class="glyphicon glyphicon-phone"></span> <span class="big-notif-num">34</span>
             </div>
         </div>
-        <div class="col-md-4 col-sm-12 col-xs-4">
+        <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
                 <span class="glyphicon glyphicon-check"></span> <span class="big-notif-num">34</span>
             </div>
@@ -60,7 +60,7 @@
                     <span class="glyphicon glyphicon-cutlery"></span><span class="list-heading"> - Orders</span>
                     <div class="pull-right">
                         <div class="btn-group">
-                            <button type="button" class="btn imp-btn">
+                            <button type="button" style="border: none;background: transparent;">
                                 <span class="glyphicon glyphicon-refresh"></span>
                             </button>
                         </div>
@@ -70,21 +70,21 @@
                 <div class="panel-body">
                     <div class="list-group">
                         {{#each orders}}
-                        <a href="/resma/orders/details/{{_id}}" class="list-group-item" data-toggle="modal" data-target="#orderModal">
+                        <a href="/resma/orders/details/{{_id}}" class="list-group-item" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#myModal">
                             {{#ifCond order_state 'created'}}
                             <span class="glyphicon glyphicon-plus-sign {{order_state}}"></span>
                             {{/ifCond}}
-                            {{#ifCond order_state 'on-progress'}}
-                            <span class="glyphicon glyphicon-cutlery {{order_state}}"></span>
+                            {{#ifCond order_state 'process'}}
+                            <span class="glyphicon glyphicon-minus-sign {{order_state}}"></span>
                             {{/ifCond}}
                             {{#ifCond order_state 'delivered'}}
-                            <span class="glyphicon glyphicon-ok-circle {{order_state}}"></span>
+                            <span class="glyphicon glyphicon-remove-sign {{order_state}}"></span>
                             {{/ifCond}}
                             {{#ifCond order_state 'finished'}}
-                            <span class="glyphicon glyphicon-ok-circle {{order_state}}"></span>
+                            <span class="glyphicon glyphicon-ok-sign {{order_state}}"></span>
                             {{/ifCond}}
 
-                            {{customer_name}}
+                            <span class="order-cus">{{customer_name}}</span>
                             <span>{{waiter_name}}</span>
                             <span class="pull-right text-muted small"><em>{{order_time}}</em>
                             </span>
@@ -148,15 +148,28 @@
     </section>
 
 </div>
+
 <div class="order-btn-group clearfix">
-    <a href="/resma/orders/new-order-init" class="new-order btn" data-toggle="modal" data-target="#orderModal">+</a>
+    <div class="chat-wrapper">
+        <div class="clearfix">
+            <button class="chat-min"><span id="chat-min-ico" class="glyphicon glyphicon-minus"></span></button>
+        </div>
+        <div id="future"></div>
+        <form id="form" id="chat_form">
+            <input id="chat_input" type="text">
+            <input type="submit">
+        </form>
+    </div>
+    <a href="/resma/orders/new-order-init" class="new-order btn" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#orderModal">+</a>
 </div>
 
 <div id="orderModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!--New order content is loaded with ajax-->
         <div class="modal-content"></div>
 
     </div>
 </div>
+
+
+

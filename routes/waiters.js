@@ -10,7 +10,7 @@ router.get('/:id/orders', function (req, res, next) {
             res.render('resma/home');
         }else{
             res.render('resma/orders', {
-                orders: userOrders.orders
+                orders: userOrders
             });
         }
     });

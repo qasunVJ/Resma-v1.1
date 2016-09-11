@@ -1,0 +1,48 @@
+<div class="clearfix">
+
+    <div class="col-md-6 col-sm-6">
+        <img src="images/uploads/{{user._id}}" alt="{{user.first_name}}" class="img-circle"/>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td>Name</td>
+                        <td>{{user.first_name}} {{user.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td>{{user.user_type}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{user.email}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{user.email}}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{{user.phone}}</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        {{#each user.address}}
+                        <td>{{address1}}, {{address2}}, </td>
+                        {{/each}}
+                    </tr>
+                    <tr>
+                        <td>Username</td>
+                        <td>{{user.username}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

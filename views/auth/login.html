@@ -1,4 +1,14 @@
 <div id="index-wrap">
+    <div class="body-info-wrap clearfix">
+        <div class="col-lg-3"></div>
+
+        <div id="body-index" class="col-md-12 col-sm-12 col-xs-12">
+            {{#if greeting}}
+            <h2>Welcome to Resma!</h2><h3>You may log in to proceed</h3>
+            {{/if}}
+        </div>
+
+    </div>
     <div id="auth-heading">
         <h2>Log in here!</h2>
         <img src="/images/icons/user.svg" alt="user" id="login-icon-user">
@@ -23,5 +33,4 @@
             <input type="submit" value="Login" class="user-submit">
         </form>
     </div>
-    </br><p class="text-center">New to Resma? Go ahead and <a href="/auth/signup" class="inline-link">Get Started!</a></p>
 </div>

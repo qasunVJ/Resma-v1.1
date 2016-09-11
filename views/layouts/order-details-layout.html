@@ -1,51 +1,86 @@
 <div>
-    <table>
+    <a href="" class="close-modal"><button><span class="glyphicon glyphicon-remove-circle"></span></button></a>
+
+    <div style="border-radius: 5px;padding: 10px;background: rgba(85, 85, 85, 0.29);">
+
+    <table style="width: 100%;line-height: 25px;">
         <tr>
-            <td><span>Order Type :</span></td>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Type :</span></td>
             <td>{{order_details.order_type}}</td>
         </tr>
         <tr>
-            <td><span>Waiter :</span></td>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Waiter :</span></td>
             <td>{{order_details.waiter_name}}</td>
         </tr>
         <tr>
-            <td><span>Order Time :</span></td>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Time :</span></td>
             <td>{{order_details.order_time}}</td>
         </tr>
         <tr>
-            <td><span>State :</span></td>
-            <td><span class="pill {{order_details.order_state}}">{{order_details.order_state}}</span></td>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">State :</span></td>
+            <td><span class="pill-{{order_details.order_state}}">{{order_details.order_state}}</span></td>
         </tr>
         <tr>
-            <td><span>Table No :</span></td>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Table No :</span></td>
             <td>{{order_details.table_no}}</td>
         </tr>
         <tr>
-            <td><span>Order Date:</span></td>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Date:</span></td>
             <td>{{order_details.order_date}}</td>
         </tr>
         <tr>
-            <td><span>Customer Name:</span></td>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Customer Name:</span></td>
             <td>{{order_details.customer_name}}</td>
         </tr>
-        <tr><h1>Items</h1></tr>
-        {{#each order_details.items}}
-        <tr>
-            <td><span>Item:</span></td>
-            <td>{{item_name}}</td>
-        </tr>
-        <tr>
-            <td><span>Quantity:</span></td>
-            <td>{{item_qty}}</td>
-        </tr>
-        <tr>
-            <td><span>Price:</span></td>
-            <td>{{item_price}}</td>
-        </tr>
-        {{/each}}
-    </table>
+        </table>
+    </div>
+        <table width="100%">
+            <tr>
+                <h1 style="font-size: 25px;
+    font-weight: 500;
+    color: #ccc;
+    display: block;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid #999;">Items</h1>
+            </tr>
+            {{#each order_details.items}}
+            <tr style="border-bottom: solid 1px rgba(153, 153, 153, 0.14);">
+                <td style="width:33.3%;"><span>{{item_name}}</span></td>
+                <td style="font-size: 19px;
+    color: #ccc;">X {{item_qty}}</td>
+                <td style="width:33.3%;">Rs. {{item_price}}/-</td>
+            </tr>
+            {{/each}}
+        </table>
+
+        <div>
+            <table style="width: 100%; margin-top: 10px">
+                <tr>
+                    <td style="width: 33.3%;font-size: 30px;
+    font-weight: 300">TOTAL</td>
+                    <td style="width: 33.3%;"><h2>{{auth}}</h2></td>
+                    <td style="width:33.3%;font-size: 30px;
+    font-weight: 300">Rs. {{order_details.order_total}}/-</td>
+                </tr>
+            </table>
+        </div>
+
+
 
     {{#ifCond user.user_type 'manager'}}
-    <button class="btn vimp-btn"></button>
+    {{#ifCond order_details.order_state 'created'}}
+    <div class="clearfix" style="margin-top: 20px;padding-top: 10px">
+        <a class="btn process-btn" href="/resma/order/{{order_details._id}}/process">Process</a>
+    </div>
     {{/ifCond}}
+    {{/ifCond}}
+
+    {{#if  kitchen}}
+    {{#ifCond order_details.order_state 'process'}}
+    <div class="clearfix" style="margin-top: 20px;padding-top: 10px">
+        <a class="btn deliver-btn" href="/resma/order/{{order_details._id}}/deliver">Deliver</a>
+    </div>
+    {{/ifCond}}
+    {{/if}}
 </div>

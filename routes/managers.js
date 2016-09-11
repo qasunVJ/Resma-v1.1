@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var restrict = require('../services/restrict');
 var multer = require('multer');
 var upload = multer({ dest: 'public/images/uploads/'});
 
@@ -143,7 +144,7 @@ router.post('/signup', function (req, res, next) {
 //));
 
 //Site Settings
-router.get('/settings', function (req, res, next) {
+router.get('/settings', restrict, function (req, res, next) {
 
     MenuService.getItems(BreakfastItem, function (err, breakfast_items) {
         if (err) {
@@ -174,7 +175,7 @@ router.get('/settings', function (req, res, next) {
     });
 });
 
-router.get('/tableview', function (req, res, next) {
+router.get('/tableview', restrict, function (req, res, next) {
 
     TableService.getTableView(function (err, tableViewMarkup) {
         if (err){
@@ -194,7 +195,7 @@ router.get('/tableview', function (req, res, next) {
 //});
 
 //Add token
-router.post('/new-token', function (req, res, next) {
+router.post('/new-token', restrict, function (req, res, next) {
     var token_type = req.body.token_type;
     var token  = req.body.token;
 
@@ -216,7 +217,7 @@ router.post('/new-token', function (req, res, next) {
 });
 
 //Add menu item POST
-router.post('/add-breakfast-item', upload.any(), function (req, res, next) {
+router.post('/add-breakfast-item', restrict, upload.any(), function (req, res, next) {
 
     MenuService.addMenuItem(req, BreakfastItem, function (err, item) {
         if (err) {
@@ -231,7 +232,7 @@ router.post('/add-breakfast-item', upload.any(), function (req, res, next) {
 });
 
 //Add menu item POST
-router.post('/add-lunch-item', upload.any(), function (req, res, next) {
+router.post('/add-lunch-item', restrict, upload.any(), function (req, res, next) {
 
     MenuService.addMenuItem(req, LunchItem, function (err, item) {
         if (err) {
@@ -246,7 +247,7 @@ router.post('/add-lunch-item', upload.any(), function (req, res, next) {
 });
 
 //Add menu item POST
-router.post('/add-dinner-item', upload.any(), function (req, res, next) {
+router.post('/add-dinner-item', restrict, upload.any(), function (req, res, next) {
 
     MenuService.addMenuItem(req, DinnerItem, function (err, item) {
         if (err) {
@@ -261,7 +262,7 @@ router.post('/add-dinner-item', upload.any(), function (req, res, next) {
 });
 
 //Edit item get
-router.get('/items/edit/:id', function (req, res, next) {
+router.get('/items/edit/:id', restrict, function (req, res, next) {
     MenuService.getItemById(req.params.id, function (err, item) {
         console.log(req.params.id);
         if (err){
@@ -276,7 +277,7 @@ router.get('/items/edit/:id', function (req, res, next) {
 });
 
 //Edit item post
-router.post('/items/edit/:id', function (req, res, next) {
+router.post('/items/edit/:id', restrict, function (req, res, next) {
 
     var id = req.params.id;
 
@@ -322,7 +323,7 @@ router.post('/items/edit/:id', function (req, res, next) {
 });
 
 //Delete an item
-router.delete('/items/delete/:id', function (req, res, next) {
+router.delete('/items/delete/:id', restrict, function (req, res, next) {
     var id = req.params.id;
     console.log(id);
 
@@ -353,7 +354,7 @@ router.get('/orders', function (req, res, next) {
 });
 
 //Get table view
-router.post('/table-update', function (req, res, next) {
+router.post('/table-update', restrict, function (req, res, next) {
     var tableViewMarkup = req.body.tableView;
     var tableNum = req.body.tableNo;
 

@@ -28,5 +28,22 @@
 <script type="text/javascript" src="/javascripts/script.js"></script>
 <script type="text/javascript" src="/javascripts/Resma.js"></script>
 <script type="text/javascript" src="/javascripts/controllers/removeItem.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    var socket = io.connect('http://localhost:3000');
+    socket.on('connect', function(data) {
+        socket.emit('join', 'Hello World from client');
+    });
+    socket.on('broad', function(data) {
+        $('#future').append(data + '</br>');
+    });
+
+    $('form').submit(function(e){
+        e.preventDefault();
+        var message = $('#chat_input').val();
+        socket.emit('messages', message);
+    });
+</script>
 </body>
 </html>

@@ -34,7 +34,11 @@ var Table = {
 
 
 $(document).ready(function () {
-	$("#sortable").sortable();
+    $(".close-modal").click(function() {
+        window.location.reload();
+    });
+
+    $("#sortable").sortable();
     $("#sortable").disableSelection();
 
     //Add new tables
@@ -60,5 +64,31 @@ $(document).ready(function () {
     //SAVE updated table view
     $('[data-id="save-table-settings"]').click(function () {
         Table.saveTableView(Table.tableNo);
+    });
+
+    $isOpen = false;
+    $('.chat-min').click(function () {
+        if($isOpen){
+            $('.chat-wrapper').animate({
+                top:'-35px'
+            });
+            $('#future').animate({
+                height:'0'
+            });
+            $('.chat-wrapper #form').hide();
+            $('#chat-min-ico').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+            $isOpen = false;
+        }else if($isOpen == false){
+            $('.chat-wrapper').animate({
+                top:'-285px'
+            });
+            $('#future').animate({
+                height:'200px'
+            });
+            $('.chat-wrapper #form').show();
+            $('#chat-min-ico').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+            $isOpen = true;
+        }
+
     });
 });

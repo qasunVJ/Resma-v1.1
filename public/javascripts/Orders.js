@@ -24,6 +24,12 @@ var Order = {
         this.itemNum = this.itemNum - 1;
         this.displayItemNumber();
         console.log(this.itemNum);
+    },
+
+    setItemPrice: function (price, quantity) {
+        $price = price * quantity;
+        console.log($price);
+        return $price;
     }
 
     //getItemNumber : function () {
@@ -48,6 +54,30 @@ $(document).ready(function () {
     //Remove items
     $(document).on('click','.remove-order-item', function () {
         Order.removeOrderItem($(this));
+    });
+
+    //Initial Price setting
+
+    $(document).on('change', '.itemName', function () {
+        $price = $(this).find(':selected').data('id');
+        $qty = $(this).parents('div.item_name_wrapper').siblings('div.qty_wrapper').children('.itemQty').val();
+
+        $unitPrice = Order.setItemPrice($price, $qty);
+        //console.log($unitPrice);
+
+        $(this).parents('div.item_name_wrapper').siblings('div.price_wrapper').find('.unitPrice').attr('value',$unitPrice);
+    });
+
+    $(document).on('change', '.itemQty', function () {
+        $qty = $(this).val();
+        $price = $(this).parents('div.qty_wrapper').siblings('div.item_name_wrapper').find('select.itemName option:selected').attr('data-id');
+
+        console.log($price + $qty);
+        $unitPrice = Order.setItemPrice($price, $qty);
+        console.log('From qty'+ $unitPrice);
+
+        $(this).parents('div.qty_wrapper').siblings('div.price_wrapper').find('.unitPrice').attr('value',$unitPrice);
+
     });
 
     ////Sending itemNum to backend
