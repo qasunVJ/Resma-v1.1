@@ -1,0 +1,70 @@
+<div style="width: 650px;
+    margin: 0 auto;
+    background: #777;
+    padding: 10px;">
+    <h3 style="border-bottom: solid 1px;margin-bottom: 20px">Order#{{count}}</h3>
+
+    <table style="width: 100%;line-height: 25px;">
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Type :</span></td>
+            <td style="text-align: right">{{order_details.order_type}}</td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Waiter :</span></td>
+            <td style="text-align: right">{{order_details.waiter_name}}</td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Time :</span></td>
+            <td style="text-align: right">{{order_details.order_time}}</td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Finished Time :</span></td>
+            <td style="text-align: right">{{order_details.delivered_time}}</td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">State :</span></td>
+            <td style="text-align: right"><span class="pill-{{order_details.order_state}}">{{order_details.order_state}}</span></td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Table No :</span></td>
+            <td style="text-align: right">{{order_details.table_no}}</td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Date:</span></td>
+            <td style="text-align: right">{{order_details.order_date}}</td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Customer Name:</span></td>
+            <td style="text-align: right">{{order_details.customer_name}}</td>
+        </tr>
+    </table>
+
+    <table style="width: 100%;margin-top: 20px">
+        <thead style="    border-bottom: solid 1px #000;">
+        <tr>
+            <th>Item</th>
+            <th style="text-align: center">Quantity</th>
+            <th style="text-align: right">Unit Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each order_details.items}}
+        <tr>
+            <td>{{item_name}}</td>
+            <td style="text-align: center">X {{item_qty}}</td>
+            <td style="text-align: right">{{unit_price}}.00</td>
+        </tr>
+        {{/each}}
+        <tr style="    border-bottom: solid #000;border-top: solid #000;font-size: 16px">
+            <td>TOTAL</td>
+            <td></td>
+            <td style="border-bottom: solid #000;border-top: solid #000;font-size: 16px;text-align: right">Rs. {{order_details.order_total}}.00</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center">
+    <button class="print-invoice btn btn-primary">Print</button>
+    <button href="/resma/home" class="btn btn-default">Cancel</button>
+</div>

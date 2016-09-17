@@ -6,6 +6,7 @@ var LunchItems = require('../models/lunchitem');
 var DinnerItems = require('../models/dinneritem');
 var Waiters = require('../models/waiter');
 var User = require('../models/user');
+var Cart = require('../models/cartitem');
 var UserService = require('../services/user-service');
 
 
@@ -23,19 +24,18 @@ module.exports.setDate = function (callback) {
         if(err){
             console.log(err);
         }else{
-            console.log(date);
             if (date == null){
 
                 var Today = new DateOnsiteOrder({
                     date: todayString,
-                    order_count:0
+                    order_count_onsite:0,
+                    order_count_online:0,
+                    order_count_delivered:0
                 });
 
-                console.log(Today);
-                Today.save(callback);
+                Today.save(callback(date));
             }else{
-                console.log('Else happening');
-                callback();
+                callback(date);
             }
         }
     });
@@ -63,15 +63,36 @@ module.exports.getOrderDetails = function (id, callback) {
 };
 
 //Get current order id
-module.exports.getCurrentCount = function (callback) {
-    this.getOrderStat(function (err, orderCountStat) {
-        if(err){
-            console.log(err);
-        }else{
-            var orderStat = orderCountStat.order_count;
-            callback(orderStat);
-        }
-    });
+module.exports.getCurrentCount = function (type, callback) {
+    if(type == 'onsite'){
+        this.getOrderStat(function (err, orderCountStat) {
+            if(err){
+                console.log(err);
+            }else{
+                var orderCount = orderCountStat.order_count_onsite;
+                callback(orderCount);
+            }
+        });
+    }else if(type == 'online'){
+        this.getOrderStat(function (err, orderCountStat) {
+            if(err){
+                console.log(err);
+            }else{
+                var orderCount = orderCountStat.order_count_online;
+                callback(orderCount);
+            }
+        });
+    }else if(type == 'delivered'){
+        this.getOrderStat(function (err, orderCountStat) {
+            if(err){
+                console.log(err);
+            }else{
+                var orderCount = orderCountStat.order_count_delivered;
+                callback(orderCount);
+            }
+        });
+    }
+
 };
 
 //Get current time
@@ -80,7 +101,13 @@ module.exports.getDayInfo = function () {
     var date = d.toDateString();
     var hours = d.getHours().toString();
     var mins = d.getMinutes().toString();
-    var time = hours + ':' + mins;
+    var ampm = hours >= 12 ? 'pm' : 'am';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    mins = mins < 10 ? '0'+mins : mins;
+    var time = hours + ':' + mins + ' ' + ampm;
+
 
     var dayInfo = {
         date: date,
@@ -103,7 +130,6 @@ module.exports.getOrderStat = function (callback){
     var year = today.getFullYear().toString();
 
     var todayString = date + '.' + month + '.' + year;
-    console.log(todayString);
 
     var query = {date: todayString};
 
@@ -137,41 +163,49 @@ module.exports.getItemsForOrder = function (callback) {
 //    newDate.save(callback);
 //};
 
-module.exports.setOrderStat = function (stat, callback) {
-    var orderCount = stat.order_count;
-    orderCount = orderCount + 1;
+module.exports.setOrderStat = function (stat, val, callback) {
+    console.log("Entered to" + val);
+    if (val == 'onsite'){
+        var onsiteOrderCount = stat.order_count_onsite  + 1;
+        var query = {date: stat.date};
+        DateOnsiteOrder.findOneAndUpdate(query, {order_count_onsite:onsiteOrderCount}, callback);
 
-    console.log('Order Count' + orderCount);
-    var query = {date: stat.date};
+    }else if (val == 'online'){
+        var onlineoOrderCount = stat.order_count_online + 1;
+        var query = {date: stat.date};
+        DateOnsiteOrder.findOneAndUpdate(query, {order_count_online:onlineoOrderCount}, callback);
 
-    DateOnsiteOrder.findOneAndUpdate(query, {order_count:orderCount}, callback);
+    }else if (val == 'delivered'){
+        var deliveredOrderCount = stat.order_count_delivered + 1;
+        console.log("Finished" + deliveredOrderCount);
+        var query = {date: stat.date};
+
+        DateOnsiteOrder.findOneAndUpdate(query, {order_count_delivered:deliveredOrderCount}, callback);
+    }
 };
 
 module.exports.setOrderStatus = function (id, status, callback) {
     var query = {_id:id};
-    Order.findOneAndUpdate(query, {order_state: status}, callback);
+    var dayInfo = this.getDayInfo();
+    Order.findOneAndUpdate(query, {order_state: status, delivered_time: dayInfo.time}, callback);
 };
 
 module.exports.createNewOrder = function (req, callback) {
     var dayInfo = this.getDayInfo();
-    var orderNumber = this.getCurrentCount(function (orderCount) {
+    var orderNumber = this.getCurrentCount('onsite', function (orderCount) {
         return orderCount;
     });
-
-    console.log('OrderNumber' + orderNumber);
 
     var itemCount = req.body.item_count;
     var orderItem = req.body.order_item;
     var orderItemQty = req.body.order_item_qty;
     var orderItemPrice = req.body.order_item_price;
-    console.log('Total' + JSON.stringify(orderItemPrice));
 
     var order_items=[];
     var total=0;
 
     //Iterating through all the items in the order
     for (var i=1; i<=itemCount; i++){
-        console.log(i);
         var item = {
             item_name : orderItem[i],
             item_qty : orderItemQty[i],
@@ -182,7 +216,6 @@ module.exports.createNewOrder = function (req, callback) {
 
         order_items.push(item);
     }
-    console.log('Total' + total);
 
     var order = new Order({
         order_number: orderNumber,
@@ -223,4 +256,102 @@ module.exports.createNewOrder = function (req, callback) {
         }
     });
 
+};
+
+module.exports.addItemToCart = function (item, callback) {
+    console.log("Cart Items" + item);
+
+    var name = item.item_name;
+    var price = parseInt(item.item_price);
+    var image = item.item_image;
+    var item_qty = 1;
+    var query = {item_id:item._id};
+
+    Cart.findOne(query, function (err, cartItem) {
+        if(err){
+            console.log(err);
+        }else{
+            if(cartItem == null){
+                var toCart = new Cart({
+                    item_id: item._id,
+                    item_name : name,
+                    item_image: image,
+                    item_price: price,
+                    item_qty: item_qty
+                });
+
+                toCart.save(toCart, callback)
+            }else{
+                var qty = cartItem.item_qty + 1;
+                var unit_price = qty * item.item_price;
+                Cart.findOneAndUpdate(query, {item_qty: qty, item_price: unit_price}, function (err) {
+                    if(err){
+                        console.log(err);
+                    }else{
+                        callback();
+                    }
+                });
+            }
+        }
+    });
+};
+
+module.exports.getCartItems = function (callback) {
+    Cart.find(callback);
+};
+
+module.exports.clearCart = function (callback) {
+    Cart.remove({}, callback);
+};
+
+module.exports.addNewOnlineOrder = function (id, callback) {
+    var Customer="";
+    var orderNumber = this.getCurrentCount('online', function (orderCount) {
+        return orderCount;
+    });
+    var dayInfo = this.getDayInfo();
+    this.getCartItems(function (err, items) {
+        if(err){
+            console.log(err);
+        }else{
+            User.findOne({_id: id}, function (err, customer) {
+                if(err){
+                    console.log(err);
+                }else{
+                    Customer = customer.first_name + ' ' + customer.last_name;
+                    var grand_total=0;
+                    var cart_items =[];
+
+                    for(var i=0;i<items.length;i++){
+                        var cartItem = {
+                            item_name: items[i].item_name,
+                            item_qty: items[i].item_qty,
+                            unit_price: items[i].item_price
+                        };
+                        cart_items.push(cartItem);
+                        grand_total += parseInt(items[i].item_price);
+                    }
+
+                    var newOnlineOrder = new Order({
+                        order_number: orderNumber,
+                        order_type: 'on-line',
+                        order_date: dayInfo.date,
+                        order_time: dayInfo.time,
+                        delivered_time: dayInfo.time,
+                        order_state: 'created',
+                        table_no: 0,
+                        waiter_id: id,
+                        waiter_name: 'n/a',
+                        customer_name: Customer,
+                        items: cart_items,
+                        order_total: grand_total
+                    });
+
+                    newOnlineOrder.save(function () {
+                        Cart.remove({}, callback);
+                    });
+                }
+            });
+        }
+    });
 };

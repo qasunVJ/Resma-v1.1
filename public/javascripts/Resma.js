@@ -5,14 +5,13 @@ var Table = {
         $(".tables-wrapper ul").append('' +
             '<li class="table-holder ui-state-default">' +
             '<span class="number">' + ("0" + this.tableNo).slice(-2) +'</span>' +
-            '<a href="#"><img src="/images/free.svg"></a></li>' +
-            '<li class="table-empty ui-state-default"></li>');
+            '<a href="#"><img src="/images/free.svg"></a></li><span class="table-empty ui-state-default"></span>');
 
         this.tableNo++;
     },
 
     removeTable: function () {
-        $(".tables-wrapper ul li.table-empty").last().remove();
+        $(".tables-wrapper ul span.table-empty").last().remove();
         $(".tables-wrapper ul li.table-holder").last().remove();
 
         this.tableNo--;
@@ -52,13 +51,24 @@ $(document).ready(function () {
     });
 
     //Fires an ajax call to the SERVER to get TABLE VIEW details
-    $.get("/managers/tableview", function(tableView, status){
+    $.get("/managers/tableview", function(tableView){
         $tableNumber = tableView.tableNum;
         Table.tableNo = $tableNumber;
-
         $tableViewMarkup = $(tableView.tableViewMarkup);
-        console.log($tableViewMarkup);
+
+        $orders = $(tableView.orders);
         $($tableViewMarkup).prependTo('.tables-wrapper');
+
+        for(var i=0;i<$orders.length;i++){console.log("Order Length" + $orders.length);
+            $order = $orders[i];console.log('Order Table No :' + $order.table_no);
+            for(var j=1;j<=Table.tableNo;j++){console.log('Table No  :' + j);
+                if(j == $order.table_no){
+                    $newSRC = '/images/' + $order.order_state + '.svg';console.log('Order State  :' + $newSRC);
+                    $('ul#sortable li:nth-of-type('+j+') a img').attr('src', $newSRC);
+                    $('<span class="table-waiter"><img src="/images/uploads/noimage.jpg" alt="" class="img-responsive"/></span>').appendTo('ul#sortable li:nth-of-type('+j+')');
+                }
+            }
+        }
     });
 
     //SAVE updated table view
@@ -91,4 +101,6 @@ $(document).ready(function () {
         }
 
     });
+
+    //
 });

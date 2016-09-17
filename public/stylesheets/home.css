@@ -31,7 +31,7 @@
 
 .panel .panel-heading .glyphicon{
     font-size: 15px;
-    margin-right: 5px;
+    /*margin-right: 5px;*/
     color: #cccccc;
 }
 
@@ -167,10 +167,10 @@
     background: cornflowerblue;
 }
 .pill-delivered{
-    background: limegreen;
+    background: #bbbf21;
 }
 .pill-finished{
-    background: #cccccc;
+    background: limegreen;
 }
 .created{
     position: relative;
@@ -196,14 +196,14 @@
     position: relative;
     top: 4px;
     font-size: 16px;
-    color: limegreen;
+    color: #bbbf21;
 }
 .finished{
     margin-right: 5px;
     position: relative;
     top: 4px;
     font-size: 16px;
-    color: #cccccc;
+    color: limegreen;
 }
 .list-group-item .text-muted{
     color: #ababab;
@@ -282,7 +282,7 @@
 }
 .order-cus{
     display: inline-block;
-    width: 80px;
+    width: 100px;
 }
 .process-btn, .deliver-btn{
     max-width: 200px;
@@ -307,7 +307,20 @@
     font-size: 20px;
     margin: 0 auto;
     padding: 7px;
-    background: #F05A28;
+    background: #f0ad4e;
+    color: white;
+    /*border: solid 2px #F79970;*/
+    border-radius: 5px;
+    background: linear-gradient(#908c05,#d1d434);
+    border: solid 1px #716e16;
+}
+.finished-btn{
+    display: block;
+    font-weight: 300;
+    font-size: 20px;
+    margin: 0 auto;
+    padding: 7px;
+    background: #f0ad4e;
     color: white;
     /*border: solid 2px #F79970;*/
     border-radius: 5px;
@@ -316,4 +329,100 @@
 }
 .process-btn:hover, .deliver-btn:hover{
     color: #ffffff;
+}
+.offer-wrapper{
+    margin: 20px 10px;
+    padding: 3px;
+    border-radius: 10px;
+    border: solid 9px #8a6d3b;
+}
+.offer-wrapper img{
+    width: 100%;
+}
+.item-footer{
+    text-align: center;
+    padding: 10px 0;
+    border-top: solid 1px #777;
+    margin-top: 10px;
+}
+.item-footer button{
+    background: transparent;
+}
+.item-footer button:hover{
+    background: #8a6d3b;
+    color: #ffffff;
+}
+.item-footer button span:first-child{
+    margin-right: 10px;
+}
+.cart-table{
+    width: 100%;
+}
+.cart-table tr:not(:last-child){
+    border-bottom: solid 1px #999;
+}
+.cart-table tr td{
+    width: 25%;
+}
+.cart-table tr td img{
+    margin: 10px 0;
+    width: 70px;
+    height: 70px;
+    border: solid 2px #999;
+}
+#cartModal .modal-content ul{
+    padding-left: 0px;
+}
+.bottom-row{
+    margin-top: 20px;
+}
+.add-to-cart{
+    color: #bbbbbb;
+    display: block;
+}
+.add-to-cart:hover{
+    color: #f0ad4e;
+}
+.add-to-cart span:first-child{
+    margin-right: 10px;
+    color: #F05A28;
+}
+.user-message{
+    position: absolute;
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: -5px 2px 10px #101010;
+    background: #999;
+    z-index: 1000;
+    right: 10px;
+    top: -90px;
+    opacity: 0.9;
+}
+.user-message span{
+    color: #000;
+}
+.on-site, .on-line{
+    color: #cccccc;
+    font-size: 16px;
+    position: relative;
+    top: 4px;
+    margin-right: 5px;
+}
+.cart-icon{
+    font-size: 19px;
+}
+.order-details-table tr td:first-child{
+    border-bottom: dashed 1px #999;
+}
+.order-details-table tr td:last-child{
+    padding-top: 10px;
+}
+
+@media print
+{
+    .print-invoice
+    {
+        display: none !important;
+    }
 }

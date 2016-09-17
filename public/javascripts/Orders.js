@@ -30,22 +30,28 @@ var Order = {
         $price = price * quantity;
         console.log($price);
         return $price;
-    }
+    },
 
-    //getItemNumber : function () {
-    //    console.log('clicked');
-    //    $.ajax({
-    //        url: '/resma/orders/new-order/:' + this.itemNum,
-    //        type: 'POST',
-    //        success: function () {
-    //        }
-    //    });
-    //}
+    getCartItems : function () {
+        console.log('clicked');
+        $.ajax({
+            url: '/resma/mini-cart',
+            type: 'get',
+            success: function (result) {
+                console.log(result);
+            }
+        });
+    }
 
 };
 
 
 $(document).ready(function () {
+    $isCustomer = $('.menu-container').attr('data-id');
+    if($isCustomer != 'customer'){
+        $('.item-footer').hide();
+    }
+
     //Append order item
     $('.add-order-item').click(function () {
         Order.addOrderItem();
@@ -57,7 +63,6 @@ $(document).ready(function () {
     });
 
     //Initial Price setting
-
     $(document).on('change', '.itemName', function () {
         $price = $(this).find(':selected').data('id');
         $qty = $(this).parents('div.item_name_wrapper').siblings('div.qty_wrapper').children('.itemQty').val();
@@ -79,6 +84,22 @@ $(document).ready(function () {
         $(this).parents('div.qty_wrapper').siblings('div.price_wrapper').find('.unitPrice').attr('value',$unitPrice);
 
     });
+
+    $('.mini-cart').click(function () {
+        console.log('clicked');
+        Order.getCartItems();
+    });
+
+    $('.user-message').animate({
+        top: '10px'
+    }).delay(3000).fadeOut();
+
+    $(document).on('click','.print-invoice', function () {
+       window.print();
+    });
+
+    //Refresh Orders
+
 
     ////Sending itemNum to backend
     //$(document).on('click', '.order-submit', function(){

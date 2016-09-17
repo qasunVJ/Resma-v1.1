@@ -176,13 +176,18 @@ router.get('/settings', restrict, function (req, res, next) {
 });
 
 router.get('/tableview', restrict, function (req, res, next) {
-
-    TableService.getTableView(function (err, tableViewMarkup) {
+    OrderService.getOrders(function (err, orders) {
         if (err){
             console.log(err);
         }else{
-            console.log(tableViewMarkup[0].table_num);
-            res.send({tableViewMarkup: tableViewMarkup[0].table_data, tableNum: tableViewMarkup[0].table_num});
+            TableService.getTableView(function (err, tableViewMarkup) {
+                if (err){
+                    console.log(err);
+                }else{
+                    console.log(tableViewMarkup[0].table_num);
+                    res.send({tableViewMarkup: tableViewMarkup[0].table_data, tableNum: tableViewMarkup[0].table_num, orders: orders});
+                }
+            });
         }
     });
 });

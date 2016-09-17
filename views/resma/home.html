@@ -1,5 +1,106 @@
+{{#if customer}}
+    {{#if message}}
+    <div class="user-message">
+        <span>{{message}}</span>
+    </div>
+    {{/if}}
 <div class="clearfix ">
+    <section class="table-section col-md-9 col-sm-9 col-xs-12">
+            <div class="col-md-6 col-sm-6">
+                <div class="offer-wrapper">
+                    <img src="/images/uploads/restaurant-menu-special-offer.jpg" class="img-responsive" alt=""/>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="offer-wrapper">
+                    <img src="/images/uploads/shrimp-primavera-46.jpg" class="img-responsive" alt=""/>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="offer-wrapper">
+                    <img src="/images/uploads/offer_may2013.jpg" class="img-responsive" alt=""/>
+                </div>
+            </div>
 
+    </section>
+
+    <section class="order-section col-md-3 col-sm-3 col-xs-12">
+        <div class="home-aside col-md-12 col-sm-12 col-xs-12 clearfix">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-cutlery"></span><span class="list-heading"> - TODAYS SPECIAL</span>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <img src="/images/uploads/db45496b09eaa74857154027fc2a9aba" alt="" style="width: 50px;height: 50px;" class="img-circle"/>
+                            <span class="pull-right text-muted small"><em>10.00</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <img src="/images/uploads/fe06a488e7df10153b2240246c57824a" alt="" style="width: 50px;height: 50px;" class="img-circle"/>
+                            <span class="pull-right text-muted small"><em>10.00</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <img src="/images/uploads/noimage.jpg" alt="" style="width: 50px;height: 50px;" class="img-circle"/>
+                            <span class="pull-right text-muted small"><em>10.00</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <img src="/images/uploads/noimage.jpg" alt="" style="width: 50px;height: 50px;" class="img-circle"/>
+                            <span class="pull-right text-muted small"><em>10.00</em>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="home-aside col-md-12 col-sm-12 col-xs-12 clearfix">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-heart"></span><span class="list-heading">  My Favourites</span>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body users-chat-group">
+                    
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <img src="/images/uploads/noimage.jpg" alt="" style="width: 50px;height: 50px;" class="img-circle"/>
+                            <span class="pull-right text-muted small"><em>10.00</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <img src="/images/uploads/noimage.jpg" alt="" style="width: 50px;height: 50px;" class="img-circle"/>
+                            <span class="pull-right text-muted small"><em>10.00</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <img src="/images/uploads/noimage.jpg" alt="" style="width: 50px;height: 50px;" class="img-circle"/>
+                            <span class="pull-right text-muted small"><em>10.00</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <img src="/images/uploads/noimage.jpg" alt="" style="width: 50px;height: 50px;" class="img-circle"/>
+                            <span class="pull-right text-muted small"><em>10.00</em>
+                            </span>
+                        </a>
+                    </div>
+
+                    <!--<a href="#" class="imp-btn btn">MORE</a>-->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+
+    </section>
+
+</div>
+{{else}}
+<div class="clearfix ">
     <section class="table-section col-md-6 col-sm-12 col-xs-12">
         <div class="col-md-6 col-xs-12">
             <div class="tables-wrapper clearfix" id="tables-wrapper-public">
@@ -41,27 +142,27 @@
     <section class="order-section col-md-6 col-sm-12 col-xs-12">
         <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
-                <span class="glyphicon glyphicon-cutlery"></span> <span class="big-notif-num">34</span>
+                <span class="glyphicon glyphicon-cutlery"></span> <span class="big-notif-num">{{orderCountOnsite}}</span>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
-                <span class="glyphicon glyphicon-phone"></span> <span class="big-notif-num">34</span>
+                <span class="glyphicon glyphicon-phone"></span> <span class="big-notif-num">{{orderCountOnline}}</span>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
-                <span class="glyphicon glyphicon-check"></span> <span class="big-notif-num">34</span>
+                <span class="glyphicon glyphicon-check"></span> <span class="big-notif-num">{{orderCountDelivered}}</span>
             </div>
         </div>
-        <div class="home-aside col-md-6 col-sm-12 col-xs-12 clearfix">
+        <div class="home-aside col-md-7 col-sm-12 col-xs-12 clearfix">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-cutlery"></span><span class="list-heading"> - Orders</span>
                     <div class="pull-right">
                         <div class="btn-group">
                             <button type="button" style="border: none;background: transparent;">
-                                <span class="glyphicon glyphicon-refresh"></span>
+                                <a href="/resma/home"><span class="glyphicon glyphicon-refresh"></span></a>
                             </button>
                         </div>
                     </div>
@@ -75,15 +176,20 @@
                             <span class="glyphicon glyphicon-plus-sign {{order_state}}"></span>
                             {{/ifCond}}
                             {{#ifCond order_state 'process'}}
-                            <span class="glyphicon glyphicon-minus-sign {{order_state}}"></span>
+                            <span class="glyphicon glyphicon-remove-sign {{order_state}}"></span>
                             {{/ifCond}}
                             {{#ifCond order_state 'delivered'}}
-                            <span class="glyphicon glyphicon-remove-sign {{order_state}}"></span>
+                            <span class="glyphicon glyphicon-minus-sign {{order_state}}"></span>
                             {{/ifCond}}
                             {{#ifCond order_state 'finished'}}
                             <span class="glyphicon glyphicon-ok-sign {{order_state}}"></span>
                             {{/ifCond}}
-
+                            {{#ifCond order_type 'on-site'}}
+                            <span class="glyphicon glyphicon-cutlery on-site"></span>
+                            {{/ifCond}}
+                            {{#ifCond order_type 'on-line'}}
+                            <span class="glyphicon glyphicon-phone on-line"></span>
+                            {{/ifCond}}
                             <span class="order-cus">{{customer_name}}</span>
                             <span>{{waiter_name}}</span>
                             <span class="pull-right text-muted small"><em>{{order_time}}</em>
@@ -108,7 +214,7 @@
             </div>
         </div>
 
-        <div class="home-aside col-md-6 col-sm-12 col-xs-12 clearfix">
+        <div class="home-aside col-md-5 col-sm-12 col-xs-12 clearfix">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-user"></span><span class="list-heading">  Staff</span>
@@ -170,6 +276,7 @@
 
     </div>
 </div>
+{{/if}}
 
 
 

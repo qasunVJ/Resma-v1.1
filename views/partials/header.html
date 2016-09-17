@@ -22,7 +22,7 @@
                     {{else if waiter}}
                     <li><a href="/waiters/{{user._id}}/orders">My Orders</a></li>
                     {{else}}
-                    <li><a href="/customer/{{user._id}}/orders">My Orders</a></li>
+                    <li><a href="/waiters/{{user._id}}/orders">My Orders</a></li>
                     {{/if}}
                     <li><a href="/resma/menus">Menus</a></li>
 
@@ -38,9 +38,21 @@
                     <!--</span>-->
                     <!--</div>-->
                     <!--</form>-->
+                    {{#if customer}}
+                    <li class="dropdown">
+                        <a href="/resma/mini-cart" data-toggle="modal" data-target="#cartModal"><span class="glyphicon glyphicon-shopping-cart cart-icon"></span></a>
+                        <ul class="dropdown-menu">
+                            {{#each items}}
+                            <li><span>{{item_name}}</span></li>
+                            <li><span>{{item_price}}</span></li>
+                            <li><span>{{item_qty}}</span></li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                    {{/if}}
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> {{user.first_name}} {{user.username}} <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> {{user.first_name}} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             {{#if manager}}
                             <li><a href="/managers/settings"><span class="glyphicon glyphicon-cog"></span> Resma Settings</a></li>
@@ -52,6 +64,14 @@
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
+
+            <div id="cartModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!--New order content is loaded with ajax-->
+                    <div class="modal-content"></div>
+
+                </div>
+            </div>
 
             {{else if signup}}
             <div id="auth-wrap">

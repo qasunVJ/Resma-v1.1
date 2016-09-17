@@ -48,16 +48,27 @@ module.exports.createUser = function (req, callback) {
             return  err;
         }
 
+        var user_token = "unavailable";
+        var address1 = "unavailable";
+        var address2 = "unavailable";
+
+
         var userType = req.params.id;
         console.log('User Type:' +userType);
 
         var first_name = req.body.first_name;
         var last_name = req.body.last_name;
-        var user_token = req.body.user_token;
+        if(req.body.user_token)
+            user_token = req.body.user_token;
         var email = req.body.email;
         var phone = req.body.phone;
-        var address1 = req.body.address1;
-        var address2 = req.body.address2;
+
+        if(req.body.address1)
+            address1 = req.body.address1;
+
+        if(req.body.address2)
+            address2 = req.body.address2;
+
         var username = req.body.username;
         var password = hash;
 

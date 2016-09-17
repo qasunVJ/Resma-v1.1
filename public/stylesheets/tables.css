@@ -2,9 +2,10 @@
 	width: 510px;
 	height: auto;
 	padding: 20px;
-	margin:0 auto;
+	margin: 0 auto;
+	margin-top: 30px;
 	border: 2px solid #585858;
-	background-color: #555;
+	background-color: rgba(95, 95, 95, 0.41);
 	border-radius: 20px;
 }
 
@@ -33,7 +34,7 @@
 	float: left;
 	width: 92px;
 	height: 92px;
-	background: #525252;
+	background: transparent;
 	border:none;
 }
 
@@ -54,6 +55,18 @@
 
 .table-settings .set-btn-group>div{
     margin-bottom: 10px;
+}
+.table-waiter{
+	display: block;
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	top: 0;
+	border-radius: 50%;
+	border: solid 2px #aaaaaa;
+}
+.table-waiter img{
+	border-radius: 50%;
 }
 
 @media screen and (max-width: 690px) {

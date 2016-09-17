@@ -18,6 +18,7 @@ var userSchema = mongoose.Schema({
     username: {type: String, required: 'Please enter a Username'},
     password: {type: String, required: 'Please enter a password'},
     orders:[{
+        order_number: {type: Number},
         order_type: {type: String},
         order_date: {type: String},
         order_time: {type: String},

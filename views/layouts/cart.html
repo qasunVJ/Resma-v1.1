@@ -1,0 +1,30 @@
+<div class="clearfix">
+    <h2 style="margin-top: 0;margin-bottom: 20px">Items Cart</h2>
+    {{#if cart_items}}
+    <table class="cart-table">
+        {{#each cart_items}}
+        <tr>
+            <td>
+                <img src="/images/uploads/{{item_image}}" alt=""/>
+            </td>
+            <td>{{item_name}}</td>
+            <td> X {{item_qty}}</td>
+            <td class="cart-unit-price">Rs. {{item_price}} /-</td>
+        </tr>
+        {{/each}}
+        <tr><td></td></tr>
+        <tr class="bottom-row">
+            <td><h2 style="color: #cccccc;">TOTAL</h2></td>
+            <td></td>
+            <td></td>
+            <td class="cart-total"><h2 style="color: #cccccc;">Rs. {{total}} /-</h2></td>
+        </tr>
+    </table>
+    <div class="clearfix set-btn-group text-right">
+        <a href="/resma/cart/new-order/{{user._id}}" id="order-submit" class="order-submit btn btn-success"><span class="glyphicon glyphicon-send"></span> Order!</a>
+        <a href="/resma/cart/remove" class="btn btn-default">Clear Cart</a>
+    </div>
+    {{else}}
+    <h3 style="color: #cccccc;">No Items have been added yet</h3>
+    {{/if}}
+</div>

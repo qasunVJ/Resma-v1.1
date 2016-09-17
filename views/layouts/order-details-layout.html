@@ -3,7 +3,7 @@
 
     <div style="border-radius: 5px;padding: 10px;background: rgba(85, 85, 85, 0.29);">
 
-    <table style="width: 100%;line-height: 25px;">
+    <table style="width: 100%;line-height: 25px;" class="order-details-table">
         <tr>
             <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Type :</span></td>
             <td>{{order_details.order_type}}</td>
@@ -16,6 +16,14 @@
             <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Time :</span></td>
             <td>{{order_details.order_time}}</td>
         </tr>
+
+        {{#ifCond order_details.order_state 'finished'}}
+        <tr>
+            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Delivered Time :</span></td>
+            <td>{{order_details.delivered_time}}</td>
+        </tr>
+        {{/ifCond}}
+
         <tr>
             <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">State :</span></td>
             <td><span class="pill-{{order_details.order_state}}">{{order_details.order_state}}</span></td>
@@ -49,7 +57,7 @@
                 <td style="width:33.3%;"><span>{{item_name}}</span></td>
                 <td style="font-size: 19px;
     color: #ccc;">X {{item_qty}}</td>
-                <td style="width:33.3%;">Rs. {{item_price}}/-</td>
+                <td style="width:33.3%;text-align: right">Rs. {{unit_price}}/-</td>
             </tr>
             {{/each}}
         </table>
@@ -61,7 +69,7 @@
     font-weight: 300">TOTAL</td>
                     <td style="width: 33.3%;"><h2>{{auth}}</h2></td>
                     <td style="width:33.3%;font-size: 30px;
-    font-weight: 300">Rs. {{order_details.order_total}}/-</td>
+    font-weight: 300;text-align: right">Rs. {{order_details.order_total}}/-</td>
                 </tr>
             </table>
         </div>
@@ -74,6 +82,11 @@
         <a class="btn process-btn" href="/resma/order/{{order_details._id}}/process">Process</a>
     </div>
     {{/ifCond}}
+    {{#ifCond order_details.order_state 'delivered'}}
+    <div class="clearfix" style="margin-top: 20px;padding-top: 10px">
+        <a class="btn finished-btn" href="/resma/order/{{order_details._id}}/finished">Finish</a>
+    </div>
+    {{/ifCond}}
     {{/ifCond}}
 
     {{#if  kitchen}}
@@ -83,4 +96,5 @@
     </div>
     {{/ifCond}}
     {{/if}}
+
 </div>

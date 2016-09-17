@@ -7,6 +7,7 @@ var Order = require('../models/order');
 var BreakfastItem = require('../models/breakfastitem');
 var LunchItem = require('../models/lunchitem');
 var DinnerItem = require('../models/dinneritem');
+var Cart = require('../models/cartitem');
 
 var MenuService = require('../services/menu-service');
 var OrdersService = require('../services/order-service');
@@ -19,27 +20,36 @@ router.get('/home', restrict, function(req, res, next) {
 
     var currOrders = [];
     var user = req.user._id;
+    var orderCountOnsite = 0;
+    var orderCountOnline = 0;
+    var orderCountDelivered = 0;
 
     if (req.user.user_type == 'manager'){
         OrdersService.getOrders(function(err, orders) {
             if (err) {
-                console.lgo(err);
+                console.log(err);
                 res.render('auth/login',{});
             }else{
-                OrdersService.setDate(function () {
-                    console.log('Got Date Stat');
-                    res.render('resma/home', {
-                        orders: orders,
-                        firstName: req.user ? req.user.firstName : null,
-                        helpers: {
-                            ifCond : function(v1, v2, options) {
-                                if(v1 == v2) {
-                                    return options.fn(this);
+                OrdersService.setDate(function (date) {
+                    if(date != null){
+                        orderCountOnsite = date.order_count_onsite;
+                        orderCountOnline = date.order_count_online;
+                        orderCountDelivered = date.order_count_delivered;
+                    }
+                        res.render('resma/home', {
+                            orders: orders,
+                            orderCountOnsite: orderCountOnsite,
+                            orderCountOnline: orderCountOnline,
+                            orderCountDelivered: orderCountDelivered,
+                            helpers: {
+                                ifCond: function (v1, v2, options) {
+                                    if (v1 == v2) {
+                                        return options.fn(this);
+                                    }
+                                    return options.inverse(this);
                                 }
-                                return options.inverse(this);
                             }
-                        }
-                    });
+                        });
 
                 });
             }
@@ -47,7 +57,6 @@ router.get('/home', restrict, function(req, res, next) {
     }else if (req.user.user_type == 'waiter'){
         OrdersService.getUserOrders(user, function(err, thisUser) {
             var currUserOrders = thisUser;
-            console.log('Curr ORders' + currUserOrders);
 
             res.render('resma/home', {
                 orders: currUserOrders,
@@ -61,6 +70,20 @@ router.get('/home', restrict, function(req, res, next) {
                     }
                 }
             });
+        });
+    }else{
+        res.render('resma/home', {
+            //orders: currUserOrders,
+            customer:true,
+            firstName: req.user ? req.user.firstName : null,
+            helpers: {
+                ifCond : function(v1, v2, options) {
+                    if(v1 == v2) {
+                        return options.fn(this);
+                    }
+                    return options.inverse(this);
+                }
+            }
         });
     }
 });
@@ -99,7 +122,16 @@ router.get('/menus', restrict, function(req, res, next) {
 
                             res.render('menus/menus', {
                                 title: 'Resma | Menus',
-                                items: itemsAll
+                                items: itemsAll,
+                                user_type: req.user.user_type,
+                                helpers: {
+                                    ifCond : function(v1, v2, options) {
+                                        if(v1 == v2) {
+                                            return options.fn(this);
+                                        }
+                                        return options.inverse(this);
+                                    }
+                                }
                             });
                         }
                     });
@@ -127,8 +159,8 @@ router.get('/orders', restrict, function (req, res, next) {
 router.get('/orders/new-order-init', restrict, function (req, res) {
 
     var dayInfo = OrdersService.getDayInfo();
-
-    OrdersService.getCurrentCount(function (currOrderCount) {
+    var type = 'onsite';
+    OrdersService.getCurrentCount(type, function (currOrderCount) {
         console.log(currOrderCount);
         OrdersService.getItemsForOrder(function (err, items) {
             if (err) {
@@ -150,8 +182,6 @@ router.get('/orders/new-order-init', restrict, function (req, res) {
 
 router.post('/orders/:id/new-order', restrict, function (req, res, next) {
 
-    console.log('Order item qty ' + JSON.stringify(req.body));
-
     OrdersService.createNewOrder(req, function(err){
         if (err){
             console.log(err);
@@ -162,7 +192,8 @@ router.post('/orders/:id/new-order', restrict, function (req, res, next) {
                     console.log(err);
                     res.send(err);
                 }else{
-                    OrdersService.setOrderStat(stat, function(err){
+                    var type = 'onsite';
+                    OrdersService.setOrderStat(stat, type, function(err){
                         if (err) {
                             console.log(err);
                         }else{
@@ -242,13 +273,54 @@ router.get('/order/:id/process', restrict, function (req, res) {
 });
 
 router.get('/order/:id/deliver', restrict, function (req, res) {
-    var status = 'deliver';
+    var status = 'delivered';
     OrdersService.setOrderStatus(req.params.id, status, function (err) {
         if(err){
             console.log(err);
             res.send(err);
         }else{
-            res.redirect('/resma/home');
+            res.redirect('/resma/kitchen');
+        }
+    });
+});
+
+router.get('/order/:id/finished', restrict, function (req, res) {
+    var status = 'finished';
+    OrdersService.setOrderStatus(req.params.id, status, function (err) {
+        if(err){
+            console.log(err);
+        }else{
+            OrdersService.getOrderStat(function (err, stat) {
+                if (err){
+                    console.log(err);
+                    res.send(err);
+                }else{
+                    var type = 'delivered';
+                    OrdersService.setOrderStat(stat, type, function(err){
+                        if (err) {
+                            console.log(err);
+                        }else{
+                            OrdersService.getOrderDetails(req.params.id, function(err, orderDetails) {
+                                if (err){
+                                    console.log(err);
+                                }else{
+                                    res.render('resma/print-invoice',{
+                                        order_details : orderDetails,
+                                        helpers: {
+                                            ifCond : function(v1, v2, options) {
+                                                if(v1 == v2) {
+                                                    return options.fn(this);
+                                                }
+                                                return options.inverse(this);
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
 });
@@ -266,5 +338,84 @@ router.get('/kitchen', function (req, res) {
         }
     });
 });
+
+router.get('/addtocart/:section/:id', function (req, res) {
+    var itemToGet = req.params.id;
+    var Section;
+
+    if (req.params.section == "Breakfast"){
+        Section = BreakfastItem;
+    }else if (req.params.section == "Lunch"){
+        Section = LunchItem;
+    }else if (req.params.section == "Dinner"){
+        Section = DinnerItem;
+    }
+
+    MenuService.getItemToCartById(Section, itemToGet, function (err, item) {
+        if(err){
+            console.log(err);
+        }else{
+            console.log("Items" + item);
+            OrdersService.addItemToCart(item, function (err) {
+                if(err){
+                    console.log(err);
+                }else{
+                    res.redirect('/resma/menus');
+                }
+            });
+        }
+    });
+});
+
+router.get('/mini-cart', function (req, res) {
+    OrdersService.getItems(Cart, function (err, items) {
+        if(err){
+            console.log(err);
+        }else{
+            var grand_total=0;
+            for(var i=0;i<items.length;i++){
+                grand_total += parseInt(items[i].item_price);
+            }
+            res.render('resma/orders', {
+                cart_items: items,
+                total: grand_total,
+                layout: 'cart.html'
+            });
+        }
+    });
+});
+
+router.get('/cart/remove', function (req, res) {
+    OrdersService.clearCart(function (err) {
+        if(err){
+            console.log(err);
+        }else{
+            res.redirect('/resma/menus');
+        }
+    });
+});
+
+router.get('/cart/new-order/:id', function (req, res) {
+    OrdersService.addNewOnlineOrder(req.params.id, function (err) {
+        OrdersService.getOrderStat(function (err, stat) {
+            if (err){
+                console.log(err);
+                res.send(err);
+            }else{
+                var type = 'online';
+                OrdersService.setOrderStat(stat, type, function(err){
+                    if (err) {
+                        console.log(err);
+                    }else{
+                        res.render('resma/home', {
+                            message: 'Thank You for ordering! Your Order will be ready in 30 mins'
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
 
 module.exports = router;

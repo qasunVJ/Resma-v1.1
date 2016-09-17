@@ -4,19 +4,17 @@ var DinnerItem = require('../models/dinneritem');
 var multer = require('multer');
 var upload = multer({ dest: 'public/images/uploads/'});
 
-////GET ITEMS/////
-//Get Item
-//module.exports.getItemAll = function (callback) {
-//
-//    BreakfastItem.find(callback);
-//    itemsAll.push();
-//    itemsAll.push(LunchItem.find(callback));
-//};
-
 //Get Item by ID
 module.exports.getItemById = function (id, callback) {
     var query = {_id: id};
     BreakfastItem.findOne(query, callback);
+};
+
+//Get Item by ID
+module.exports.getItemToCartById = function (Section, id, callback) {
+    console.log("Section" + Section);
+    var query = {_id: id};
+    Section.findOne(query, callback);
 };
 
 //Get Breakfast Items
