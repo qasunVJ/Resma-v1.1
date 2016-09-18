@@ -11,7 +11,6 @@ router.get('/', function(req, res, next) {
             console.log(err);
             res.send(err);
         }else{
-            console.log(info);
             res.render('index', {
                 title: 'Resma',
                 info: info,

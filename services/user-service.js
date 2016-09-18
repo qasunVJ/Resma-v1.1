@@ -4,6 +4,8 @@ var Manager = require('../models/manager');
 var Customer = require('../models/customer');
 var Token = require('../models/token');
 var bcrypt = require('bcryptjs');
+var multer = require('multer');
+var upload = multer({ dest: 'public/images/uploads/'});
 
 module.exports.addNewToken = function (token, callback) {
     token.save(callback);
@@ -55,6 +57,7 @@ module.exports.createUser = function (req, callback) {
 
         var userType = req.params.id;
         console.log('User Type:' +userType);
+        console.log('Req:' + JSON.toString(req));
 
         var first_name = req.body.first_name;
         var last_name = req.body.last_name;
@@ -62,6 +65,16 @@ module.exports.createUser = function (req, callback) {
             user_token = req.body.user_token;
         var email = req.body.email;
         var phone = req.body.phone;
+        var user_pic_name;
+
+        if (req.files[0] != null){
+            user_pic_name = req.files[0].filename;
+            console.log(req.files[0].filename);
+        }else{
+            user_pic_name = "nouserimage.jpg";
+        }
+
+        console.log('User pic' + user_pic_name);
 
         if(req.body.address1)
             address1 = req.body.address1;
@@ -73,61 +86,117 @@ module.exports.createUser = function (req, callback) {
         var password = hash;
 
         //New User
-        var newUser = new User({
-            first_name: first_name,
-            last_name: last_name,
-            user_type: userType,
-            user_token: user_token,
-            email: email,
-            phone: phone,
-            address: [{
-                address1: address1,
-                address2: address2
-            }],
-            username: username,
-            password: password
-        });
+        if(userType == 'manager' || userType == 'waiter') {
+            var newUser = new User({
+                first_name: first_name,
+                last_name: last_name,
+                user_type: userType,
+                user_token: user_token,
+                email: email,
+                phone: phone,
+                address: [{
+                    address1: address1,
+                    address2: address2
+                }],
+                username: username,
+                password: password,
+                picture: user_pic_name
+            });
 
-        //var newWaiter = new Waiter({
-        //    first_name: first_name,
-        //    last_name: last_name,
-        //    user_token: user_token,
-        //    email: email,
-        //    phone: phone,
-        //    address: [{
-        //        address1: address1,
-        //        address2: address2
-        //    }],
-        //    username: username
-        //});
-        //
-        //var newManager = new Manager({
-        //    first_name: first_name,
-        //    last_name: last_name,
-        //    user_token: user_token,
-        //    email: email,
-        //    phone: phone,
-        //    address: [{
-        //        address1: address1,
-        //        address2: address2
-        //    }],
-        //    username: username
-        //});
-        //
-        //var newCustomer = new Customer({
-        //    first_name: first_name,
-        //    last_name: last_name,
-        //    email: email,
-        //    phone: phone,
-        //    username: username
-        //});
+            //var newWaiter = new Waiter({
+            //    first_name: first_name,
+            //    last_name: last_name,
+            //    user_token: user_token,
+            //    email: email,
+            //    phone: phone,
+            //    address: [{
+            //        address1: address1,
+            //        address2: address2
+            //    }],
+            //    username: username
+            //});
+            //
+            //var newManager = new Manager({
+            //    first_name: first_name,
+            //    last_name: last_name,
+            //    user_token: user_token,
+            //    email: email,
+            //    phone: phone,
+            //    address: [{
+            //        address1: address1,
+            //        address2: address2
+            //    }],
+            //    username: username
+            //});
+            //
+            //var newCustomer = new Customer({
+            //    first_name: first_name,
+            //    last_name: last_name,
+            //    email: email,
+            //    phone: phone,
+            //    username: username
+            //});
 
-        newUser.save(function (err) {
-            if (err){
-                return callback(err);
-            }
-            callback(null);
-        });
+            newUser.save(function (err) {
+                if (err) {
+                    return callback(err);
+                }
+                callback(null);
+            });
+        }else if(userType == 'customer'){
+            var newUser = new User({
+                first_name: first_name,
+                last_name: last_name,
+                user_type: userType,
+                user_token: 'wat002',
+                email: email,
+                phone: phone,
+                username: username,
+                password: password,
+                picture: user_pic_name
+            });
+
+            //var newWaiter = new Waiter({
+            //    first_name: first_name,
+            //    last_name: last_name,
+            //    user_token: user_token,
+            //    email: email,
+            //    phone: phone,
+            //    address: [{
+            //        address1: address1,
+            //        address2: address2
+            //    }],
+            //    username: username
+            //});
+            //
+            //var newManager = new Manager({
+            //    first_name: first_name,
+            //    last_name: last_name,
+            //    user_token: user_token,
+            //    email: email,
+            //    phone: phone,
+            //    address: [{
+            //        address1: address1,
+            //        address2: address2
+            //    }],
+            //    username: username
+            //});
+            //
+            //var newCustomer = new Customer({
+            //    first_name: first_name,
+            //    last_name: last_name,
+            //    email: email,
+            //    phone: phone,
+            //    username: username
+            //});
+
+            newUser.save(function (err) {
+                if (err) {
+                    return callback(err);
+                }
+                callback(null);
+            });
+        }
 
         //if (userType == 'waiter'){
         //    async.parallel([newUser.save, newWaiter.save], function (err) {

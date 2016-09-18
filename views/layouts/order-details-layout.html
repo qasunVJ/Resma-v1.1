@@ -55,7 +55,7 @@
             {{#each order_details.items}}
             <tr style="border-bottom: solid 1px rgba(153, 153, 153, 0.14);">
                 <td style="width:33.3%;"><span>{{item_name}}</span></td>
-                <td style="font-size: 19px;
+                <td style="font-size: 15px;
     color: #ccc;">X {{item_qty}}</td>
                 <td style="width:33.3%;text-align: right">Rs. {{unit_price}}/-</td>
             </tr>
@@ -75,7 +75,7 @@
         </div>
 
 
-
+    <hr/>
     {{#ifCond user.user_type 'manager'}}
     {{#ifCond order_details.order_state 'created'}}
     <div class="clearfix" style="margin-top: 20px;padding-top: 10px">

@@ -14,23 +14,12 @@
     </div>
 
     <div id="signup-body" class="panel-userauth">
-        <form id="form-signin" method="post" action="/auth/{{userType}}/signup" novalidate>
-            <!--{{#if errors}}-->
-            <!--<ul class="error-list">-->
-                <!--{{#each errors}}-->
-                <!--<li><span class="glyphicon glyphicon-exclamation-sign"></span> {{this.msg}}</li>-->
-                <!--{{/each}}-->
-            <!--</ul>-->
-            <!--{{/if}}-->
+        <form id="form-signin" method="post" action="/auth/{{userType}}/signup" enctype="multipart/form-data" novalidate>
+
             {{#if errors.errors.first_name.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.first_name.message}}</span> {{/if}}
             <input type="text" name="first_name" placeholder="First Name" value="{{input.first_name}}">
             {{#if errors.errors.last_name.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.last_name.message}}</span> {{/if}}
             <input type="text" name="last_name" placeholder="Last Name" value="{{input.last_name}}">
-            <!--<select type="text" name="user_type" value="{{input.user_type}}">-->
-                <!--<option value="" disabled selected>Your role at the restaurant</option>-->
-                <!--<option value="waiter">Waiter</option>-->
-                <!--<option value="manager">Manager</option>-->
-            <!--</select>-->
             {{#ifCond userType 'customer'}}
             {{#if errors.errors.user_token.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.user_token.message}}</span> {{/if}}
             <input type="text" name="user_token" placeholder="{{userType}} token" value="{{input.user_token}}">
@@ -55,6 +44,8 @@
             {{#if errors.errors.password.message}}<span class="text-orange"><span class="glyphicon glyphicon-exclamation-sign"></span> {{errors.errors.password.message}}</span> {{/if}}
             <input type="password" name="password" placeholder="Password">
             <input type="password" name="password2" placeholder="Confirm Password">
+            <label>Add a Profile Picture</label><input type="file" name="user_pic" placeholder="Add a Profile Picture">
+
             <input type="submit" value="Signup" class="user-submit">
         </form>
     </div>

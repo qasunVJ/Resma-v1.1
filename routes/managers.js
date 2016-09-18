@@ -224,7 +224,7 @@ router.post('/new-token', restrict, function (req, res, next) {
 //Add menu item POST
 router.post('/add-breakfast-item', restrict, upload.any(), function (req, res, next) {
 
-    MenuService.addMenuItem(req, BreakfastItem, function (err, item) {
+    MenuService.addMenuItem(req, BreakfastItem, function (err) {
         if (err) {
             console.log(err);
         }else{

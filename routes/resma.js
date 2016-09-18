@@ -72,17 +72,27 @@ router.get('/home', restrict, function(req, res, next) {
             });
         });
     }else{
-        res.render('resma/home', {
-            //orders: currUserOrders,
-            customer:true,
-            firstName: req.user ? req.user.firstName : null,
-            helpers: {
-                ifCond : function(v1, v2, options) {
-                    if(v1 == v2) {
-                        return options.fn(this);
-                    }
-                    return options.inverse(this);
+        OrdersService.getItems(Cart, function (err, items) {
+            if (err) {
+                console.log(err);
+            } else {
+                var cartCount = {itemCount: items.length};
+                if (items != null && items.length != 0) {
+                    cartCount = {itemCount: items.length, notEmpty: true};
                 }
+                res.render('resma/home', {
+                    customer: true,
+                    cartCount: cartCount,
+                    firstName: req.user ? req.user.firstName : null,
+                    helpers: {
+                        ifCond: function (v1, v2, options) {
+                            if (v1 == v2) {
+                                return options.fn(this);
+                            }
+                            return options.inverse(this);
+                        }
+                    }
+                });
             }
         });
     }
@@ -120,19 +130,46 @@ router.get('/menus', restrict, function(req, res, next) {
                                 dinner_items: dinner_items
                             };
 
-                            res.render('menus/menus', {
-                                title: 'Resma | Menus',
-                                items: itemsAll,
-                                user_type: req.user.user_type,
-                                helpers: {
-                                    ifCond : function(v1, v2, options) {
-                                        if(v1 == v2) {
-                                            return options.fn(this);
+                            if(req.user.user_type == 'customer'){
+                                OrdersService.getItems(Cart, function (err, items) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        var cartCount={itemCount: items.length};
+                                        if (items != null && items.length != 0){
+                                            cartCount = {itemCount: items.length, notEmpty:true};
                                         }
-                                        return options.inverse(this);
+                                        res.render('menus/menus', {
+                                            cartCount: cartCount,
+                                            title: 'Resma | Menus',
+                                            items: itemsAll,
+                                            user_type: req.user.user_type,
+                                            helpers: {
+                                                ifCond: function (v1, v2, options) {
+                                                    if (v1 == v2) {
+                                                        return options.fn(this);
+                                                    }
+                                                    return options.inverse(this);
+                                                }
+                                            }
+                                        });
                                     }
-                                }
-                            });
+                                });
+                            }else{
+                                res.render('menus/menus', {
+                                    title: 'Resma | Menus',
+                                    items: itemsAll,
+                                    user_type: req.user.user_type,
+                                    helpers: {
+                                        ifCond: function (v1, v2, options) {
+                                            if (v1 == v2) {
+                                                return options.fn(this);
+                                            }
+                                            return options.inverse(this);
+                                        }
+                                    }
+                                });
+                            }
                         }
                     });
                 }
@@ -354,12 +391,12 @@ router.get('/addtocart/:section/:id', function (req, res) {
     MenuService.getItemToCartById(Section, itemToGet, function (err, item) {
         if(err){
             console.log(err);
-        }else{
+        }else {
             console.log("Items" + item);
             OrdersService.addItemToCart(item, function (err) {
-                if(err){
+                if (err) {
                     console.log(err);
-                }else{
+                } else {
                     res.redirect('/resma/menus');
                 }
             });
@@ -417,5 +454,28 @@ router.get('/cart/new-order/:id', function (req, res) {
     });
 });
 
+router.get('/getuserimage/:id', function (req, res) {
+    UserService.getUserById(req.params.id, function (err, user) {
+        if(err){
+            console.log(err);
+        }else{
+            var userImage = user.picture;
+            console.log('User Image Server' + userImage);
+            res.send({picture:userImage});
+        }
+    });
+});
+
+router.get('/cartui', function (req, res) {
+    OrdersService.getItems(Cart, function (err, items) {
+        if(err){
+            console.log(err);
+        }else{
+            res.send({
+                noofitems: items.length
+            });
+        }
+    });
+});
 
 module.exports = router;

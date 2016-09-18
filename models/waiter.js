@@ -15,6 +15,7 @@ var waiterSchema = mongoose.Schema({
     }],
     username: {type: String, required: 'Please enter a username'},
     password: {type: String, required: 'Please enter a password'},
+    picture: {type: String},
     orders:{
         order_type: {type: String},
         order_date: {type: String},

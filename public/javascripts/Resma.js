@@ -50,22 +50,38 @@ $(document).ready(function () {
         Table.removeTable();
     });
 
-    //Fires an ajax call to the SERVER to get TABLE VIEW details
+    //Fires an ajax call to the server to get TABLE VIEW details
     $.get("/managers/tableview", function(tableView){
         $tableNumber = tableView.tableNum;
         Table.tableNo = $tableNumber;
         $tableViewMarkup = $(tableView.tableViewMarkup);
+        $profPic ='';
 
         $orders = $(tableView.orders);
         $($tableViewMarkup).prependTo('.tables-wrapper');
 
-        for(var i=0;i<$orders.length;i++){console.log("Order Length" + $orders.length);
-            $order = $orders[i];console.log('Order Table No :' + $order.table_no);
-            for(var j=1;j<=Table.tableNo;j++){console.log('Table No  :' + j);
-                if(j == $order.table_no){
-                    $newSRC = '/images/' + $order.order_state + '.svg';console.log('Order State  :' + $newSRC);
-                    $('ul#sortable li:nth-of-type('+j+') a img').attr('src', $newSRC);
-                    $('<span class="table-waiter"><img src="/images/uploads/noimage.jpg" alt="" class="img-responsive"/></span>').appendTo('ul#sortable li:nth-of-type('+j+')');
+        if($orders.length != 0){
+            for(var i=0;i<$orders.length;i++){
+                $order = $orders[i];
+                for(var j=1;j<=Table.tableNo;j++){
+                    if(j == $order.table_no){
+                        $newSRC = '/images/' + $order.order_state + '.svg';
+                        $('ul#sortable li:nth-of-type('+j+') a img').attr('src', $newSRC);
+
+                        var profPic = $.ajax({
+                            type:'get',
+                            url:'/resma/getuserimage/'+$order.waiter_id,
+                            async: false,
+                            success: function (response) {
+                                return response;
+                            }
+                        }).responseText;
+
+                        if(profPic != null){
+                            var picId = profPic.split(":")[1].split("}")[0].replace(/"/g,"");
+                            $('<span class="table-waiter"><img class="img-responsive" src="/images/uploads/'+ picId +'"/></span><label class="table-label">'+$order.waiter_name.split(" ")[0]+'</label>').appendTo('ul#sortable li:nth-of-type('+j+')');
+                        }
+                    }
                 }
             }
         }

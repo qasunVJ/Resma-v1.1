@@ -7,7 +7,8 @@ var customerSchema = mongoose.Schema({
     email: {type: String, required: 'Please enter your email'},
     phone: {type: Number},
     username: {type: String, required: 'Please enter a username'},
-    password: {type: String, required: 'Please enter password'}
+    password: {type: String, required: 'Please enter password'},
+    picture: {type: String}
 
 });
 

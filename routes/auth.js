@@ -3,6 +3,8 @@ var router = express.Router();
 var passport = require('passport');
 var flash = require('connect-flash');
 var Handlebars = require('express-handlebars');
+var multer = require('multer');
+var upload = multer({ dest: 'public/images/uploads/'});
 
 var UserService = require('../services/user-service');
 
@@ -30,7 +32,7 @@ router.get('/:id/signup', function(req, res, next) {
     });
 });
 
-router.post('/:id/signup', function (req, res, next) {
+router.post('/:id/signup', upload.any(), function (req, res, next) {
     var userType = req.params.id;
 
     if (userType === 'manager' || userType === 'customer' || userType === 'waiter'){
@@ -82,10 +84,9 @@ router.post('/:id/signup', function (req, res, next) {
         //var errors = req.validationErrors();
 
         //Response
-        UserService.createUser(req, function (err, user) {
+        UserService.createUser(req, function (err) {
             if (err){
                 console.log(err);
-
                 delete req.body.password;
                 return res.render('auth/signup', {
                     errors: err,
@@ -100,14 +101,14 @@ router.post('/:id/signup', function (req, res, next) {
                         }
                     }
                 });
+            }else{
+                console.log('User Created');
+
+                req.flash('success', 'User Created');
+                res.render('auth/login', {
+                    greeting: true
+                });
             }
-
-            console.log('User Created');
-
-            req.flash('success', 'User Created');
-            res.render('auth/login', {
-                greeting: true
-            });
         });
 
     }else{

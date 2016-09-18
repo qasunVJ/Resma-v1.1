@@ -40,7 +40,11 @@
                     <!--</form>-->
                     {{#if customer}}
                     <li class="dropdown">
-                        <a href="/resma/mini-cart" data-toggle="modal" data-target="#cartModal"><span class="glyphicon glyphicon-shopping-cart cart-icon"></span></a>
+                        <a href="/resma/mini-cart" data-toggle="modal" data-target="#cartModal"><span class="glyphicon glyphicon-shopping-cart cart-icon">
+                            {{#if cartCount.notEmpty}}
+                            <span class="cart-count">{{cartCount.itemCount}}</span>
+                            {{/if}}
+                        </span></a>
                         <ul class="dropdown-menu">
                             {{#each items}}
                             <li><span>{{item_name}}</span></li>
@@ -50,15 +54,19 @@
                         </ul>
                     </li>
                     {{/if}}
-
+                    <li>
+                        <span class="user-pic-header"><img class="img-responsive" src="/images/uploads/{{user.picture}}"/></span>
+                    </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> {{user.first_name}} <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.first_name}}
+                            <span class="caret"></span>
+                        </a>
                         <ul class="dropdown-menu">
                             {{#if manager}}
                             <li><a href="/managers/settings"><span class="glyphicon glyphicon-cog"></span> Resma Settings</a></li>
                             {{/if}}
                             <li role="separator" class="divider"></li>
-                            <li><a href="/resma/user/{{user._id}}/account-settings"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
+                            <li><a href="/resma/user/{{user._id}}/account-settings"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
                             <li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                         </ul>
                     </li>
