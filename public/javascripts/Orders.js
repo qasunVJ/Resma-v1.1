@@ -98,13 +98,11 @@ $(document).ready(function () {
        window.print();
     });
 
-    //$('.add-to-cart').click(function () {
-    //    $.get('/resma/cartui', function (noOfItems) {
-    //        console.log('No of items :' + noOfItems);
-    //        if (noOfItems != 0){
-    //            $('<span class="cart-count">'+ noOfItems +'</span>').appendTo('.cart-icon');
-    //        }
-    //    });
-    //});
+    //Refresh Orders
 
+
+    ////Sending itemNum to backend
+    //$(document).on('click', '.order-submit', function(){
+    //    Order.getItemNumber();
+    //});
 });

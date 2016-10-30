@@ -467,7 +467,7 @@ div.panel-userauth{
 	color: #cccccc;
 }
 .set-btn-group{
-	border-top:solid 1px #555;
+	border-top:solid 1px #5a5a5a;
 	margin-top: 20px;
 	padding: 7px 0;
 }
@@ -569,6 +569,28 @@ input[name="manager_id"]{
 	font-weight: 100;
 	box-shadow: 0px 3px 8px #333;
 	text-align: center;
+}
+.remov-order-item{
+	width: 40px;
+	height: 40px;
+	display: block;
+	border-radius: 100%;
+	padding: 0px;
+	background: darkred;
+	color: #ffffff;
+	font-size: 34px;
+	font-weight: 100;
+	box-shadow: 0px 3px 8px #333;
+	text-align: center;
+	margin: 0 auto;
+}
+.add-order-item:hover, .remov-order-item:hover{
+	color: #ffffff;
+}
+.remov-order-item span {
+	display: inline-block;
+	position: relative;
+	top: -8px;
 }
 .order-section{
 	padding: 0px;

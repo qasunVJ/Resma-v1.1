@@ -237,9 +237,9 @@
     opacity: 1;
 }
 .chat-wrapper{
-    width: 300px;
+    width: 250px;
     position: absolute;
-    right: 18px;
+    right: 15px;
     background: #777;
     border-radius: 5px;
     padding: 0px 10px;
@@ -454,6 +454,14 @@
     top: -10px;
     right: 7px;
     border-radius: 50%;
+}
+.order-section{
+    padding-top: 15px;
+}
+.items-wrap{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #5a5a5a;
 }
 
 @media print

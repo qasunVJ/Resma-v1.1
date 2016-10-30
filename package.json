@@ -1,5 +1,5 @@
 {
-  "name": "Resma",
+  "name": "resma",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -32,5 +32,18 @@
     "passport-local": "*",
     "serve-favicon": "~2.2.1",
     "socket.io": "^1.4.8"
-  }
+  },
+  "main": "app - Copy.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qasunVJ/Resma-v1.1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qasunVJ/Resma-v1.1/issues"
+  },
+  "homepage": "https://github.com/qasunVJ/Resma-v1.1#readme",
+  "description": ""
 }

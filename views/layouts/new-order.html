@@ -12,97 +12,113 @@
     </ul>
     {{/if}}
     <form action="/resma/orders/{{user._id}}/new-order" name="new-order" class="form-group" method="post">
-        <div class="col-md-6" style="margin-bottom: 10px">
-            <span style="color: #cccccc;">Order Type: </span> <span><b>{{order_type}}</b></span>
-        </div>
-        <div class="col-md-6" style="margin-bottom: 10px">
-            <span style="color: #cccccc;">Order Date : </span> <span><b>{{date}}</b></span>
-        </div>
-        <div class="col-md-6" style="margin-bottom: 10px">
-            <span style="color: #cccccc;">Order Time : </span> <span><b>{{time}}</b></span>
-        </div>
-        <div class="col-md-6" style="margin-bottom: 10px">
-            <span style="color: #cccccc;">Order State : </span> <span><b>{{state}}</b></span>
-        </div>
-        <div class="col-md-6" style="margin-bottom: 10px">
-            <span style="color: #cccccc;">Created By : </span> <span><b>{{user.first_name}} {{user.last_name}}</b></span>
+        <div class="clearfix">
+            <div class="col-md-6" style="margin-bottom: 10px">
+                <span style="color: #cccccc;">Order Type: </span> <span><b>{{order_type}}</b></span>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 10px">
+                <span style="color: #cccccc;">Order Date : </span> <span><b>{{date}}</b></span>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 10px">
+                <span style="color: #cccccc;">Order Time : </span> <span><b>{{time}}</b></span>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 10px">
+                <span style="color: #cccccc;">Order State : </span> <span><b>{{state}}</b></span>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 10px">
+                <span style="color: #cccccc;">Created By : </span> <span><b>{{user.first_name}} {{user.last_name}}</b></span>
+            </div>
         </div>
 
-        <input type="text" name="table_no" placeholder="Table Number" required>
-        <input type="text" name="customer_name" placeholder="Customer Name">
+        <div class="clearfix" style="margin-top: 10px;
+                                    margin-bottom: 10px;
+                                    padding-top: 10px;
+                                    border-top: solid 1px #8e8e8e;">
+            <div class="row">
+                <div class="col-md-2 col-sm-2 col-xs-2">
+                    <input type="text" name="table_no" placeholder="Table" required>
+                </div>
+                <div class="col-md-10 col-sm-2 col-xs-2">
+                    <input type="text" name="customer_name" placeholder="Customer Name">
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
         <!--<input type="text" name="waiter_id" placeholder="Waiter ID">-->
-        <div class="col-md-12 col-sm-12">
-            <h1 style="font-size: 25px;
+        <div class="items-wrap">
+            <div class="col-md-12 col-sm-12">
+                <h1 style="font-size: 25px;
                 font-weight: 500;
                 color: #ccc;
                 display: block;
+                margin-top: 0px;
                 margin-bottom: 10px;
-                padding-bottom: 10px;
-                border-bottom: solid #999;">Items
-            </h1>
-        </div>
+                padding-bottom: 10px;">Items
+                </h1>
+            </div>
 
-        <div class="divider clearfix"></div>
+            <div class="divider clearfix"></div>
 
-        <div data-id="order-items-wrap">
+            <div data-id="order-items-wrap">
+                <div id="order-item-hidden">
+                    <div class="clearfix order-item">
+                        <div class="col-md-5 col-sm-5 col-xs-12 item_name_wrapper">
+                            <lable>Item Name</lable>
+                            <select name="order_item" class="itemName">
+                                {{#if orderItems}}
+                                {{#each orderItems}}
+                                <option value="{{item_name}}" data-id="{{item_price}}">{{item_name}}</option>
+                                {{/each}}
+                                {{/if}}
+                            </select>
+                        </div>
 
-            <div id="order-item-hidden">
-                <div class="clearfix order-item">
-                    <div class="col-md-5 col-sm-5 col-xs-12 item_name_wrapper">
-                        <lable>Item Name</lable>
-                        <select name="order_item" class="itemName">
-                            {{#if orderItems}}
-                            {{#each orderItems}}
-                            <option value="{{item_name}}" data-id="{{item_price}}">{{item_name}}</option>
-                            {{/each}}
-                            {{/if}}
-                        </select>
-                    </div>
+                        <div class="col-md-2 col-sm-2 col-xs-12 qty_wrapper">
+                            <lable>Quantity</lable>
+                            <input type="number" name="order_item_qty" class="itemQty" />
+                        </div>
 
-                    <div class="col-md-2 col-sm-2 col-xs-12 qty_wrapper">
-                        <lable>Quantity</lable>
-                        <input type="number" name="order_item_qty" class="itemQty" />
-                    </div>
-
-                    <div class="col-md-3 col-sm-3 col-xs-12 price_wrapper">
-                        <div>Price</div>
-                        <input type="number" name="order_item_price" value="0" class="unitPrice"><span>/-</span>
-                    </div>
-                    <div class="col-md-2 col-sm-2 col-xs-12">
-                        <div class="clearfix" style="margin-top: 27px">
-                            <span class="remove-order-item btn btn-danger right">Remove</span>
+                        <div class="col-md-3 col-sm-3 col-xs-12 price_wrapper">
+                            <div style="color: #cccccc;">Price</div>
+                            <input type="number" name="order_item_price" value="0" class="unitPrice"><span style="color: #cccccc;">/-</span>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-12">
+                            <div class="clearfix" style="margin-top: 25px">
+                                <span data-id="remove-order-item" class="remov-order-item btn clearfix"><span>-</span></span>
+                                <!--<span data-id="remove-order-item" class="btn btn-danger right">Remove</span>-->
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!--<div class="clearfix order-item">-->
+                <!--<div class="clearfix order-item">-->
                 <!--<div class="col-md-4 col-sm-4 col-xs-12">-->
-                    <!--<lable>Item Name</lable>-->
-                    <!--<input type="text" name="order_item_1">-->
+                <!--<lable>Item Name</lable>-->
+                <!--<input type="text" name="order_item_1">-->
                 <!--</div>-->
                 <!--<div class="col-md-4 col-sm-4 col-xs-12">-->
-                    <!--<lable>Quantity</lable>-->
-                    <!--<input type="number" name="order_item_qty">-->
+                <!--<lable>Quantity</lable>-->
+                <!--<input type="number" name="order_item_qty">-->
                 <!--</div>-->
                 <!--<div class="col-md-4 col-sm-4 col-xs-12">-->
-                    <!--<lable>......</lable>-->
-                    <!--<div class="margin-10">-->
-                        <!--<span class="price">Price</span>-->
-                        <!--<span class="btn btn-danger right">Remove</span>-->
-                    <!--</div>-->
+                <!--<lable>......</lable>-->
+                <!--<div class="margin-10">-->
+                <!--<span class="price">Price</span>-->
+                <!--<span class="btn btn-danger right">Remove</span>-->
                 <!--</div>-->
-            <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
         </div>
 
         <div class="clearfix">
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <span>Items: </span>
-                <input name="item_count" class="item-num-display" value="0">
+                <span>Items: </span
+                <input name="item_count" class="item-num-display" value="0" tabindex="-1">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <!--<span>TOTAL: </span>-->
-                <!--<input name="item_total" class="total-display" value="0">-->
+                <!--<span data-id="item-total"></span>-->
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <span class="add-order-item btn new-order">+</span>
@@ -110,8 +126,8 @@
         </div>
 
         <div class="clearfix set-btn-group text-right">
+            <a href="/resma/home" class="btn btn-default btn-xs">Cancel</a>
             <button id="order-submit" type="submit" class="order-submit btn btn-success"><span class="glyphicon glyphicon-send"></span> GO!</button>
-            <a href="/resma/home" class="btn btn-default">Cancel</a>
         </div>
     </form>
 </div>

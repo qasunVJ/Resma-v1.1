@@ -10,7 +10,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="menuItemController">
                     <h3>{{{messages}}}</h3>
                     <table class="table">
-                        <thead>
+                        <thead style="color: #777;border-bottom: solid #777">
                         <th>ID</th>
                         <th>Ordered Date</th>
                         <th>Ordered Time</th>
@@ -28,8 +28,9 @@
                             <td>{{order_time}}</td>
                             <td>{{delivered_time}}</td>
                             <td>{{table_no}}</td>
-                            <td>
-                                <a href="/resma/orders/details/{{_id}}" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">More Info</a>
+                            <td>Rs. {{order_total}}.00</td>
+                            <td class="text-right">
+                                <a href="/resma/orders/details/{{_id}}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#orderModal">More</a>
                             </td>
                         </tr>
                         {{/each}}

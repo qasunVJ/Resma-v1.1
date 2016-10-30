@@ -1,4 +1,4 @@
-.tables-wrapper{
+.tables-wrapper, .tables-settings-wrapper{
 	width: 510px;
 	height: auto;
 	padding: 20px;
@@ -75,6 +75,10 @@
 	margin-top: 5px;
 	border-radius: 50%;
 	border: solid 2px #777;
+}
+.user-pic-header img{
+	width: 37px;
+	height: 33px;
 }
 .table-waiter img, .user-pic-header img{
 	border-radius: 50%;
