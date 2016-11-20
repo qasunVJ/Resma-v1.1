@@ -1,6 +1,16 @@
 var Order = {
     itemNum : 0,
 
+    checkItemNum : function () {
+        if(this.itemNum > 0){
+            $('#order-submit').removeClass('disabled');
+            document.getElementById('order-submit').disabled=false;
+        }else{
+            $('#order-submit').addClass('disabled');
+            document.getElementById('order-submit').disabled=true;
+        }
+    },
+
     displayItemNumber : function () {
         $('.item-num-display').attr('value',this.itemNum);
     },
@@ -23,7 +33,7 @@ var Order = {
         item.parents('.order-item').remove();
         this.itemNum = this.itemNum - 1;
         this.displayItemNumber();
-        console.log(this.itemNum);
+        Order.checkItemNum();
     },
 
     setItemPrice: function (price, quantity) {
@@ -47,6 +57,10 @@ var Order = {
 
 
 $(document).ready(function () {
+    setInterval(function () {
+        Order.checkItemNum();
+    }, 0);
+
     $isCustomer = $('.menu-container').attr('data-id');
     if($isCustomer != 'customer'){
         $('.item-footer').hide();
@@ -60,6 +74,7 @@ $(document).ready(function () {
     //Remove items
     $(document).on('click','.remove-order-item', function () {
         Order.removeOrderItem($(this));
+        debugger;
     });
 
     //Initial Price setting

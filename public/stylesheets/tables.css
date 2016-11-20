@@ -30,6 +30,10 @@
 	margin:0 auto;
 }
 
+.table-holder a img{
+	opacity: 0.3;
+}
+
 .table-empty{
 	list-style: none;
 	float: left;
@@ -48,6 +52,7 @@
 	font-weight: bold;
 	color: white;
 	text-align: center;
+	opacity: 0.5;
 }
 
 #clear{
@@ -67,6 +72,9 @@
 	right: 0;
 	border-radius: 50%;
 	border: solid 2px #777;
+	-webkit-box-shadow: 3px 4px 10px #505050;
+	-moz-box-shadow: 3px 4px 10px #505050;
+	box-shadow: 3px 4px 10px #505050;
 }
 .user-pic-header{
 	display: block;
@@ -86,13 +94,18 @@
 .table-label{
 	display: block;
 	position: absolute;
-	padding: 0px 6px 0px 20px;
+	padding: 0px 6px 1px 9px;
 	border-radius: 3px;
 	top: 7px;
-	left: 74px;
-	z-index: 0;
+	left: 35px;
+	z-index: -1;
 	font-size: 12px;
 	background: #777;
+	max-width: none;
+	-webkit-box-shadow: 3px 4px 10px #505050;
+	-moz-box-shadow: 3px 4px 10px #505050;
+	box-shadow: 3px 4px 10px #505050;
+
 }
 
 @media screen and (max-width: 690px) {

@@ -192,9 +192,12 @@ module.exports.setOrderStatus = function (id, status, callback) {
 
 module.exports.createNewOrder = function (req, callback) {
     var dayInfo = this.getDayInfo();
-    var orderNumber = this.getCurrentCount('onsite', function (orderCount) {
+    var orderNumber = this.getCurrentCount(function (orderCount) {
         return orderCount;
     });
+
+    console.log('OrderNumber' + orderNumber);
+    console.log('Req' + req.body);
 
     var itemCount = req.body.item_count;
     var orderItem = req.body.order_item;
@@ -206,6 +209,7 @@ module.exports.createNewOrder = function (req, callback) {
 
     //Iterating through all the items in the order
     for (var i=1; i<=itemCount; i++){
+        console.log(i);
         var item = {
             item_name : orderItem[i],
             item_qty : orderItemQty[i],
@@ -216,8 +220,10 @@ module.exports.createNewOrder = function (req, callback) {
 
         order_items.push(item);
     }
+    console.log('Total' + total);
 
     var order = new Order({
+        order_id: {type: String},
         order_number: orderNumber,
         order_type: 'on-site',
         order_date: dayInfo.date,
@@ -227,6 +233,7 @@ module.exports.createNewOrder = function (req, callback) {
         table_no: req.body.table_no,
         waiter_id: req.params.id,
         waiter_name: req.user.first_name+ " " +req.user.last_name,
+        waiter_pic: req.user.picture,
         customer_name: req.body.customer_name,
         items: order_items,
         order_total: total
@@ -291,6 +298,34 @@ module.exports.addItemToCart = function (item, callback) {
                         callback();
                     }
                 });
+            }
+        }
+    });
+};
+
+module.exports.removeItemFromCart = function (item, callback) {
+
+    var item_qty = 0;
+    var unit_price=0;
+
+    Cart.findOne({item_id:item}, function (err, cartItem) {
+        if(err){
+            console.log(err);
+        }else{
+            item_qty = cartItem.item_qty;
+            if(item_qty > 1){
+                item_qty -= 1;
+                var item_price = cartItem.item_price / cartItem.item_qty;
+                unit_price = cartItem.item_price - item_price;
+                Cart.findOneAndUpdate({item_id:item}, {item_qty: item_qty, item_price: unit_price}, function (err) {
+                    if(err){
+                        console.log(err);
+                    }else{
+                        callback();
+                    }
+                });
+            }else{
+                Cart.remove({item_id:item}, callback);
             }
         }
     });

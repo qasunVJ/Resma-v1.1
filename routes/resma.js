@@ -12,6 +12,7 @@ var Cart = require('../models/cartitem');
 var MenuService = require('../services/menu-service');
 var OrdersService = require('../services/order-service');
 var UserService = require('../services/user-service');
+var TableService = require('../services/table-service');
 
 
 //HOME
@@ -36,20 +37,21 @@ router.get('/home', restrict, function(req, res, next) {
                         orderCountOnline = date.order_count_online;
                         orderCountDelivered = date.order_count_delivered;
                     }
-                        res.render('resma/home', {
-                            orders: orders,
-                            orderCountOnsite: orderCountOnsite,
-                            orderCountOnline: orderCountOnline,
-                            orderCountDelivered: orderCountDelivered,
-                            helpers: {
-                                ifCond: function (v1, v2, options) {
-                                    if (v1 == v2) {
-                                        return options.fn(this);
-                                    }
-                                    return options.inverse(this);
+                    res.render('resma/home', {
+                        orders: orders,
+                        isHomeRouteOn : true,
+                        orderCountOnsite: orderCountOnsite,
+                        orderCountOnline: orderCountOnline,
+                        orderCountDelivered: orderCountDelivered,
+                        helpers: {
+                            ifCond: function (v1, v2, options) {
+                                if (v1 == v2) {
+                                    return options.fn(this);
                                 }
+                                return options.inverse(this);
                             }
-                        });
+                        }
+                    });
 
                 });
             }
@@ -74,7 +76,6 @@ router.get('/home', restrict, function(req, res, next) {
     }else{
         res.render('resma/home', {
             //orders: currUserOrders,
-            customer:true,
             firstName: req.user ? req.user.firstName : null,
             helpers: {
                 ifCond : function(v1, v2, options) {
@@ -160,27 +161,62 @@ router.get('/orders/new-order-init', restrict, function (req, res) {
 
     var dayInfo = OrdersService.getDayInfo();
     var type = 'onsite';
-    OrdersService.getCurrentCount(type, function (currOrderCount) {
-        console.log(currOrderCount);
-        OrdersService.getItemsForOrder(function (err, items) {
-            if (err) {
-                console.log(err);
-            }else{
-                res.render('resma/home', {
-                    orderItems: items,
-                    order_type: 'onsite',
-                    date: dayInfo.date,
-                    time: dayInfo.time,
-                    state: 'on-creating',
-                    currOrderId: currOrderCount,
-                    layout: 'new-order.html'
-                });
-            }
-        });
+    var availableTables = [];
+
+    OrdersService.getOrders(function (err, orders){
+        if(err){
+            console.log(err);
+        }else{
+            TableService.getTableView(function (err, tableCount) {
+                if(err){
+                    console.log(err);
+                }else{
+                    var tablesCount = tableCount[0].table_num -1;
+
+                    for(a=1;a<=tablesCount;a++){
+                        availableTables.push(a);
+                    }
+
+                    for(j=1;j<=tablesCount;j++){
+                        for(i=0;i<orders.length;i++){
+                            if(orders[i].table_no == j && orders[i].order_state != 'finished' ){
+                                for(x=0;x<availableTables.length;x++){
+                                    if(availableTables[x]==j){
+                                        delete availableTables[x];
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    OrdersService.getCurrentCount(type, function (currOrderCount) {
+                        OrdersService.getItemsForOrder(function (err, items) {
+                            if (err) {
+                                console.log(err);
+                            }else{
+                                res.render('resma/home', {
+                                    orderItems: items,
+                                    order_type: 'onsite',
+                                    date: dayInfo.date,
+                                    time: dayInfo.time,
+                                    state: 'on-creating',
+                                    currOrderId: currOrderCount,
+                                    layout: 'new-order.html',
+                                    availableTables : availableTables
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+        }
     });
+
 });
 
 router.post('/orders/:id/new-order', restrict, function (req, res, next) {
+    console.log('Req' + req.body);
 
     OrdersService.createNewOrder(req, function(err){
         if (err){
@@ -367,6 +403,18 @@ router.get('/addtocart/:section/:id', function (req, res) {
     });
 });
 
+router.get('/removefromcart/:id', function (req, res) {
+    var item = req.params.id;
+    console.log("Items" + item);
+    OrdersService.removeItemFromCart(item, function (err) {
+        if(err){
+            console.log(err);
+        }else{
+            res.redirect('/resma/menus');
+        }
+    });
+});
+
 router.get('/mini-cart', function (req, res) {
     OrdersService.getItems(Cart, function (err, items) {
         if(err){
@@ -416,6 +464,26 @@ router.get('/cart/new-order/:id', function (req, res) {
         });
     });
 });
+
+router.get('/ordercount', function(req, res){
+    var orderCountOnsite = 0;
+    var orderCountOnline = 0;
+    var orderCountDelivered = 0;
+
+    OrdersService.setDate(function (date) {
+        if(date != null){
+            orderCountOnsite = date.order_count_onsite;
+            orderCountOnline = date.order_count_online;
+            orderCountDelivered = date.order_count_delivered;
+        }
+        res.send({
+            orderCountOnsite: orderCountOnsite,
+            orderCountOnline: orderCountOnline,
+            orderCountDelivered: orderCountDelivered
+        });
+
+    });
+})
 
 
 module.exports = router;

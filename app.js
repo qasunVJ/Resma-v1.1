@@ -22,7 +22,7 @@ var auth = require('./routes/auth');
 var resma = require('./routes/resma');
 var managers = require('./routes/managers');
 var waiters = require('./routes/waiters');
-
+var OrdersService = require('./services/order-service');
 var passportConfig = require('./services/passport-conf');
 passportConfig();
 
@@ -108,6 +108,20 @@ app.get('*', function (req, res, next) {
     }
     if (req.user && req.user.user_type == 'customer'){
         res.locals.customer = true;
+
+        OrdersService.getCartItems(function (err, items) {
+            if(err){
+                throw err;
+            }else{
+                var isCartNotEmpty = true;
+
+                if(items.length == 0)
+                    isCartNotEmpty = false;
+
+                res.locals.cartCount = items.length;
+                res.locals.isCartNotEmpty = isCartNotEmpty;
+            }
+        });
     }
     next();
 });

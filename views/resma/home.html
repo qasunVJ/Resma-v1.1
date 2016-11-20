@@ -4,7 +4,7 @@
         <span>{{message}}</span>
     </div>
     {{/if}}
-<div class="clearfix ">
+    <div class="clearfix ">
     <section class="table-section col-md-9 col-sm-9 col-xs-12">
             <div class="col-md-6 col-sm-6">
                 <div class="offer-wrapper">
@@ -100,12 +100,10 @@
 
 </div>
 {{else}}
-<div class="clearfix ">
+    <div class="clearfix ">
     <section class="table-section col-md-6 col-sm-12 col-xs-12">
         <div class="col-md-6 col-xs-12">
             <div class="tables-wrapper clearfix" id="tables-wrapper-public">
-                <ul id="sortable" data-id="sortable"></ul>
-                <div id="clear"></div>
             </div>
             <!--&lt;!&ndash;TABLE POPUP======================================================================================&ndash;&gt;-->
             <!--<div class="popup-wrap">-->
@@ -143,17 +141,17 @@
         {{#if manager}}
         <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
-                <span class="glyphicon glyphicon-cutlery"></span> <span class="big-notif-num">{{orderCountOnsite}}</span>
+                <span class="glyphicon glyphicon-cutlery" id="onsite-icon"></span> <span class="big-notif-num" id="order-count-onsite">{{orderCountOnsite}}</span>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
-                <span class="glyphicon glyphicon-phone"></span> <span class="big-notif-num">{{orderCountOnline}}</span>
+                <span class="glyphicon glyphicon-phone" id="online-icon"></span> <span class="big-notif-num" id="order-count-online">{{orderCountOnline}}</span>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="notif-info-big">
-                <span class="glyphicon glyphicon-check"></span> <span class="big-notif-num">{{orderCountDelivered}}</span>
+                <span class="glyphicon glyphicon-check" id="delivered-icon"></span> <span class="big-notif-num" id="order-count-delivered">{{orderCountDelivered}}</span>
             </div>
         </div>
         {{/if}}
@@ -257,27 +255,27 @@
 
 </div>
 
-<div class="order-btn-group clearfix">
-    <div class="chat-wrapper">
-        <div class="clearfix">
-            <button class="chat-min"><span id="chat-min-ico" class="glyphicon glyphicon-minus"></span></button>
+    <div class="order-btn-group clearfix">
+        <div class="chat-wrapper">
+            <div class="clearfix">
+                <button class="chat-min"><span id="chat-min-ico" class="glyphicon glyphicon-minus"></span></button>
+            </div>
+            <div id="future"></div>
+            <form id="form" id="chat_form">
+                <input id="chat_input" type="text">
+                <input type="submit">
+            </form>
         </div>
-        <div id="future"></div>
-        <form id="form" id="chat_form">
-            <input id="chat_input" type="text">
-            <input type="submit">
-        </form>
+        <a href="/resma/orders/new-order-init" class="new-order btn" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#orderModal">+</a>
     </div>
-    <a href="/resma/orders/new-order-init" class="new-order btn" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#orderModal">+</a>
-</div>
 
-<div id="orderModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!--New order content is loaded with ajax-->
-        <div class="modal-content"></div>
+    <div id="orderModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--New order content is loaded with ajax-->
+            <div class="modal-content"></div>
 
+        </div>
     </div>
-</div>
 {{/if}}
 
 

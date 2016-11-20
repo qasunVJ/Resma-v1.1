@@ -1,5 +1,10 @@
 var Table = {
     tableNo : 1,
+    isSettingsOn : false,
+
+    setSettingsState : function () {
+        this.isSettingsOn = true;
+    },
 
     addNewTable : function () {
         $(".tables-wrapper ul").append('' +
@@ -14,7 +19,10 @@ var Table = {
         $(".tables-wrapper ul span.table-empty").last().remove();
         $(".tables-wrapper ul li.table-holder").last().remove();
 
-        this.tableNo--;
+        if(this.tableNo > 1)
+            this.tableNo--;
+        if(this.tableNo == 1)
+            this.tableNo=1;
     },
 
     saveTableView: function (tableNo){
@@ -59,13 +67,23 @@ $(document).ready(function () {
         $orders = $(tableView.orders);
         $($tableViewMarkup).prependTo('.tables-wrapper');
 
-        for(var i=0;i<$orders.length;i++){console.log("Order Length" + $orders.length);
-            $order = $orders[i];console.log('Order Table No :' + $order.table_no);
-            for(var j=1;j<=Table.tableNo;j++){console.log('Table No  :' + j);
-                if(j == $order.table_no){
-                    $newSRC = '/images/' + $order.order_state + '.svg';console.log('Order State  :' + $newSRC);
-                    $('ul#sortable li:nth-of-type('+j+') a img').attr('src', $newSRC);
-                    $('<span class="table-waiter"><img src="/images/uploads/noimage.jpg" alt="" class="img-responsive"/></span>').appendTo('ul#sortable li:nth-of-type('+j+')');
+        if(Table.isSettingsOn==false){
+            for(var i=0;i<$orders.length;i++){
+                $order = $orders[i];
+                for(var j=1;j<=Table.tableNo;j++){
+                    if(j == $order.table_no){
+                        if( $order.order_state != 'finished'){
+                            $newSRC = '/images/' + $order.order_state + '.svg';
+                            $label = $order.waiter_name.split(" ")[0];
+                            $('ul#sortable li:nth-of-type('+j+') a img').attr('src', $newSRC);
+                            $('ul#sortable li:nth-of-type('+j+') a img').css({
+                                'box-shadow' : '3px 4px 10px #464646',
+                                'border-radius' : '50%',
+                                'opacity': 1
+                            });
+                            $('<span class="table-waiter"><img src="/images/uploads/'+$order.waiter_pic+'" alt="" class="img-responsive"/><label class="table-label">'+$label+'</label></span>').appendTo('ul#sortable li:nth-of-type('+j+')');
+                        }
+                    }
                 }
             }
         }
@@ -74,6 +92,11 @@ $(document).ready(function () {
     //SAVE updated table view
     $('[data-id="save-table-settings"]').click(function () {
         Table.saveTableView(Table.tableNo);
+    });
+
+    //Settings
+    $('[data-id="menuitem-settings"]').click(function () {
+        Table.setSettingsState();
     });
 
     $isOpen = false;
@@ -102,5 +125,34 @@ $(document).ready(function () {
 
     });
 
-    //
+
+    setInterval(function () {
+        $.get("/resma/ordercount", function (orderCountInfo) {
+            $online = orderCountInfo.orderCountOnline;
+            $onsite = orderCountInfo.orderCountOnsite;
+            $delivered = orderCountInfo.orderCountDelivered;
+
+            $currOnline = $("#order-count-online").html();
+            $currOnsite = $("#order-count-onsite").html();
+            $currDelivered = $("#order-count-delivered").html();
+
+            if($online > parseInt($currOnline)){
+                $('#order-count-online').addClass('new-order-indicator');
+                $('#online-icon').addClass('new-order-indicator');
+                $("#order-count-online").html($online);
+            }
+
+            if($onsite > parseInt($currOnsite)){
+                $('#order-count-onsite').addClass('new-order-indicator');
+                $('#onsite-icon').addClass('new-order-indicator');
+                $("#order-count-onsite").html($onsite);            }
+
+            if($delivered > parseInt($currDelivered)){
+                $('#order-count-delivered').addClass('new-order-indicator');
+                $('#delivered-icon').addClass('new-order-indicator');
+                $("#order-count-delivered").html($delivered);            }
+
+        })
+    }, 60000);
+
 });

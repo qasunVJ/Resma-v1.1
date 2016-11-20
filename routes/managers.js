@@ -161,11 +161,17 @@ router.get('/settings', restrict, function (req, res, next) {
                             console.log(err);
                             res.send(err);
                         }else{
-                            res.render('resma/resma-settings', {
-                                title: 'Resma | Settings',
-                                breakfast_items: breakfast_items,
-                                lunch_items: lunch_items,
-                                dinner_items: dinner_items
+                            TableService.getTableView(function (err, tableView) {
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    res.render('resma/resma-settings', {
+                                        title: 'Resma | Settings',
+                                        breakfast_items: breakfast_items,
+                                        lunch_items: lunch_items,
+                                        dinner_items: dinner_items
+                                    });
+                                }
                             });
                         }
                     });
@@ -184,7 +190,6 @@ router.get('/tableview', restrict, function (req, res, next) {
                 if (err){
                     console.log(err);
                 }else{
-                    console.log(tableViewMarkup[0].table_num);
                     res.send({tableViewMarkup: tableViewMarkup[0].table_data, tableNum: tableViewMarkup[0].table_num, orders: orders});
                 }
             });
@@ -378,6 +383,16 @@ router.post('/table-update', restrict, function (req, res, next) {
         }
     });
 });
+
+//router.get('/get-waiter-img/:id', function (req, res) {
+//    UserService.getUserById( req.params.id, function (err, user) {
+//        if(err){
+//            throw err;
+//        }else{
+//            res.send({waiter: user.picture});
+//        }
+//    });
+//});
 
 
 module.exports = router;

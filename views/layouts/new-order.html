@@ -1,9 +1,7 @@
 <script type="text/javascript" src="/javascripts/Orders.js"></script>
 
 <div class="new-order-form" ng-app="Resma">
-    <h2 style="    margin-top: 0;
-    color: #ccc;
-    margin-bottom: 30px;">Order #{{currOrderId}}</h2>
+    <h2 style=" margin-top: 0;color: #ccc;margin-bottom: 30px;">Order #{{currOrderId}}</h2>
     {{#if errors}}
     <ul class="error-list">
         {{#each errors}}
@@ -36,7 +34,15 @@
                                     border-top: solid 1px #8e8e8e;">
             <div class="row">
                 <div class="col-md-2 col-sm-2 col-xs-2">
-                    <input type="text" name="table_no" placeholder="Table" required>
+                    <div class="form-group">
+                        <select name="table_no" required>
+                            {{#if availableTables}}
+                                {{#each availableTables}}
+                                    <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            {{/if}}
+                        </select>
+                    </div>
                 </div>
                 <div class="col-md-10 col-sm-2 col-xs-2">
                     <input type="text" name="customer_name" placeholder="Customer Name">
@@ -47,13 +53,7 @@
         <!--<input type="text" name="waiter_id" placeholder="Waiter ID">-->
         <div class="items-wrap">
             <div class="col-md-12 col-sm-12">
-                <h1 style="font-size: 25px;
-                font-weight: 500;
-                color: #ccc;
-                display: block;
-                margin-top: 0px;
-                margin-bottom: 10px;
-                padding-bottom: 10px;">Items
+                <h1 style="font-size: 25px;font-weight: 500;color: #ccc;display: block;margin-top: 0px;margin-bottom: 10px;">Items
                 </h1>
             </div>
 
@@ -75,7 +75,7 @@
 
                         <div class="col-md-2 col-sm-2 col-xs-12 qty_wrapper">
                             <lable>Quantity</lable>
-                            <input type="number" name="order_item_qty" class="itemQty" />
+                            <input type="number" name="order_item_qty" class="itemQty" min="1"/>
                         </div>
 
                         <div class="col-md-3 col-sm-3 col-xs-12 price_wrapper">
@@ -84,7 +84,7 @@
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-12">
                             <div class="clearfix" style="margin-top: 25px">
-                                <span data-id="remove-order-item" class="remov-order-item btn clearfix"><span>-</span></span>
+                                <span data-id="remove-order-item" class="remove-order-item btn clearfix"><span>-</span></span>
                                 <!--<span data-id="remove-order-item" class="btn btn-danger right">Remove</span>-->
                             </div>
                         </div>
@@ -113,7 +113,7 @@
 
         <div class="clearfix">
             <div class="col-md-3 col-sm-3 col-xs-12">
-                <span>Items: </span
+                <span>Items: </span>
                 <input name="item_count" class="item-num-display" value="0" tabindex="-1">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -127,7 +127,7 @@
 
         <div class="clearfix set-btn-group text-right">
             <a href="/resma/home" class="btn btn-default btn-xs">Cancel</a>
-            <button id="order-submit" type="submit" class="order-submit btn btn-success"><span class="glyphicon glyphicon-send"></span> GO!</button>
+            <button disabled id="order-submit" type="submit" class="order-submit btn btn-success disabled"><span class="glyphicon glyphicon-send"></span> GO!</button>
         </div>
     </form>
 </div>

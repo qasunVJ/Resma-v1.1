@@ -41,8 +41,8 @@
                     {{#if customer}}
                     <li class="dropdown">
                         <a href="/resma/mini-cart" data-toggle="modal" data-target="#cartModal"><span class="glyphicon glyphicon-shopping-cart cart-icon">
-                            {{#if cartCount.notEmpty}}
-                            <span class="cart-count">{{cartCount.itemCount}}</span>
+                            {{#if isCartNotEmpty}}
+                            <span class="cart-count">{{cartCount}}</span>
                             {{/if}}
                         </span></a>
                         <ul class="dropdown-menu">
@@ -63,7 +63,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             {{#if manager}}
-                            <li><a href="/managers/settings" class="resma-settings"><span class="glyphicon glyphicon-cog"></span> Resma Settings</a></li>
+                            <li><a href="/managers/settings" data-id="menuitem-settings" class="resma-settings"><span class="glyphicon glyphicon-cog"></span> Resma Settings</a></li>
                             {{/if}}
                             <li role="separator" class="divider"></li>
                             <li><a href="/resma/user/{{user._id}}/account-settings"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
