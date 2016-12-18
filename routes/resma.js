@@ -38,7 +38,7 @@ router.get('/home', restrict, function(req, res, next) {
                         orderCountDelivered = date.order_count_delivered;
                     }
                     res.render('resma/home', {
-                        orders: orders,
+                        orders: orders.reverse().slice(0,10),
                         isHomeRouteOn : true,
                         orderCountOnsite: orderCountOnsite,
                         orderCountOnline: orderCountOnline,
@@ -61,7 +61,7 @@ router.get('/home', restrict, function(req, res, next) {
             var currUserOrders = thisUser;
 
             res.render('resma/home', {
-                orders: currUserOrders,
+                orders: currUserOrders.reverse().slice(0,10),
                 firstName: req.user ? req.user.firstName : null,
                 helpers: {
                     ifCond : function(v1, v2, options) {
@@ -151,7 +151,7 @@ router.get('/orders', restrict, function (req, res, next) {
             res.render('resma/home');
         }else{
             res.render('resma/orders', {
-                orders: orders
+                orders: orders.reverse()
             });
         }
     });
@@ -483,7 +483,7 @@ router.get('/ordercount', function(req, res){
         });
 
     });
-})
+});
 
 
 module.exports = router;

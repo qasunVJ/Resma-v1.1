@@ -19,7 +19,7 @@ var userSchema = mongoose.Schema({
     password: {type: String, required: 'Please enter a password'},
     picture: {type: String},
     orders:[{
-        order_number: {type: Number},
+        order_id: {type: String},
         order_type: {type: String},
         order_date: {type: String},
         order_time: {type: String},

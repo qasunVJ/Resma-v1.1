@@ -176,10 +176,10 @@
                             <span class="glyphicon glyphicon-plus-sign {{order_state}}"></span>
                             {{/ifCond}}
                             {{#ifCond order_state 'process'}}
-                            <span class="glyphicon glyphicon-remove-sign {{order_state}}"></span>
+                            <span class="glyphicon glyphicon-fire {{order_state}}"></span>
                             {{/ifCond}}
                             {{#ifCond order_state 'delivered'}}
-                            <span class="glyphicon glyphicon-minus-sign {{order_state}}"></span>
+                            <span class="glyphicon glyphicon-thumbs-up {{order_state}}"></span>
                             {{/ifCond}}
                             {{#ifCond order_state 'finished'}}
                             <span class="glyphicon glyphicon-ok-sign {{order_state}}"></span>
@@ -198,7 +198,7 @@
                         {{/each}}
                     </div>
 
-                    <!--<a href="#" class="imp-btn btn">MORE</a>-->
+                    <a href="/managers/orders" class="imp-btn btn">MORE</a>
                 </div>
 
                 <div id="myModal" class="modal fade" role="dialog">

@@ -47,7 +47,7 @@ Resma.directive('breakfastItem', function () {
         template:
         '<div class="add-item-form">' +
         '<h5>Please provide new item details below</h5> ' +
-        '<form action="/managers/add-breakfast-item" method="post" enctype="multipart/form-data"> ' +
+        '<form action="/managers/add-new-item/BreakfastItem" method="post" enctype="multipart/form-data"> ' +
         '<input type="text" placeholder="Item Name" name="item_name"> ' +
         '<input type="text" placeholder="Item ID" name="item_id"> ' +
         '<textarea placeholder="Item Discription" name="item_disc"></textarea> ' +
@@ -68,7 +68,7 @@ Resma.directive('lunchItem', function () {
         template:
         '<div class="add-item-form">' +
         '<h5>Please provide new item details below</h5> ' +
-        '<form action="/managers/add-lunch-item" method="post" enctype="multipart/form-data"> ' +
+        '<form action="/managers/add-new-item/LunchItem" method="post" enctype="multipart/form-data"> ' +
         '<input type="text" placeholder="Item Name" name="item_name"> ' +
         '<input type="text" placeholder="Item ID" name="item_id"> ' +
         '<textarea placeholder="Item Discription" name="item_disc"></textarea> ' +
@@ -89,7 +89,7 @@ Resma.directive('dinnerItem', function () {
         template:
         '<div class="add-item-form">' +
         '<h5>Please provide new item details below</h5> ' +
-        '<form action="/managers/add-dinner-item" method="post" enctype="multipart/form-data"> ' +
+        '<form action="/managers/add-new-item/DinnerItem" method="post" enctype="multipart/form-data"> ' +
         '<input type="text" placeholder="Item Name" name="item_name"> ' +
         '<input type="text" placeholder="Item ID" name="item_id"> ' +
         '<textarea placeholder="Item Discription" name="item_disc"></textarea> ' +

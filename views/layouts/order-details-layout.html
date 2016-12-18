@@ -1,12 +1,27 @@
 <div>
     <a href="" class="close-modal"><button><span class="glyphicon glyphicon-remove-circle"></span></button></a>
+    <h2 style="margin-top: 0;color: #ccc;margin-bottom: 30px;font-weight: 500">{{order_details.order_id}}</h2>
+
+    <span class="glyphicon glyphicon-bookmark state-tag {{order_details.order_state}}">
+        {{#ifCond order_details.order_state 'created'}}
+            <label class="glyphicon glyphicon-plus-sign"></label>
+        {{/ifCond}}
+        {{#ifCond order_details.order_state 'process'}}
+            <label class="glyphicon glyphicon-fire"></label>
+        {{/ifCond}}
+        {{#ifCond order_details.order_state 'delivered'}}
+            <label class="glyphicon glyphicon-thumbs-up"></label>
+        {{/ifCond}}
+        {{#ifCond order_details.order_state 'finished'}}
+            <label class="glyphicon glyphicon-ok-sign"></label>
+        {{/ifCond}}
+    </span>
 
     <div style="border-radius: 5px;padding: 10px;background: rgba(85, 85, 85, 0.29);">
-
     <table style="width: 100%;line-height: 25px;" class="order-details-table">
         <tr>
             <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Order Type :</span></td>
-            <td>{{order_details.order_type}}</td>
+            <td style="text-transform: capitalize">{{order_details.order_type}}</td>
         </tr>
         <tr>
             <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Waiter :</span></td>
@@ -24,10 +39,10 @@
         </tr>
         {{/ifCond}}
 
-        <tr>
-            <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">State :</span></td>
-            <td><span class="pill-{{order_details.order_state}}">{{order_details.order_state}}</span></td>
-        </tr>
+        <!--<tr>-->
+            <!--<td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">State :</span></td>-->
+            <!--<td><span class="pill-{{order_details.order_state}}">{{order_details.order_state}}</span></td>-->
+        <!--</tr>-->
         <tr>
             <td><span style="font-size: 17px;font-weight: 500;color: #cccccc;">Table No :</span></td>
             <td>{{order_details.table_no}}</td>
@@ -44,13 +59,7 @@
     </div>
         <table width="100%">
             <tr>
-                <h1 style="font-size: 25px;
-    font-weight: 500;
-    color: #ccc;
-    display: block;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: solid #999;">Items</h1>
+                <h1 style="font-size: 25px;font-weight: 300;color: #ccc;display: block;margin-bottom: 10px;padding-bottom: 10px;border-bottom: solid #999;">Items</h1>
             </tr>
             {{#each order_details.items}}
             <tr style="border-bottom: solid 1px rgba(153, 153, 153, 0.14);">
@@ -65,24 +74,24 @@
         <div>
             <table style="width: 100%; margin-top: 10px">
                 <tr>
-                    <td style="width: 33.3%;font-size: 30px;
-    font-weight: 300">TOTAL</td>
+                    <td style="width: 33.3%;font-size: 20px;
+    font-weight: 500">TOTAL</td>
                     <td style="width: 33.3%;"><h2>{{auth}}</h2></td>
-                    <td style="width:33.3%;font-size: 30px;
-    font-weight: 300;text-align: right">Rs. {{order_details.order_total}}/-</td>
+                    <td style="width:33.3%;font-size: 20px;
+    font-weight: 500;text-align: right">Rs. {{order_details.order_total}}/-</td>
                 </tr>
             </table>
         </div>
 
-    <hr/>
-
     {{#ifCond user.user_type 'manager'}}
     {{#ifCond order_details.order_state 'created'}}
+    <hr/>
     <div class="clearfix" style="margin-top: 20px;padding-top: 10px">
         <a class="btn process-btn" href="/resma/order/{{order_details._id}}/process">Process</a>
     </div>
     {{/ifCond}}
     {{#ifCond order_details.order_state 'delivered'}}
+    <hr/>
     <div class="clearfix" style="margin-top: 20px;padding-top: 10px">
         <a class="btn finished-btn" href="/resma/order/{{order_details._id}}/finished">Finish</a>
     </div>
@@ -91,6 +100,7 @@
 
     {{#if  kitchen}}
     {{#ifCond order_details.order_state 'process'}}
+    <hr/>
     <div class="clearfix" style="margin-top: 20px;padding-top: 10px">
         <a class="btn deliver-btn" href="/resma/order/{{order_details._id}}/deliver">Deliver</a>
     </div>

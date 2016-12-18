@@ -165,11 +165,18 @@ router.get('/settings', restrict, function (req, res, next) {
                                 if(err){
                                     console.log(err);
                                 }else{
-                                    res.render('resma/resma-settings', {
-                                        title: 'Resma | Settings',
-                                        breakfast_items: breakfast_items,
-                                        lunch_items: lunch_items,
-                                        dinner_items: dinner_items
+                                    UserService.getAllTokens(function (err, tokens) {
+                                        if(err){
+                                            console.log(err);
+                                        }else{
+                                            res.render('resma/resma-settings', {
+                                                title: 'Resma | Settings',
+                                                breakfast_items: breakfast_items,
+                                                lunch_items: lunch_items,
+                                                dinner_items: dinner_items,
+                                                tokens: tokens
+                                            });
+                                        }
                                     });
                                 }
                             });
@@ -197,13 +204,6 @@ router.get('/tableview', restrict, function (req, res, next) {
     });
 });
 
-
-////Add menu item GET
-//router.get('/add-breakfast-item', function (req, res, next) {
-//    var section = req.body.id;
-//    res.render('/menus/add-breakfast-item');
-//});
-
 //Add token
 router.post('/new-token', restrict, function (req, res, next) {
     var token_type = req.body.token_type;
@@ -226,10 +226,23 @@ router.post('/new-token', restrict, function (req, res, next) {
 
 });
 
-//Add menu item POST
-router.post('/add-breakfast-item', restrict, upload.any(), function (req, res, next) {
+router.get('/tokens/delete/:id', restrict, function (req, res) {
 
-    MenuService.addMenuItem(req, BreakfastItem, function (err) {
+    UserService.removeTokens(req.params.id, function (err) {
+        if (err){
+            console.log(err);
+            res.redirect('/managers/settings');
+        }else {
+            res.redirect('/managers/settings');
+        }
+    });
+
+});
+
+//Add menu item POST
+router.post('/add-new-item/:type', restrict, upload.any(), function (req, res, next) {
+
+    MenuService.addMenuItem(req, req.params.type, function (err) {
         if (err) {
             console.log(err);
         }else{
@@ -241,39 +254,39 @@ router.post('/add-breakfast-item', restrict, upload.any(), function (req, res, n
     res.redirect('/managers/settings');
 });
 
-//Add menu item POST
-router.post('/add-lunch-item', restrict, upload.any(), function (req, res, next) {
-
-    MenuService.addMenuItem(req, LunchItem, function (err, item) {
-        if (err) {
-            console.log(err);
-        }else{
-            console.log('Item Added');
-        }
-    });
-
-    req.flash('success', 'New Item Added');
-    res.redirect('/managers/settings');
-});
-
-//Add menu item POST
-router.post('/add-dinner-item', restrict, upload.any(), function (req, res, next) {
-
-    MenuService.addMenuItem(req, DinnerItem, function (err, item) {
-        if (err) {
-            console.log(err);
-        }else{
-            console.log('Item Added');
-        }
-    });
-
-    req.flash('success', 'New Item Added');
-    res.redirect('/managers/settings');
-});
+////Add menu item POST
+//router.post('/add-lunch-item', restrict, upload.any(), function (req, res, next) {
+//
+//    MenuService.addMenuItem(req, LunchItem, function (err, item) {
+//        if (err) {
+//            console.log(err);
+//        }else{
+//            console.log('Item Added');
+//        }
+//    });
+//
+//    req.flash('success', 'New Item Added');
+//    res.redirect('/managers/settings');
+//});
+//
+////Add menu item POST
+//router.post('/add-dinner-item', restrict, upload.any(), function (req, res, next) {
+//
+//    MenuService.addMenuItem(req, DinnerItem, function (err, item) {
+//        if (err) {
+//            console.log(err);
+//        }else{
+//            console.log('Item Added');
+//        }
+//    });
+//
+//    req.flash('success', 'New Item Added');
+//    res.redirect('/managers/settings');
+//});
 
 //Edit item get
-router.get('/items/edit/:id', restrict, function (req, res, next) {
-    MenuService.getItemById(req.params.id, function (err, item) {
+router.get('/items/edit/:type/:id', restrict, function (req, res, next) {
+    MenuService.getItemById(req.params.id, req.params.type, function (err, item) {
         console.log(req.params.id);
         if (err){
             console.log(err);
@@ -314,8 +327,6 @@ router.post('/items/edit/:id', restrict, function (req, res, next) {
         item_type: 'breakfast'
     };
 
-    console.log(editedBreakfastItem);
-
     MenuService.addEditedItem(id, editedBreakfastItem, function (err) {
         if (err) {
             console.log(err);
@@ -324,7 +335,6 @@ router.post('/items/edit/:id', restrict, function (req, res, next) {
             });
         }else{
             console.log('Item Added');
-
             req.flash('success', 'Item edited');
             res.redirect('/managers/settings');
         }
@@ -333,14 +343,15 @@ router.post('/items/edit/:id', restrict, function (req, res, next) {
 });
 
 //Delete an item
-router.delete('/items/delete/:id', restrict, function (req, res, next) {
+router.get('/items/delete/:type/:id', restrict, function (req, res) {
     var id = req.params.id;
-    console.log(id);
+    var type = req.params.type;
 
-    MenuService.deleteItem(id, function (err) {
+    console.log(req.params);
+
+    MenuService.deleteItem(id, type, function (err) {
         if (err){
             console.log(err);
-            res.redirect('/managers/settings');
         }else{
             req.flash('success', 'Item deleted');
             res.location('/managers/settings');

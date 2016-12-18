@@ -62,8 +62,9 @@
     padding-bottom: 0px;
     border-radius: 10px;
     color: #616161;
-    background-color: #464646;
     font-size: 55px;
+    border: solid #4a4a4a;
+    background: #424242;
 }
 .menu-item{
     border-radius: 3px;
@@ -190,21 +191,21 @@
     position: relative;
     top: 4px;
     font-size: 16px;
-    color: cornflowerblue;
+    color: #bbbf21;
 }
 .delivered{
     margin-right: 5px;
     position: relative;
     top: 4px;
     font-size: 16px;
-    color: #bbbf21;
+    color: limegreen;
 }
 .finished{
     margin-right: 5px;
     position: relative;
     top: 4px;
     font-size: 16px;
-    color: limegreen;
+    color: #8c8c8c;
 }
 .list-group-item .text-muted{
     color: #ababab;
@@ -227,16 +228,12 @@
 }
 .close-modal span{
     border-radius: 50%;
-    font-size: 30px;
-    opacity: 0.3;
+    font-size: 25px;
+    background: #777777;
+    color: #999999;
 }
-.close-modal:hover{
+.close-modal:hover span{
     color: #cccccc;
-}
-.close-modal:hover span {
-    font-size: 50px;
-    opacity: 1;
-    outline: none;
 }
 .chat-wrapper{
     width: 250px;
@@ -287,7 +284,7 @@
     display: inline-block;
     width: 100px;
 }
-.process-btn, .deliver-btn{
+.process-btn, .deliver-btn, .finished-btn{
     max-width: 200px;
 }
 .process-btn{
@@ -296,12 +293,14 @@
     font-size: 20px;
     margin: 0 auto;
     padding: 7px;
-    background: #F05A28;
     color: white;
-    /*border: solid 2px #F79970;*/
     border-radius: 5px;
     background: linear-gradient(#205e7d,#337ab7);
     border: solid 1px #225f7d;
+}
+.process-btn:hover{
+    background: #225f7d;
+    color: #ffffff;
 }
 
 .deliver-btn{
@@ -310,12 +309,14 @@
     font-size: 20px;
     margin: 0 auto;
     padding: 7px;
-    background: #f0ad4e;
     color: white;
-    /*border: solid 2px #F79970;*/
     border-radius: 5px;
     background: linear-gradient(#908c05,#d1d434);
     border: solid 1px #716e16;
+}
+.deliver-btn:hover{
+    background: #716e16;
+    color: #fff;
 }
 .finished-btn{
     display: block;
@@ -323,15 +324,14 @@
     font-size: 20px;
     margin: 0 auto;
     padding: 7px;
-    background: #f0ad4e;
     color: white;
-    /*border: solid 2px #F79970;*/
     border-radius: 5px;
     background: linear-gradient(#147915,#29a72b);
     border: solid 1px #2c6f2d;
 }
-.process-btn:hover, .deliver-btn:hover{
-    color: #ffffff;
+.finished-btn:hover{
+    background: #2c6f2d;
+    color: #fff;
 }
 .offer-wrapper{
     margin: 20px 10px;
@@ -475,7 +475,20 @@
     border-radius: 10px;
     background-color: #5a5a5a;
 }
-.active
+.state-tag{
+    position: absolute;
+    right: 20px;
+    top: -5px;
+    font-size: 70px;
+    margin-right: 0;
+}
+.state-tag label{
+    color: #ffffff;
+    font-size: 25px;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
 
 @media print
 {

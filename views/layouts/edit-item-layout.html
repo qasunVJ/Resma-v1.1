@@ -8,13 +8,12 @@
     </ul>
     {{/if}}
     <form action="/managers/items/edit/{{editableItem._id}}" name="edit-item" class="form-group" method="post">
-        <input type="text" name="item_name" value="{{editableItem.item_name}}">
-        <p ng-show="edit-item.item_name.$invalid && !edit-item.item_name.$pristine">Item name is required.</p>
-        <input type="text" name="item_id" value="{{editableItem.item_id}}">
+        <input type="text" name="item_name" value="{{editableItem.item_name}}" required>
+        <input type="text" name="item_id" value="{{editableItem.item_id}}" required>
         <input type="text" name="item_disc" value="{{editableItem.item_disc}}">
-        <input type="text" name="item_price" value="{{editableItem.item_price}}">
+        <input type="text" name="item_price" value="{{editableItem.item_price}}" required>
         <div class="clearfix set-btn-group text-right">
-            <button type="submit" class="btn btn-success">Save</button>
+            <button type="submit" class="btn btn-success" data-id="save-item-edit">Save</button>
             <a href="/managers/settings" class="btn btn-default">Cancel</a>
         </div>
     </form>

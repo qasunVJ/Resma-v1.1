@@ -1,10 +1,5 @@
 var Table = {
     tableNo : 1,
-    isSettingsOn : false,
-
-    setSettingsState : function () {
-        this.isSettingsOn = true;
-    },
 
     addNewTable : function () {
         $(".tables-wrapper ul").append('' +
@@ -59,45 +54,51 @@ $(document).ready(function () {
     });
 
     //Fires an ajax call to the SERVER to get TABLE VIEW details
-    $.get("/managers/tableview", function(tableView){
-        $tableNumber = tableView.tableNum;
-        Table.tableNo = $tableNumber;
-        $tableViewMarkup = $(tableView.tableViewMarkup);
+    var currLocState = window.location.href.split('/');
+    currLocState = currLocState[currLocState.length-1];
 
-        $orders = $(tableView.orders);
-        $($tableViewMarkup).prependTo('.tables-wrapper');
+    if(currLocState=='settings' || currLocState=='home'){
+        $.get("/managers/tableview", function(tableView){
+            $tableNumber = tableView.tableNum;
+            Table.tableNo = $tableNumber;
+            $tableViewMarkup = $(tableView.tableViewMarkup);
 
-        if(Table.isSettingsOn==false){
-            for(var i=0;i<$orders.length;i++){
-                $order = $orders[i];
-                for(var j=1;j<=Table.tableNo;j++){
-                    if(j == $order.table_no){
-                        if( $order.order_state != 'finished'){
-                            $newSRC = '/images/' + $order.order_state + '.svg';
-                            $label = $order.waiter_name.split(" ")[0];
-                            $('ul#sortable li:nth-of-type('+j+') a img').attr('src', $newSRC);
-                            $('ul#sortable li:nth-of-type('+j+') a img').css({
-                                'box-shadow' : '3px 4px 10px #464646',
-                                'border-radius' : '50%',
-                                'opacity': 1
-                            });
-                            $('<span class="table-waiter"><img src="/images/uploads/'+$order.waiter_pic+'" alt="" class="img-responsive"/><label class="table-label">'+$label+'</label></span>').appendTo('ul#sortable li:nth-of-type('+j+')');
+            $orders = $(tableView.orders);
+            $($tableViewMarkup).prependTo('.tables-wrapper');
+
+            if(currLocState=='home'){
+                for(var i=0;i<$orders.length;i++){
+                    $order = $orders[i];
+                    for(var j=1;j<=Table.tableNo;j++){
+                        if(j == $order.table_no){
+                            if( $order.order_state != 'finished'){
+                                $newSRC = '/images/' + $order.order_state + '.svg';
+                                $label = $order.waiter_name.split(" ")[0];
+                                $('ul#sortable li:nth-of-type('+j+') a img').attr('src', $newSRC);
+                                $('ul#sortable li:nth-of-type('+j+') a img').css({
+                                    'box-shadow' : '3px 4px 10px #464646',
+                                    'border-radius' : '50%',
+                                    'opacity': 1
+                                });
+                                $('<span class="table-waiter"><img src="/images/uploads/'+$order.waiter_pic+'" alt="" class="img-responsive"/><label class="table-label">'+$label+'</label></span>').appendTo('ul#sortable li:nth-of-type('+j+')');
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
+
+    }
 
     //SAVE updated table view
     $('[data-id="save-table-settings"]').click(function () {
         Table.saveTableView(Table.tableNo);
     });
 
-    //Settings
-    $('[data-id="menuitem-settings"]').click(function () {
-        Table.setSettingsState();
-    });
+    ////Settings
+    //$('[data-id="menuitem-settings"]').click(function () {
+    //    Table.setSettingsState();
+    //});
 
     $isOpen = false;
     $('.chat-min').click(function () {
@@ -153,6 +154,6 @@ $(document).ready(function () {
                 $("#order-count-delivered").html($delivered);            }
 
         })
-    }, 60000);
+    }, 30000);
 
 });

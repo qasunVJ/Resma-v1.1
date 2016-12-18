@@ -64,8 +64,8 @@
                             <td>{{item_disc}}</td>
                             <td>Rs. {{item_price}}.00/-</td>
                             <td>
-                                <a href="/managers/items/edit/{{_id}}" class="btn-xs btn-default" ng-click="isEditable = true" data-toggle="modal" data-target="#myModal">Edit</a>
-                                <a href="" data-id="{{_id}}" class="btn-xs btn-danger">Delete</a>
+                                <a href="/managers/items/edit/{{item_type}}/{{_id}}" class="btn-xs btn-default" ng-click="isEditable = true" data-toggle="modal" data-target="#myModal">Edit</a>
+                                <a href="/managers/items/delete/{{item_type}}/{{_id}}" data-id="{{_id}}" class="btn-xs btn-danger">Delete</a>
                             </td>
                         </tr>
                         {{/each}}
@@ -126,8 +126,8 @@
                             <td>{{item_disc}}</td>
                             <td>Rs. {{item_price}}.00/-</td>
                             <td>
-                                <a href="/managers/items/edit/{{_id}}" class="btn-xs btn-default" ng-click="isEditable = true" data-toggle="modal" data-target="#myModal">Edit</a>
-                                <a href="" data-id="{{_id}}" class="btn-xs btn-danger">Delete</a>
+                                <a href="/managers/items/edit/{{item_type}}/{{_id}}" class="btn-xs btn-default" ng-click="isEditable = true" data-toggle="modal" data-target="#myModal">Edit</a>
+                                <a href="/managers/items/delete/{{item_type}}/{{_id}}" data-id="{{_id}}" class="btn-xs btn-danger">Delete</a>
                             </td>
                         </tr>
                         {{/each}}
@@ -188,8 +188,8 @@
                             <td>{{item_disc}}</td>
                             <td>Rs. {{item_price}}.00/-</td>
                             <td>
-                                <a href="/managers/items/edit/{{_id}}" class="btn-xs btn-default" ng-click="isEditable = true" data-toggle="modal" data-target="#myModal">Edit</a>
-                                <a href="" data-id="{{_id}}" class="btn-xs btn-danger">Delete</a>
+                                <a href="/managers/items/edit/{{item_type}}/{{_id}}" class="btn-xs btn-default" ng-click="isEditable = true" data-toggle="modal" data-target="#myModal">Edit</a>
+                                <a href="/managers/items/delete/{{item_type}}/{{_id}}" data-id="{{_id}}" class="btn-xs btn-danger">Delete</a>
                             </td>
                         </tr>
                         {{/each}}
@@ -209,7 +209,7 @@
                     <div class="clearfix set-btn-group">
                         <dinner-item ng-show="addDinnerItemForm"></dinner-item>
                         <div class="text-right">
-                            <a href="" id="add_breakfast_item" class="btn btn-primary" ng-click="addDinnerItemForm = true" ng-show="!addDinnerItemForm">Add Item</a>
+                            <a href="" id="add_dinner_item" class="btn btn-primary" ng-click="addDinnerItemForm = true" ng-show="!addDinnerItemForm">Add Item</a>
                         </div>
                     </div>
 
@@ -234,21 +234,48 @@
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
-            <div class="clearfix" style="width: 300px;margin: 0 auto;">
-                <form action="/managers/new-token" method="post">
-                    <label for="token_type">Token Type</label>
-                    <select name="token_type" id="token_type">
-                        <option value="manager">Manager</option>
-                        <option value="waiter">Waiter</option>
-                    </select>
-                    <input type="text" name="token" placeholder="Token">
-                    <div class="clearfix set-btn-group">
-                        <new-item ng-show="addItemForm"></new-item>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Add Token</button>
+            <div class="clearfix" >
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    {{#if messages}}
+                    <h3>{{{messages}}}</h3>
+                    {{/if}}
+
+                    <table class="table">
+                        <thead>
+                        <th>Token Type</th>
+                        <th>Token</th>
+                        <th></th>
+                        </thead>
+
+                        <tbody>
+                        {{#each tokens}}
+                        <tr>
+                            <td>{{token_type}}</td>
+                            <td>{{token}}</td>
+                            <td>
+                                <a href="/managers/tokens/delete/{{_id}}" data-id="{{_id}}" class="btn-xs btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <form action="/managers/new-token" method="post">
+                        <label for="token_type">Token Type</label>
+                        <select name="token_type" id="token_type">
+                            <option value="manager">Manager</option>
+                            <option value="waiter">Waiter</option>
+                        </select>
+                        <input type="text" name="token" placeholder="Token">
+                        <div class="clearfix set-btn-group">
+                            <new-item ng-show="addItemForm"></new-item>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">Add Token</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

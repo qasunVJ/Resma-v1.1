@@ -192,77 +192,70 @@ module.exports.setOrderStatus = function (id, status, callback) {
 
 module.exports.createNewOrder = function (req, callback) {
     var dayInfo = this.getDayInfo();
-    var orderNumber = this.getCurrentCount(function (orderCount) {
-        return orderCount;
-    });
+    this.getCurrentCount('onsite', function (orderCount) {
 
-    console.log('OrderNumber' + orderNumber);
-    console.log('Req' + req.body);
+        var itemCount = req.body.item_count;
+        var orderItem = req.body.order_item;
+        var orderItemQty = req.body.order_item_qty;
+        var orderItemPrice = req.body.order_item_price;
 
-    var itemCount = req.body.item_count;
-    var orderItem = req.body.order_item;
-    var orderItemQty = req.body.order_item_qty;
-    var orderItemPrice = req.body.order_item_price;
+        var order_items=[];
+        var total=0;
 
-    var order_items=[];
-    var total=0;
+        //Iterating through all the items in the order
+        for (var i=1; i<=itemCount; i++){
+            console.log(i);
+            var item = {
+                item_name : orderItem[i],
+                item_qty : orderItemQty[i],
+                unit_price: orderItemPrice[i]
+            };
 
-    //Iterating through all the items in the order
-    for (var i=1; i<=itemCount; i++){
-        console.log(i);
-        var item = {
-            item_name : orderItem[i],
-            item_qty : orderItemQty[i],
-            unit_price: orderItemPrice[i]
+            total += parseInt(orderItemPrice[i]);
+
+            order_items.push(item);
+        }
+
+        var order = new Order({
+            order_id: 'onsite#' + orderCount + 1,
+            order_type: 'on-site',
+            order_date: dayInfo.date,
+            order_time: dayInfo.time,
+            delivered_time: dayInfo.time,
+            order_state: 'created',
+            table_no: req.body.table_no,
+            waiter_id: req.params.id,
+            waiter_name: req.user.first_name+ " " +req.user.last_name,
+            waiter_pic: req.user.picture,
+            customer_name: req.body.customer_name,
+            items: order_items,
+            order_total: total
+        });
+
+        var orderToPush = {
+            order_id: 'onsite#' + orderCount + 1,
+            order_type: 'on-site',
+            order_date: dayInfo.date,
+            order_time: dayInfo.time,
+            delivered_time: dayInfo.time,
+            order_state: 'created',
+            table_no: req.body.table_no,
+            customer_name: req.body.customer_name,
+            items: order_items,
+            order_total: total
         };
 
-        total += parseInt(orderItemPrice[i]);
+        var userId = req.params.id;
+        var id_query = {_id : userId};
 
-        order_items.push(item);
-    }
-    console.log('Total' + total);
-
-    var order = new Order({
-        order_id: {type: String},
-        order_number: orderNumber,
-        order_type: 'on-site',
-        order_date: dayInfo.date,
-        order_time: dayInfo.time,
-        delivered_time: dayInfo.time,
-        order_state: 'created',
-        table_no: req.body.table_no,
-        waiter_id: req.params.id,
-        waiter_name: req.user.first_name+ " " +req.user.last_name,
-        waiter_pic: req.user.picture,
-        customer_name: req.body.customer_name,
-        items: order_items,
-        order_total: total
+        User.findOneAndUpdate(id_query, {$push: {'orders': orderToPush}}, function (err) {
+            if (err) {
+                console.log(err);
+            }else{
+                order.save(callback);
+            }
+        });
     });
-
-    var orderToPush = {
-        order_number: orderNumber,
-        order_type: 'on-site',
-        order_date: dayInfo.date,
-        order_time: dayInfo.time,
-        delivered_time: dayInfo.time,
-        order_state: 'created',
-        table_no: req.body.table_no,
-        customer_name: req.body.customer_name,
-        items: order_items,
-        order_total: total
-    };
-
-    var userId = req.params.id;
-    var id_query = {_id : userId};
-
-    User.findOneAndUpdate(id_query, {$push: {'orders': orderToPush}}, function (err) {
-        if (err) {
-            console.log(err);
-        }else{
-            order.save(callback);
-        }
-    });
-
 };
 
 module.exports.addItemToCart = function (item, callback) {
@@ -368,7 +361,7 @@ module.exports.addNewOnlineOrder = function (id, callback) {
                     }
 
                     var newOnlineOrder = new Order({
-                        order_number: orderNumber,
+                        order_number: 'online#' + orderNumber + 1,
                         order_type: 'on-line',
                         order_date: dayInfo.date,
                         order_time: dayInfo.time,

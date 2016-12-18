@@ -12,10 +12,19 @@ module.exports.addNewToken = function (token, callback) {
 
 };
 
+module.exports.getAllTokens = function (callback) {
+    Token.find(callback);
+};
+
 module.exports.getUserToken = function (candidate_token, callback) {
     Token.findOne(candidate_token, function (err, token) {
         callback(err, token);
     });
+};
+
+module.exports.removeTokens = function (tokentoremove, callback) {
+    console.log(tokentoremove);
+    Token.remove({_id: tokentoremove}, callback);
 };
 
 module.exports.getUserById = function (id, callback) {
