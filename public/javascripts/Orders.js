@@ -17,14 +17,14 @@ var Order = {
 
     addOrderItem : function () {
         var newItemBlock = document.getElementById('order-item-hidden').innerHTML.toString();
-        console.log(newItemBlock);
 
         $('[data-id="order-items-wrap"]').append(newItemBlock);
         $('.order-item-hidden').remove();
+        $qty = $('[data-id="order-items-wrap"]').find('[name="order_item_qty"]');
+        $qtyLast = $qty.last();
+        $qtyLast[0].required = true;
 
         this.itemNum = this.itemNum + 1;
-        console.log(this.itemNum);
-
         this.displayItemNumber();
 
     },

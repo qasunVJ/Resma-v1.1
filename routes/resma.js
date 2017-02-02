@@ -315,7 +315,20 @@ router.get('/order/:id/deliver', restrict, function (req, res) {
             console.log(err);
             res.send(err);
         }else{
-            res.redirect('/resma/kitchen');
+            OrdersService.getOrderStat(function (err, stat) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    var type = 'delivered';
+                    OrdersService.setOrderStat(stat, type, function (err) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            res.redirect('/resma/kitchen');
+                        }
+                    });
+                }
+            });
         }
     });
 });
@@ -326,33 +339,20 @@ router.get('/order/:id/finished', restrict, function (req, res) {
         if(err){
             console.log(err);
         }else{
-            OrdersService.getOrderStat(function (err, stat) {
+
+            OrdersService.getOrderDetails(req.params.id, function(err, orderDetails) {
                 if (err){
                     console.log(err);
-                    res.send(err);
                 }else{
-                    var type = 'delivered';
-                    OrdersService.setOrderStat(stat, type, function(err){
-                        if (err) {
-                            console.log(err);
-                        }else{
-                            OrdersService.getOrderDetails(req.params.id, function(err, orderDetails) {
-                                if (err){
-                                    console.log(err);
-                                }else{
-                                    res.render('resma/print-invoice',{
-                                        order_details : orderDetails,
-                                        helpers: {
-                                            ifCond : function(v1, v2, options) {
-                                                if(v1 == v2) {
-                                                    return options.fn(this);
-                                                }
-                                                return options.inverse(this);
-                                            }
-                                        }
-                                    });
+                    res.render('resma/print-invoice',{
+                        order_details : orderDetails,
+                        helpers: {
+                            ifCond : function(v1, v2, options) {
+                                if(v1 == v2) {
+                                    return options.fn(this);
                                 }
-                            });
+                                return options.inverse(this);
+                            }
                         }
                     });
                 }

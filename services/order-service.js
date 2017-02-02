@@ -217,7 +217,7 @@ module.exports.createNewOrder = function (req, callback) {
         }
 
         var order = new Order({
-            order_id: 'onsite#' + orderCount + 1,
+            order_id: 'onsite#' + (parseInt(orderCount) + 1),
             order_type: 'on-site',
             order_date: dayInfo.date,
             order_time: dayInfo.time,
@@ -233,7 +233,7 @@ module.exports.createNewOrder = function (req, callback) {
         });
 
         var orderToPush = {
-            order_id: 'onsite#' + orderCount + 1,
+            order_id: 'onsite#' + (parseInt(orderCount) + 1),
             order_type: 'on-site',
             order_date: dayInfo.date,
             order_time: dayInfo.time,
